@@ -1,0 +1,21 @@
+{
+  "settings": {
+    "rule_files": [
+      "rules.json"
+    ],
+    "size_small": 160,
+    "size_medium": 320,
+    "size_large": 640,
+    "default": {
+      "download_mode": "DOWNLOAD",
+      "max_img_dl": 4194304,
+      "max_width": 160,
+      "max_height": 160,
+      "cache_duration": 2678400,
+      "cache_clean_frequency": 86400
+    },
+    "path": {
+      "cache": "cache/"
+    }
+  }
+}

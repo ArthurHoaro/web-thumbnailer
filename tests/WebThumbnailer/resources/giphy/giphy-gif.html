@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" >
+<head >
+  <title>Lucille Ball GIF - Find &amp; Share on GIPHY</title>
+
+  <meta charset="utf-8" />
+  <meta name="idk" content="test" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={xpid:"VwQBUlZWGwEAVlJSAwI="};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o||e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(t,e,n){function r(t){try{c.console&&console.log(t)}catch(e){}}var o,i=t("ee"),a=t(19),c={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(c.console=!0,o.indexOf("dev")!==-1&&(c.dev=!0),o.indexOf("nr_dev")!==-1&&(c.nrDev=!0))}catch(s){}c.nrDev&&i.on("internal-error",function(t){r(t.stack)}),c.dev&&i.on("fn-err",function(t,e,n){r(n.stack)}),c.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(c,function(t,e){return t}).join(", ")))},{}],2:[function(t,e,n){function r(t,e,n,r,o){try{h?h-=1:i("err",[o||new UncaughtException(t,e,n)])}catch(c){try{i("ierr",[c,(new Date).getTime(),!0])}catch(s){}}return"function"==typeof f&&f.apply(this,a(arguments))}function UncaughtException(t,e,n){this.message=t||"Uncaught error with no additional information",this.sourceURL=e,this.line=n}function o(t){i("err",[t,(new Date).getTime()])}var i=t("handle"),a=t(20),c=t("ee"),s=t("loader"),f=window.onerror,u=!1,h=0;s.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(p){"stack"in p&&(t(12),t(11),"addEventListener"in window&&t(6),s.xhrWrappable&&t(13),u=!0)}c.on("fn-start",function(t,e,n){u&&(h+=1)}),c.on("fn-err",function(t,e,n){u&&(this.thrown=!0,o(n))}),c.on("fn-end",function(){u&&!this.thrown&&h>0&&(h-=1)}),c.on("internal-error",function(t){i("ierr",[t,(new Date).getTime(),!0])})},{}],3:[function(t,e,n){t("loader").features.ins=!0},{}],4:[function(t,e,n){function r(){N++,S=y.hash,this[u]=Date.now()}function o(){N--,y.hash!==S&&i(0,!0);var t=Date.now();this[l]=~~this[l]+t-this[u],this[h]=t}function i(t,e){x.emit("newURL",[""+y,e])}function a(t,e){t.on(e,function(){this[e]=Date.now()})}var c="-start",s="-end",f="-body",u="fn"+c,h="fn"+s,p="cb"+c,d="cb"+s,l="jsTime",m="fetch",v="addEventListener",w=window,y=w.location;if(w[v]){var g=t(9),b=t(10),x=t(8),E=t(6),T=t(12),O=t(7),P=t(13),R=t("ee"),D=R.get("tracer");t(14),t("loader").features.spa=!0;var S,M=w[v],N=0;R.on(u,r),R.on(p,r),R.on(h,o),R.on(d,o),R.buffer([u,h,"xhr-done","xhr-resolved"]),E.buffer([u]),T.buffer(["setTimeout"+s,"clearTimeout"+c,u]),P.buffer([u,"new-xhr","open-xhr"+c]),O.buffer([m+c,m+"-done",m+f+c,m+f+s]),x.buffer(["newURL"]),g.buffer([u]),b.buffer(["propagate",p,d,"executor-err","resolve"+c]),D.buffer([u,"no-"+u]),a(P,"open-xhr"+c),a(R,"xhr-resolved"),a(R,"xhr-done"),a(O,m+c),a(O,m+"-done"),x.on("pushState-end",i),x.on("replaceState-end",i),M("hashchange",i,!0),M("load",i,!0),M("popstate",function(){i(0,N>1)},!0)}},{}],5:[function(t,e,n){function r(t){}if(window.performance&&window.performance.timing&&window.performance.getEntriesByType){var o=t("ee"),i=t("handle"),a=t(12),c=t(11),s="learResourceTimings",f="addEventListener",u="resourcetimingbufferfull",h="bstResource",p="resource",d="-start",l="-end",m="fn"+d,v="fn"+l,w="bstTimer",y="pushState";t("loader").features.stn=!0,t(8);var g=NREUM.o.EV;o.on(m,function(t,e){var n=t[0];n instanceof g&&(this.bstStart=Date.now())}),o.on(v,function(t,e){var n=t[0];n instanceof g&&i("bst",[n,e,this.bstStart,Date.now()])}),a.on(m,function(t,e,n){this.bstStart=Date.now(),this.bstType=n}),a.on(v,function(t,e){i(w,[e,this.bstStart,Date.now(),this.bstType])}),c.on(m,function(){this.bstStart=Date.now()}),c.on(v,function(t,e){i(w,[e,this.bstStart,Date.now(),"requestAnimationFrame"])}),o.on(y+d,function(t){this.time=Date.now(),this.startPath=location.pathname+location.hash}),o.on(y+l,function(t){i("bstHist",[location.pathname+location.hash,this.startPath,this.time])}),f in window.performance&&(window.performance["c"+s]?window.performance[f](u,function(t){i(h,[window.performance.getEntriesByType(p)]),window.performance["c"+s]()},!1):window.performance[f]("webkit"+u,function(t){i(h,[window.performance.getEntriesByType(p)]),window.performance["webkitC"+s]()},!1)),document[f]("scroll",r,!1),document[f]("keypress",r,!1),document[f]("click",r,!1)}},{}],6:[function(t,e,n){function r(t){for(var e=t;e&&!e.hasOwnProperty(u);)e=Object.getPrototypeOf(e);e&&o(e)}function o(t){c.inPlace(t,[u,h],"-",i)}function i(t,e){return t[1]}var a=t("ee").get("events"),c=t(21)(a),s=t("gos"),f=XMLHttpRequest,u="addEventListener",h="removeEventListener";e.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,e){if(t[1]){var n=t[1];if("function"==typeof n){var r=s(n,"nr@wrapped",function(){return c(n,"fn-",null,n.name||"anonymous")});this.wrapped=t[1]=r}else"function"==typeof n.handleEvent&&c.inPlace(n,["handleEvent"],"fn-")}}),a.on(h+"-start",function(t){var e=this.wrapped;e&&(t[1]=e)})},{}],7:[function(t,e,n){function r(t,e,n){var r=t[e];"function"==typeof r&&(t[e]=function(){var t=r.apply(this,arguments);return o.emit(n+"start",arguments,t),t.then(function(e){return o.emit(n+"end",[null,e],t),e},function(e){throw o.emit(n+"end",[e],t),e})})}var o=t("ee").get("fetch"),i=t(19);e.exports=o;var a=window,c="fetch-",s=c+"body-",f=["arrayBuffer","blob","json","text","formData"],u=a.Request,h=a.Response,p=a.fetch,d="prototype";u&&h&&p&&(i(f,function(t,e){r(u[d],e,s),r(h[d],e,s)}),r(a,"fetch",c),o.on(c+"end",function(t,e){var n=this;e?e.clone().arrayBuffer().then(function(t){n.rxSize=t.byteLength,o.emit(c+"done",[null,e],n)}):o.emit(c+"done",[t],n)}))},{}],8:[function(t,e,n){var r=t("ee").get("history"),o=t(21)(r);e.exports=r,o.inPlace(window.history,["pushState","replaceState"],"-")},{}],9:[function(t,e,n){var r=t("ee").get("mutation"),o=t(21)(r),i=NREUM.o.MO;e.exports=r,i&&(window.MutationObserver=function(t){return this instanceof i?new i(o(t,"fn-")):i.apply(this,arguments)},MutationObserver.prototype=i.prototype)},{}],10:[function(t,e,n){function r(t){var e=a.context(),n=c(t,"executor-",e),r=new f(n);return a.context(r).getCtx=function(){return e},a.emit("new-promise",[r,e],e),r}function o(t,e){return e}var i=t(21),a=t("ee").get("promise"),c=i(a),s=t(19),f=NREUM.o.PR;e.exports=a,f&&(window.Promise=r,["all","race"].forEach(function(t){var e=f[t];f[t]=function(n){function r(t){return function(){a.emit("propagate",[null,!o],i),o=o||!t}}var o=!1;s(n,function(e,n){Promise.resolve(n).then(r("all"===t),r(!1))});var i=e.apply(f,arguments),c=f.resolve(i);return c}}),["resolve","reject"].forEach(function(t){var e=f[t];f[t]=function(t){var n=e.apply(f,arguments);return t!==n&&a.emit("propagate",[t,!0],n),n}}),f.prototype["catch"]=function(t){return this.then(null,t)},f.prototype=Object.create(f.prototype,{constructor:{value:r}}),s(Object.getOwnPropertyNames(f),function(t,e){try{r[e]=f[e]}catch(n){}}),a.on("executor-start",function(t){t[0]=c(t[0],"resolve-",this),t[1]=c(t[1],"resolve-",this)}),a.on("executor-err",function(t,e,n){t[1](n)}),c.inPlace(f.prototype,["then"],"then-",o),a.on("then-start",function(t,e){this.promise=e,t[0]=c(t[0],"cb-",this),t[1]=c(t[1],"cb-",this)}),a.on("then-end",function(t,e,n){this.nextPromise=n;var r=this.promise;a.emit("propagate",[r,!0],n)}),a.on("cb-end",function(t,e,n){a.emit("propagate",[n,!0],this.nextPromise)}),a.on("propagate",function(t,e,n){this.getCtx&&!e||(this.getCtx=function(){if(t instanceof Promise)var e=a.context(t);return e&&e.getCtx?e.getCtx():this})}),r.toString=function(){return""+f})},{}],11:[function(t,e,n){var r=t("ee").get("raf"),o=t(21)(r),i="equestAnimationFrame";e.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],12:[function(t,e,n){function r(t,e,n){t[0]=a(t[0],"fn-",null,n)}function o(t,e,n){this.method=n,this.timerDuration="number"==typeof t[1]?t[1]:0,t[0]=a(t[0],"fn-",this,n)}var i=t("ee").get("timer"),a=t(21)(i),c="setTimeout",s="setInterval",f="clearTimeout",u="-start",h="-";e.exports=i,a.inPlace(window,[c,"setImmediate"],c+h),a.inPlace(window,[s],s+h),a.inPlace(window,[f,"clearImmediate"],f+h),i.on(s+u,r),i.on(c+u,o)},{}],13:[function(t,e,n){function r(t,e){h.inPlace(e,["onreadystatechange"],"fn-",c)}function o(){var t=this,e=u.context(t);t.readyState>3&&!e.resolved&&(e.resolved=!0,u.emit("xhr-resolved",[],t)),h.inPlace(t,v,"fn-",c)}function i(t){w.push(t),l&&(g=-g,b.data=g)}function a(){for(var t=0;t<w.length;t++)r([],w[t]);w.length&&(w=[])}function c(t,e){return e}function s(t,e){for(var n in t)e[n]=t[n];return e}t(6);var f=t("ee"),u=f.get("xhr"),h=t(21)(u),p=NREUM.o,d=p.XHR,l=p.MO,m="readystatechange",v=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],w=[];e.exports=u;var y=window.XMLHttpRequest=function(t){var e=new d(t);try{u.emit("new-xhr",[e],e),e.addEventListener(m,o,!1)}catch(n){try{u.emit("internal-error",[n])}catch(r){}}return e};if(s(d,y),y.prototype=d.prototype,h.inPlace(y.prototype,["open","send"],"-xhr-",c),u.on("send-xhr-start",function(t,e){r(t,e),i(e)}),u.on("open-xhr-start",r),l){var g=1,b=document.createTextNode(g);new l(a).observe(b,{characterData:!0})}else f.on("fn-end",function(t){t[0]&&t[0].type===m||a()})},{}],14:[function(t,e,n){function r(t){var e=this.params,n=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<h;r++)t.removeEventListener(u[r],this.listener,!1);if(!e.aborted){if(n.duration=(new Date).getTime()-this.startTime,4===t.readyState){e.status=t.status;var i=o(t,this.lastSize);if(i&&(n.rxSize=i),this.sameOrigin){var a=t.getResponseHeader("X-NewRelic-App-Data");a&&(e.cat=a.split(", ").pop())}}else e.status=0;n.cbTime=this.cbTime,f.emit("xhr-done",[t],t),c("xhr",[e,n,this.startTime])}}}function o(t,e){var n=t.responseType;if("json"===n&&null!==e)return e;var r="arraybuffer"===n||"blob"===n||"json"===n?t.response:t.responseText;return l(r)}function i(t,e){var n=s(e),r=t.params;r.host=n.hostname+":"+n.port,r.pathname=n.pathname,t.sameOrigin=n.sameOrigin}var a=t("loader");if(a.xhrWrappable){var c=t("handle"),s=t(15),f=t("ee"),u=["load","error","abort","timeout"],h=u.length,p=t("id"),d=t(18),l=t(17),m=window.XMLHttpRequest;a.features.xhr=!0,t(13),f.on("new-xhr",function(t){var e=this;e.totalCbs=0,e.called=0,e.cbTime=0,e.end=r,e.ended=!1,e.xhrGuids={},e.lastSize=null,d&&(d>34||d<10)||window.opera||t.addEventListener("progress",function(t){e.lastSize=t.loaded},!1)}),f.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),f.on("open-xhr-end",function(t,e){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&e.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),f.on("send-xhr-start",function(t,e){var n=this.metrics,r=t[0],o=this;if(n&&r){var i=l(r);i&&(n.txSize=i)}this.startTime=(new Date).getTime(),this.listener=function(t){try{"abort"===t.type&&(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof e.onload))&&o.end(e)}catch(n){try{f.emit("internal-error",[n])}catch(r){}}};for(var a=0;a<h;a++)e.addEventListener(u[a],this.listener,!1)}),f.on("xhr-cb-time",function(t,e,n){this.cbTime+=t,e?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof n.onload||this.end(n)}),f.on("xhr-load-added",function(t,e){var n=""+p(t)+!!e;this.xhrGuids&&!this.xhrGuids[n]&&(this.xhrGuids[n]=!0,this.totalCbs+=1)}),f.on("xhr-load-removed",function(t,e){var n=""+p(t)+!!e;this.xhrGuids&&this.xhrGuids[n]&&(delete this.xhrGuids[n],this.totalCbs-=1)}),f.on("addEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-added",[t[1],t[2]],e)}),f.on("removeEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-removed",[t[1],t[2]],e)}),f.on("fn-start",function(t,e,n){e instanceof m&&("onload"===n&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=(new Date).getTime()))}),f.on("fn-end",function(t,e){this.xhrCbStart&&f.emit("xhr-cb-time",[(new Date).getTime()-this.xhrCbStart,this.onload,e],e)})}},{}],15:[function(t,e,n){e.exports=function(t){var e=document.createElement("a"),n=window.location,r={};e.href=t,r.port=e.port;var o=e.href.split("://");!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=e.hostname||n.hostname,r.pathname=e.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname);var i=!e.protocol||":"===e.protocol||e.protocol===n.protocol,a=e.hostname===document.domain&&e.port===n.port;return r.sameOrigin=i&&(!e.hostname||a),r}},{}],16:[function(t,e,n){function r(){}function o(t,e,n){return function(){return i(t,[(new Date).getTime()].concat(c(arguments)),e?null:this,n),e?void 0:this}}var i=t("handle"),a=t(19),c=t(20),s=t("ee").get("tracer"),f=NREUM;"undefined"==typeof window.newrelic&&(newrelic=f);var u=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit"],h="api-",p=h+"ixn-";a(u,function(t,e){f[e]=o(h+e,!0,"api")}),f.addPageAction=o(h+"addPageAction",!0),e.exports=newrelic,f.interaction=function(){return(new r).get()};var d=r.prototype={createTracer:function(t,e){var n={},r=this,o="function"==typeof e;return i(p+"tracer",[Date.now(),t,n],r),function(){if(s.emit((o?"":"no-")+"fn-start",[Date.now(),r,o],n),o)try{return e.apply(this,arguments)}finally{s.emit("fn-end",[Date.now()],n)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){d[e]=o(p+e)}),newrelic.noticeError=function(t){"string"==typeof t&&(t=new Error(t)),i("err",[t,(new Date).getTime()])}},{}],17:[function(t,e,n){e.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(e){return}}}},{}],18:[function(t,e,n){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),e.exports=r},{}],19:[function(t,e,n){function r(t,e){var n=[],r="",i=0;for(r in t)o.call(t,r)&&(n[i]=e(r,t[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],20:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(o<0?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=r},{}],21:[function(t,e,n){function r(t){return!(t&&"function"==typeof t&&t.apply&&!t[a])}var o=t("ee"),i=t(20),a="nr@original",c=Object.prototype.hasOwnProperty,s=!1;e.exports=function(t){function e(t,e,n,o){function nrWrapper(){var r,a,c,s;try{a=this,r=i(arguments),c="function"==typeof n?n(r,a):n||{}}catch(u){h([u,"",[r,a,o],c])}f(e+"start",[r,a,o],c);try{return s=t.apply(a,r)}catch(p){throw f(e+"err",[r,a,p],c),p}finally{f(e+"end",[r,a,s],c)}}return r(t)?t:(e||(e=""),nrWrapper[a]=t,u(t,nrWrapper),nrWrapper)}function n(t,n,o,i){o||(o="");var a,c,s,f="-"===o.charAt(0);for(s=0;s<n.length;s++)c=n[s],a=t[c],r(a)||(t[c]=e(a,f?c+o:o,i,c))}function f(e,n,r){if(!s){s=!0;try{t.emit(e,n,r)}catch(o){h([o,e,n,r])}s=!1}}function u(t,e){if(Object.defineProperty&&Object.keys)try{var n=Object.keys(t);return n.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(r){h([r])}for(var o in t)c.call(t,o)&&(e[o]=t[o]);return e}function h(e){try{t.emit("internal-error",e)}catch(n){}}return t||(t=o),e.inPlace=n,e.flag=a,e}},{}],ee:[function(t,e,n){function r(){}function o(t){function e(t){return t&&t instanceof r?t:t?c(t,a,i):i()}function n(n,r,o){t&&t(n,r,o);for(var i=e(o),a=p(n),c=a.length,s=0;s<c;s++)a[s].apply(i,r);var u=f[v[n]];return u&&u.push([w,n,r,i]),i}function h(t,e){m[t]=p(t).concat(e)}function p(t){return m[t]||[]}function d(t){return u[t]=u[t]||o(n)}function l(t,e){s(t,function(t,n){e=e||"feature",v[n]=e,e in f||(f[e]=[])})}var m={},v={},w={on:h,emit:n,get:d,listeners:p,context:e,buffer:l};return w}function i(){return new r}var a="nr@context",c=t("gos"),s=t(19),f={},u={},h=e.exports=o();h.backlog=f},{}],gos:[function(t,e,n){function r(t,e,n){if(o.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[e]=r,r}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){o.buffer([t],r),o.emit(t,e,n)}var o=t("ee").get("handle");e.exports=r,r.ee=o},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!g++){var t=y.info=NREUM.info,e=u.getElementsByTagName("script")[0];if(t&&t.licenseKey&&t.applicationID&&e){s(v,function(e,n){t[e]||(t[e]=n)});var n="https"===m.split(":")[0]||t.sslForHttp;y.proto=n?"https://":"http://",c("mark",["onload",a()],null,"api");var r=u.createElement("script");r.src=y.proto+t.agent,e.parentNode.insertBefore(r,e)}}}function o(){"complete"===u.readyState&&i()}function i(){c("mark",["domContent",a()],null,"api")}function a(){return(new Date).getTime()}var c=t("handle"),s=t(19),f=window,u=f.document,h="addEventListener",p="attachEvent",d=f.XMLHttpRequest,l=d&&d.prototype;NREUM.o={ST:setTimeout,CT:clearTimeout,XHR:d,REQ:f.Request,EV:f.Event,PR:f.Promise,MO:f.MutationObserver},t(16);var m=""+location,v={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-spa-974.min.js"},w=d&&l&&l[h]&&!/CriOS/.test(navigator.userAgent),y=e.exports={offset:a(),origin:m,features:{},xhrWrappable:w};u[h]?(u[h]("DOMContentLoaded",i,!1),f[h]("load",r,!1)):(u[p]("onreadystatechange",o),f[p]("onload",r)),c("mark",["firstbyte",a()],null,"api");var g=0},{}]},{},["loader",2,14,5,3,4]);</script><script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","queueTime":0,"licenseKey":"59b3298718","agent":"","transactionName":"YVEGY0tQWUAHBkVQWFgbIkJXUkNaCQseWEdGGgNeX0IZRQ8ARkoNcV0Cc1xFVloKS1ZcQw==","applicationID":"2023043","errorBeacon":"bam.nr-data.net","applicationTime":91}</script>
+  <meta name="google-site-verification" content="8mfne8CLOmysP4fUdGDJioWLEGbHMJY4tBsxsQT2eSY" />
+  <meta name="msvalidate.01" content="F8A7FDC3D369E857ACB67C4AB8EBD9A4" />
+  <meta name="alexaVerifyID" content="HMyPJIK-pLEheM5ACWFf6xvnA2U" />
+  <meta property="fb:admins" content="548288355" />
+  <meta name="p:domain_verify" content="61a9a962d47f10756a14a44c1b44d7c8"/>
+
+
+
+
+
+
+
+  <link rel="canonical" href="http://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu"/>
+
+
+
+
+
+  <meta property="fb:app_id"      content="406655189415060">
+  <meta property="og:site_name"   content="GIPHY">
+  <meta property="og:url"         content="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.gif">
+  <meta property="og:title"       content="Lucille Ball GIF - Find &amp; Share on GIPHY">
+  <meta property="og:description" content="Discover &amp; Share this Lucille Ball GIF with everyone you know. GIPHY is how you search, share, discover, and create GIFs.">
+
+
+  <meta property="og:type"        content="video.other">
+  <meta property="og:image"       content="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.gif">
+  <meta property="og:image:width"       content="268">
+  <meta property="og:image:height"       content="202">
+
+  <meta property="og:type"        content="video">
+  <meta property="og:image"       content="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy-facebook_s.jpg">
+  <meta property="og:image:width"       content="480">
+  <meta property="og:image:height"       content="270">
+  <meta property="og:video"                content="https://giphygifs.s3.amazonaws.com/swiphy20141103.swf?api_hostname=&gif_url=https%3A%2F%2Fmedia.giphy.com%2Fmedia%2F8JQqAqsxNDUXu%2Fgiphy.gif&giphy_height=202&video_url=https%3A%2F%2Fmedia.giphy.com%2Fmedia%2F8JQqAqsxNDUXu%2Fgiphy.mp4&giphyWidth=268&path=%2Fgifs%2Fomg-shocked-lucille-ball-8JQqAqsxNDUXu&destination_url=https%3A%2F%2Fgiphy.com%2Fgifs%2Fomg-shocked-lucille-ball-8JQqAqsxNDUXu&giphyHeight=202&gif_id=8JQqAqsxNDUXu&mode=embed&giphy_width=268">
+  <meta property="og:video:secure_url"     content="https://giphygifs.s3.amazonaws.com/swiphy20141103.swf?api_hostname=&gif_url=https%3A%2F%2Fmedia.giphy.com%2Fmedia%2F8JQqAqsxNDUXu%2Fgiphy.gif&giphy_height=202&video_url=https%3A%2F%2Fmedia.giphy.com%2Fmedia%2F8JQqAqsxNDUXu%2Fgiphy.mp4&giphyWidth=268&path=%2Fgifs%2Fomg-shocked-lucille-ball-8JQqAqsxNDUXu&destination_url=https%3A%2F%2Fgiphy.com%2Fgifs%2Fomg-shocked-lucille-ball-8JQqAqsxNDUXu&giphyHeight=202&gif_id=8JQqAqsxNDUXu&mode=embed&giphy_width=268">
+  <meta property="og:video:type"           content="application/x-shockwave-flash">
+  <meta property="og:video:width"          content="470">
+  <meta property="og:video:height"         content="202">
+
+  <meta name="twitter:account_id" content="1020383864" />
+  <meta name="twitter:card"           content="player">
+  <meta name="twitter:title"          content="Lucille Ball GIF - Find &amp; Share on GIPHY">
+  <meta name="twitter:creator"        content="@giphy">
+  <meta name="twitter:site"           content="@giphy">
+  <meta name="twitter:description"    content="Discover &amp; Share this Lucille Ball GIF with everyone you know. GIPHY is how you search, share, discover, and create GIFs.">
+  <meta name="twitter:image:src"      content="https://media1.giphy.com/media/8JQqAqsxNDUXu/giphy-facebook_s.jpg?t=1">
+  <meta name="twitter:image"          content="https://media1.giphy.com/media/8JQqAqsxNDUXu/giphy-facebook_s.jpg?t=1">
+  <meta name="twitter:domain"         content="giphy.com">
+
+
+  <meta name="twitter:player"         content="https://giphy.com/embed/8JQqAqsxNDUXu/twitter/iframe">
+  <meta name="twitter:player:width"   content="435">
+  <meta name="twitter:player:height"  content="327">
+
+
+
+  <meta name="rating" content="general">
+  <meta name="image:rating" content="g">
+
+
+  <!-- /twitter seo -->
+
+  <meta name="viewport" content="width=device-width, user-scalable=1, initial-scale=1.0">
+  <meta name="description" content="Discover &amp; Share this Lucille Ball GIF with everyone you know. GIPHY is how you search, share, discover, and create GIFs."/>
+  <meta name="author" content="GIPHY"/>
+  <meta name="keywords" content="lucille ball, omg, shocked, GIF, Animated GIF">
+  <meta name="pinterest" content="nohover">
+
+  <link rel="alternate" type="application/json+oembed" href="https://giphy.com/services/oembed?url=https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.gif" title="Lucille Ball GIF - Find &amp; Share on GIPHY oEmbed Lookup" />
+
+
+  <link rel="icon" type="image/png" href="https://giphy.com/static/img/favicon.png" />
+  <meta name="apple-mobile-web-app-title" content="GIPHY">
+  <link rel="apple-touch-icon" sizes="57x57" href="https://giphy.com/static/img/icons/apple-touch-icon-57x57.png"/>
+  <link rel="apple-touch-icon" sizes="114x114" href="https://giphy.com/static/img/icons/apple-touch-icon-57x57.png" />
+
+  <link rel="apple-touch-icon" sizes="120x120" href="/static/img/icons/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon" sizes="320x480" href="/static/img/icons/apple-touch-icon-320x480.png" />
+  <link rel="apple-touch-icon" sizes="640x960" href="/static/img/icons/apple-touch-icon-640x960.png" />
+  <link rel="apple-touch-icon" sizes="640x1136" href="/static/img/icons/apple-touch-icon-640x1136.png" />
+
+  <link rel="apple-touch-startup-image" media="(device-width: 320px)" href="/static/img/icons/apple-touch-startup-image-320x460.png">
+  <link rel="apple-touch-startup-image" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" href="/static/img/icons/apple-touch-startup-image-640x920.png">
+
+  <script>
+    var Giphy = Giphy || {};
+    window.STATIC_URL = "/static/";
+    window.ASSET_DOMAIN = "giphy.com";
+    window.DOMAIN = "giphy.com";
+    window.HOSTNAME = "";
+    window.REAL_HOSTNAME = "giphy.com"
+    window.CURRENT_VERSION = "468b38d"
+  </script>
+  <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "WebSite",
+          "url": "https://giphy.com/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://giphy.com/search/{search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+        </script>
+
+
+  <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+  <script type="text/javascript" async src="//assets.pinterest.com/js/pinit.js"></script>
+  <script src="//platform.tumblr.com/v1/share.js"></script>
+  <!--[if (gte IE 6)&(lte IE 8)]>
+  <script type="text/javascript" src="/static/js/site/third_party/selectivizr-min.js"></script>
+  <noscript><link rel="stylesheet" href="[fallback css]" /></noscript>
+  <![endif]-->
+
+
+  <link href="/static/css/site/base.css?468b38d" rel="stylesheet" type="text/css" />
+  <script src="/static/js/site/header.js?468b38d"></script>
+
+
+
+
+</head>
+<body  >
+<script>
+  dataLayer = [];
+</script>
+
+
+<script>
+  dataLayer.push({
+    'sitetype': 'Desktop',
+    'loggedInStatus': 'false',
+    'pageName': window.location.pathname === '/' ? '/homepage' : window.location.pathname,
+
+  });
+</script>
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P5GCKB"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P5GCKB');</script>
+<!-- End Google Tag Manager -->
+
+
+<div id="metadata-example"></div>
+
+
+
+
+
+<script>
+  dataLayer.push({
+    'sitetype': 'Desktop',
+    'loggedInStatus': 'false',
+    'pageName': window.location.pathname === '/' ? '/homepage' : window.location.pathname,
+
+  });
+</script>
+
+
+<div id="messages">
+
+</div>
+
+
+
+
+<script>
+  window.ACCESS_TOKEN = false;
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '406655189415060',
+      xfbml            : true,
+      version        : 'v2.1'
+    });
+
+    if (Giphy.Events) {
+      Giphy.Events.trigger('gifdetail:fbinit', '406655189415060');
+    }
+  };
+
+  (function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#version=v2.1&xfbml=1&appId=406655189415060";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+
+<div class="nav-placeholder"></div>
+<div class="header-wrapper">
+
+  <!-- HEADER -->
+  <div id="header">
+    <div class="container_12" itemscope itemtype="http://schema.org/Organization">
+      <a itemprop="url" href="/" class="giphy-logo">
+        <h4>
+            <span class="giphy-logo-wrapper">
+                <?xml version="1.0" encoding="utf-8"?>
+                <svg class="giphy-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 164 35" itemprop="logo">
+                    <g class="logo-icon" fill-rule="evenodd" clip-rule="evenodd">
+                        <path class="logo-green" d="M0 3h4v29H0z"/>
+                        <path class="logo-purple" d="M24 11h4v21h-4z"/>
+                        <path class="logo-blue" d="M0 31h28v4H0z"/>
+                        <path class="logo-yellow" d="M0 0h16v4H0z"/>
+                        <path class="logo-red" d="M24 8V4h-4V0h-4v12h12V8"/>
+                        <path class="logo-shadow" d="M24 16v-4h4M16 0v4h-4"/>
+                    </g>
+                    <g class="logo-text">
+                        <path d="M59.1 12c-2-1.9-4.4-2.4-6.2-2.4-4.4 0-7.3 2.6-7.3 8 0 3.5 1.8 7.8 7.3 7.8 1.4 0 3.7-.3 5.2-1.4v-3.5h-6.9v-6h13.3v12.1c-1.7 3.5-6.4 5.3-11.7 5.3-10.7 0-14.8-7.2-14.8-14.3 0-7.1 4.7-14.4 14.9-14.4 3.8 0 7.1.8 10.7 4.4L59.1 12zM68.2 31.2V4h7.6v27.2h-7.6zM88.3 23.8v7.3h-7.7V4h13.2c7.3 0 10.9 4.6 10.9 9.9 0 5.6-3.6 9.9-10.9 9.9h-5.5zm0-6.5h5.5c2.1 0 3.2-1.6 3.2-3.3 0-1.8-1.1-3.4-3.2-3.4h-5.5v6.7zM125 31.2V20.9h-9.8v10.3h-7.7V4h7.7v10.3h9.8V4h7.6v27.2H125zM149.2 13.3l5.9-9.3h8.7v.3l-10.8 16v10.8h-7.7V20.3L135 4.3V4h8.7l5.5 9.3z"/>
+                    </g>
+                </svg>
+                <span class="logo-animation"></span>
+            </span>
+        </h4>
+      </a>
+
+
+
+      <!-- BROWSE BAR -->
+      <div id="browsebar">
+        <ul class="nav-list">
+          <li class="nav-item"><a class="nav-link" href="/reactions">Reactions</a></li>
+          <li class="nav-item"><a class="nav-link" href="/entertainment">Entertainment</a></li>
+          <li class="nav-item"><a class="nav-link" href="/sports">Sports</a></li>
+          <li class="nav-item"><a class="nav-link" href="/election2016">Election</a></li>
+          <li class="nav-item"><a class="nav-link" href="/artists">Artists</a></li>
+          <li class="nav-item ellipsis">
+            <a class="nav-link ellipsis-link" href="#">
+              <i class="ss-ellipsis"></i>
+            </a>
+
+            <div class="nav-dropdown">
+              <div class="categories">
+                <h2><a href="/categories">Categories</a></h2>
+                <ul class="dropdown-links">
+                  <li><a href="/giphystudios">GIPHY Studios</a></li>
+                  <li><a href="/categories/animals">Animals</a></li>
+                  <li><a href="/categories/holiday">Holidays</a></li>
+                  <li><a href="/categories/food-drink">Food &amp; Drink</a></li>
+                  <li><a href="/categories/memes">Memes</a></li>
+                  <li><a href="/categories/actions">Actions</a></li>
+                  <li><a href="/categories/emotions">Emotions</a></li>
+                  <li><a href="/categories/anime">Anime</a></li>
+                  <li><a href="/categories/gaming">Gaming</a></li>
+                  <li><a href="/categories/cartoons-comics">Cartoons</a></li>
+                </ul>
+              </div>
+              <div class="sticker">
+                <h2><a href="/stickers">Stickers</a></h2>
+                <ul class="dropdown-links">
+                  <li><a href="/stickers/trending">Trending</a></li>
+                  <li><a href="/studiosoriginalstickers">GIPHY Studios</a></li>
+                  <li><a href="/search/emoji-stickers">Emojis</a></li>
+                  <li><a href="/search/effects-stickers">Effects</a></li>
+                  <li><a href="/search/reactions-stickers">Reactions</a></li>
+                </ul>
+              </div>
+              <div class="apps">
+                <h2><a href="/apps">Apps</a></h2>
+                <ul class="dropdown-links">
+                  <li><a href="/apps/giphy">GIPHY</a></li>
+                  <li><a href="/apps/giphy">GIPHY for iMessage</a></li>
+                  <li><a href="/apps/giphycam">GIPHY Cam</a></li>
+                  <li><a href="/apps/giphycapture">GIPHY Capture</a></li>
+                  <li><a href="/apps/giphykeys">GIPHY Keys</a></li>
+                </ul>
+              </div>
+              <div class="about">
+                <h2><a href="/about">About</a></h2>
+                <ul class="dropdown-links">
+                  <li><a href="/team">Team</a></li>
+                  <li><a href="/partners">Partnerships</a></li>
+                  <li><a href="/studios">Studios</a></li>
+                  <li><a href="http://api.giphy.com/">API</a></li>
+                  <li><a href="/labs">Labs</a></li>
+                  <li><a href="/faq">FAQ</a></li>
+                  <li><a href="/support">Support</a></li>
+                  <li><a href="/terms">Terms</a></li>
+                  <li><a href="/privacy">Privacy</a></li>
+                  <li><a href="/dmca">DMCA</a></li>
+                </ul>
+              </div>
+            </div>
+
+          </li>
+        </ul>
+      </div>
+      <!-- /BROWSE BAR -->
+
+      <!-- CREATION BUTTONS -->
+      <div class="creation-buttons">
+        <a class="upload-button" rel="nofollow" href="/upload">
+          <span class="nav-text">Upload</span>
+        </a>
+        <a class="create-button" rel="nofollow" href="/create/gifmaker">
+          <span class="nav-text">Create</span>
+        </a>
+      </div>
+      <!-- CREATION BUTTONS -->
+
+      <!-- LOGIN PLACEHOLDER -->
+      <div class="login-placeholder"></div>
+      <!-- LOGIN PLACEHOLDER -->
+      <div class="nav-wrapper">
+        <div class="nav" id="default-nav">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /HEADER -->
+
+
+
+
+
+
+  <!-- SEARCH BAR -->
+  <div class="searchbar-wrapper">
+    <div id="searchbar" class="searchbar container_12">
+      <form class="search-bar-form" id="searchbarform" action="//giphy.com/search/" method="GET">
+        <h2 id="placeholder">Search all the GIFs</h2>
+        <input id="search-box" name="q" autocomplete="off" />
+        <div class="autocomplete"></div>
+        <button id="search-button" type="submit" class="">Search all the GIFs
+          <img src="/static/img/search_animation/search_icon_off@2x.png" alt="search" data-blur="/static/img/search_animation/search_icon_off@2x.png" data-focus="/static/img/search_animation/search_animation_active@2x.gif" data-submit="/static/img/search_animation/search_animation_go@2x.gif"/>
+        </button>
+      </form>
+      <ul class="search-results grid_12">
+        <li class="search-result">
+          <div class="track">
+            <div class="word"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- /SEARCH BAR -->
+
+
+
+
+</div>
+
+
+
+<div id="content" class="container_12">
+
+
+
+  <div id="gif-detail" class="gif-detail grid_10 no-animate" itemscope itemtype="http://schema.org/Article">
+
+    <meta itemprop="url" content="https://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu">
+    <meta itemprop="keywords" content="GIF, animated GIF, lucille ball, omg, shocked">
+    <meta itemprop="datePublished" content="June 13, 2016, 5:06 p.m.">
+
+    <script>window.socialShareTitle="Lucille Ball animated GIF";</script>
+    <!-- GIF -->
+    <div id="gif-wrap" class="gif-wrap grid_10">
+      <div class="gif-figure-container">
+        <div class="gif-figure-wrapper" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+          <meta itemprop="url" content="https://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu">
+          <meta itemprop="contentUrl" content="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.gif">
+          <meta itemprop="width" content="268">
+          <meta itemprop="height" content="202">
+          <meta itemprop="embedUrl" content="https://giphy.com/embed/8JQqAqsxNDUXu">
+
+          <meta itemprop="name" content="Animated GIF">
+
+          <meta itemprop="dateCreated" content="June 13, 2016, 5:06 p.m.">
+          <meta itemprop="representativeOfPage" content="True">
+          <meta itemprop="keywords" content="GIF, animated GIF, lucille ball, omg, shocked">
+          <figure class="gif-figure">
+
+            <a target="_blank" rel="nofollow" href="http://champagnemanagement.com/post/124236923541">
+
+              <img
+                  data-original-width="268"
+                  data-original-height="202"
+                  data-padding-top="140"
+                  data-id="8JQqAqsxNDUXu"
+                  data-image_url="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.gif"
+                  data-bitly_gif_url="http://gph.is/1UOlh8L"
+                  data-mp4_url="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.mp4"
+                  data-still="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy_s.gif"
+                  data-preview-image-url="https://media.giphy.com/media/8JQqAqsxNDUXu/100.gif"
+                  data-tumblr_share_url="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy-tumblr.gif"
+                  data-gif_id="8JQqAqsxNDUXu"
+                  data-absolute-url="/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu"
+                  data-edit-url="/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu/edit"
+                  id="gif"
+                  class="a-gif"
+                  src="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.gif"
+                  alt="lucille ball omg shocked"
+
+                  style="width: 640px; height: 483px"
+                  width = "640"
+                  height= "483"
+
+              />
+
+            </a>
+
+            <figcaption itemprop="description">This GIF has everything: lucille ball, omg, SHOCKED!</figcaption>
+          </figure>
+
+          <div class="gif-hover">
+            <div class="gif-navigation">
+              <a id="share-heart" class="gif-button favorite" href="https://giphy.com/login?next=/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu"></a>
+            </div>
+            <div class="gif-arrows">
+              <a class="previous-button button purple" href="#"><i class="ss-icon ss-navigateleft"></i><span class="preview"></span></a>
+              <a class="next-button button purple" href="#"><i class="ss-icon ss-navigateright"></i><span class="preview"></span></a>
+            </div>
+            <div class="gif-modes">
+              <a class="gif-button tv" href="http://tv.giphy.com/lucille ball" target="_blank"></a>
+              <a class="gif-button tile" href="/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu/tile"></a>
+              <a class="gif-button fullscreen" href="/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu/fullscreen"></a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="gif-source">
+
+
+
+        <div class="source">
+          <strong class="source-label">Source</strong>
+          <a class="source-link" rel="nofollow" href="http://champagnemanagement.com/post/124236923541" target="_blank">champagnemanagement.com</a>
+          <i class="ss-icon ss-action"></i>
+        </div>
+
+
+      </div>
+    </div>
+
+
+
+    <div id="gif-actions-wrapper" class="gif-actions grid_10" data-share-url="http://gph.is/1UOlh8L" data-permalink-url="https://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu" data-gif-id="8JQqAqsxNDUXu">
+      <div class="gif-actions-nav clearfix">
+        <a class="nav-button grid_2 active" href="#gif-share-actions">Share</a>
+        <a class="nav-button grid_2" href="#gif-advanced-actions">Advanced</a>
+      </div>
+      <div class="gif-actions-wrapper clearfix">
+        <div id="gif-share-actions" class="share-actions clearfix">
+          <div class="social-actions">
+            <ul class="gif-social-links" data-share-url="http://gph.is/1UOlh8L" data-permalink-url="https://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu" data-gif-id="8JQqAqsxNDUXu">
+              <li class="social-link" data-type="facebook" data-popup="true">
+                <a class="facebook" href="http://www.facebook.com/sharer/sharer.php?u=http://gph.is/1UOlh8L" target="_blank"></a>
+              </li>
+              <li class="social-link" data-type="twitter" data-popup="true" data-popup-height="305">
+                <a class="twitter" href="http://twitter.com/share?url=http://gph.is/1UOlh8L?tc=1&via=giphy" target="_blank"></a>
+              </li>
+              <li class="social-link" data-type="pinterest" data-popup="true" data-popup-width="750">
+                <a class="pinterest" href="http://www.pinterest.com/pin/create/link/?url=https://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu&media=https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.gif&description=via GIPHY" target="_blank"></a>
+              </li>
+              <li class="social-link" data-type="tumblr" data-popup="true">
+                <a class="tumblr" href="http://www.tumblr.com/widgets/share/tool?canonicalUrl=https://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu&content=https://media.giphy.com/media/8JQqAqsxNDUXu/giphy-tumblr.gif&title=&caption=(via <a href='http://gph.is/1UOlh8L'>GIPHY</a>)&clickthroughUrl=http://gph.is/1UOlh8L&posttype=photo&tags=giphy,lucille ball,omg,shocked" target="_blank"></a>
+              </li>
+              <li class="social-link" data-type="instagram">
+                <a class="instagram rad-modal-trigger" href="#" target="_blank" data-title="Share on Instagram" data-description="We're going to create a GIF that you can post to Instagram. Where should we send it?" data-content="#instagram-modal"></a>
+                <div id="instagram-modal" style="display:none">
+                  <div class="instagram-container clearfix">
+                    <input class="instagram-input inline-input" type="text" placeholder="Enter your email" />
+                    <button class="instagram-send-button save-button button">Send</button>
+                  </div>
+                </div>
+              </li>
+              <li class="social-link" data-type="reddit" data-popup="true">
+                <a class="reddit" href="http://www.reddit.com/submit?url=https://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu" target="_blank"></a>
+              </li>
+              <li class="flag-link">
+                <a class="rad-modal-trigger" href="#" data-content="#flag-this-gif" data-is-move="true"><i class="ss-flag"></i>Report this GIF</a>
+              </li>
+              <div id="flag-this-gif" class="offscreen"></div>
+            </ul>
+
+          </div>
+          <div class="embed-action action clearfix">
+            <span class="action-label">Iframe Embed</span>
+            <div class="action-field">
+              <input type="text" class="selected" id="iframe-embed-code" spellcheck="false" readonly="true" value='&lt;iframe src=&quot;//giphy.com/embed/8JQqAqsxNDUXu&quot; width=&quot;480&quot; height=&quot;361&quot; frameBorder=&quot;0&quot; class=&quot;giphy-embed&quot; allowFullScreen&gt;&lt;/iframe&gt;&lt;p&gt;&lt;a href=&quot;https://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu&quot;&gt;via GIPHY&lt;/a&gt;&lt;/p&gt;' data-copy="true" />
+            </div>
+          </div>
+          <div class="more-actions">
+            <div class="embed-action action clearfix">
+              <span class="action-label">JS Embed</span>
+              <div class="action-field">
+                <input type="text" id="optimized-embed-code" spellcheck="false" readonly="true" value='<div style="max-width: 500px;" id="_giphy_8JQqAqsxNDUXu"></div><script>var _giphy = _giphy || []; _giphy.push({id: "8JQqAqsxNDUXu",w: 268, h: 202, clickthrough_url: "https://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu"});var g = document.createElement("script"); g.type = "text/javascript"; g.async = true;g.src = ("https:" == document.location.protocol ? "https://" : "http://") + "giphy.com/static/js/widgets/embed.js";var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(g, s);</script>' data-copy="true" />
+              </div>
+            </div>
+
+            <div class="embed-action action clearfix">
+              <span class="action-label">HTML5 Embed</span>
+              <div class="action-field">
+                <input id="smart-embed-code" type="text" readonly="true" value='&lt;iframe src=&quot;//giphy.com/embed/8JQqAqsxNDUXu?html5=true&quot; width=&quot;480&quot; height=&quot;361&quot; frameBorder=&quot;0&quot; class=&quot;giphy-embed&quot; allowFullScreen&gt;&lt;/iframe&gt;&lt;p&gt;&lt;a href=&quot;https://giphy.com/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu&quot;&gt;via GIPHY&lt;/a&gt;&lt;/p&gt;' data-copy="true" />
+              </div>
+            </div>
+
+            <div class="options-action action clearfix">
+              <div class="autoplay-toggle settings-toggle active">
+                <span class="action-label">Autoplay</span>
+                <div class="toggle-buttons">
+                  <span class="toggle-button toggle-active">On</span>
+                  <span class="toggle-button toggle-inactive">Off</span>
+                </div>
+              </div>
+              <div class="social-toggle settings-toggle active">
+                <span class="action-label">Social Shares</span>
+                <div class="toggle-buttons">
+                  <span class="toggle-button toggle-active">On</span>
+                  <span class="toggle-button toggle-inactive">Off</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div id="gif-advanced-actions" class="advanced-actions clearfix">
+          <div class="advanced-action-group">
+            <div class="action clearfix">
+              <p class="action-note">Giphy links preview in Facebook and Twitter. HTML5 links autoselect optimized format.</p>
+              <span class="action-label">Giphy Link</span>
+              <div class="action-field">
+                <input type="text" value="http://gph.is/1UOlh8L" data-copy="true" />
+              </div>
+            </div>
+            <div class="action clearfix">
+              <span class="action-label">HTML5 Video</span>
+              <div class="action-field">
+
+                <input type="text" value="https://giphy.com/gifs/8JQqAqsxNDUXu/html5" data-copy="true" />
+
+              </div>
+            </div>
+            <div class="action clearfix">
+              <span class="action-label">Gif Download</span>
+              <div class="action-field has-button">
+                <input type="text" value="http://i.giphy.com/8JQqAqsxNDUXu.gif" data-copy="true" />
+                <a class="action-button button blue" href="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.gif" download="giphy.gif" target="_blank">Download</a>
+              </div>
+            </div>
+
+          </div>
+          <div class="advanced-action-group tweet-action">
+            <div id="upload-to-twitter" class="action clearfix">
+              <span class="action-label">Upload GIF<br /> to Twitter</span>
+              <div class="action-field">
+                <input class="tweet-input" type="hidden" value="http://gph.is/1UOlh8L" data-original-value="http://gph.is/1UOlh8L" />
+                <div class="tweet-text" contenteditable="true" spellcheck="false"><i contenteditable="false">http://gph.is/1UOlh8L</i>&nbsp;</div>
+                <span class="tweet-count"></span>
+                <div class="login-buttons">
+                  <a class="login" href="/login/twitter?next=http://giphy.com/login/twitter/finalize?next=http://giphy.com/gifs/8JQqAqsxNDUXu">Log in</a>
+                  <a class="logout" href="/logout?next=/gifs/omg-shocked-lucille-ball-8JQqAqsxNDUXu">Log out</a>
+                </div>
+              </div>
+              <div class="preview">
+                <img class="image-preview" src="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.gif" alt="" />
+                <a class="tweet-button button blue" href="#">Tweet</a>
+              </div>
+            </div>
+          </div>
+          <div class="advanced-action-group shortener-action">
+            <div id="gif-shortener" class="action clearfix">
+              <p class="action-note">Short URLs redirect to a specified link while rendering a GIF preview on Facebook and Twitter.</p>
+              <span class="action-label">Gif Shortener</span>
+              <div class="action-field has-button">
+                <input class="gif-shortener-input" type="text" value="" placeholder="Enter a URL to shorten." />
+                <a class="gif-shortener-button action-button button black disabled" href="https://media.giphy.com/media/8JQqAqsxNDUXu/giphy.gif">Shorten</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <div style="clear:both"></div>
+
+    <div id="gif-info-container">
+      <div class="gif-info-wrapper">
+
+        <!--  TAGS -->
+
+        <div id="tags-wrapper" class="tags detail-section grid_10">
+          <h2 class="detail-section-label">Tags</h2>
+
+
+          <h3 class="tag">
+            <a href="/search/lucille-ball/">lucille ball</a>
+          </h3>
+
+
+
+          <h3 class="tag">
+            <a href="/search/omg/">omg</a>
+          </h3>
+
+
+
+          <h3 class="tag">
+            <a href="/search/shocked/">shocked</a>
+          </h3>
+
+
+        </div>
+
+        <!-- /TAGS -->
+
+        <!-- INFO BAR -->
+        <div style="clear: both"></div>
+        <div id="metadata-wrapper" class="infobar detail-section grid_10">
+
+          <h1 class="detail-section-label" itemprop="headline">lucille ball animated GIF</h1>
+
+          <div>Dimensions: <span class="size">268x202</span></div>
+          <div>Size: <span class="size">2002KB</span></div>
+
+          <div>Frames: <span class="frames">78</span></div>
+
+
+        </div>
+        <!-- /INFO BAR -->
+
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <div id="related-container" class="gif-detail-related"></div>
+
+</div>
+
+
+</div>
+<div style="clear:both; margin-bottom: 80px;"></div>
+
+
+
+
+<!-- ANALYTICS -->
+
+<!-- Quantcast Tag -->
+<script type="text/javascript">
+  var _qevents = _qevents || [];
+  __qc = undefined;
+  (function() {
+    var elem = document.createElement('script');
+    elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
+    elem.async = true;
+    elem.type = "text/javascript";
+    elem.id = "quantcast";
+    var scpt = document.getElementsByTagName('script')[0];
+    scpt.parentNode.insertBefore(elem, scpt);
+  })();
+  _qevents.push({
+    qacct:"p-PdxaRL3tyJt0S"
+  });
+</script>
+
+<noscript>
+  <div style="display:none;">
+    <img src="//pixel.quantserve.com/pixel/p-PdxaRL3tyJt0S.gif" border="0" height="1" width="1" alt="Quantcast"/>
+  </div>
+</noscript>
+<!-- End Quantcast tag -->
+
+<!-- Start Alexa Certify Javascript -->
+<script type="text/javascript">
+  _atrk_opts = { atrk_acct:"wlIjj1aAkN00Ei", domain:"giphy.com",dynamic: true};
+  (function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://d31qbv1cthcecs.cloudfront.net/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+</script>
+<noscript><img src="https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=wlIjj1aAkN00Ei" style="display:none" height="1" width="1" alt="" /></noscript>
+<!-- End Alexa Certify Javascript -->
+
+
+<!-- END ANALYTICS -->
+
+<!-- POLYFILL -->
+<script type="text/javascript">
+  try {
+    Symbol()
+  }catch(e){
+    document.write('<scr' + 'ipt src="https://cdn.polyfill.io/v2/polyfill.js?features=Symbol"></scr' + 'ipt>')
+  }
+</script>
+<!-- END POLLYFILL -->
+
+
+<script src="/static/js/site/third_party.js?468b38d"></script>
+<script src="/static/js/site/footer.js?468b38d"></script>
+
+
+
+<script src="/static/js/modules/channel-selector/bundle.js?468b38d"></script>
+<script src="/static/js/site/gif-detail/bundle.js?468b38d"></script>
+<script>
+  if (Giphy.renderGifDetail) {
+    Giphy.renderGifDetail(document.getElementById('gif-detail'), {
+      disableNavigation: false,
+      gifID: "8JQqAqsxNDUXu",
+      loggedIn: false,
+      username: "",
+      hideCancel: true
+    })
+  }
+</script>
+
+
+</body>
+
+<script>
+  Giphy = Giphy || {};
+</script>
+
+</html>

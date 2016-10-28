@@ -1,0 +1,10 @@
+{
+  "domains": {
+    "badrules.com": {
+      "rules": {
+        "url_regex": "v=([^&])",
+        "thumbnail_url": "https://img.youtube.com/vi/${1}/default.jpg"
+      }
+    }
+  }
+}

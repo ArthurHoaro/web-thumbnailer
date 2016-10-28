@@ -1,0 +1,11 @@
+{
+  "key": "foo",
+  "nested": {
+    "setting": [
+      "nope",
+      {
+        "top": "value"
+      }
+    ]
+  }
+}

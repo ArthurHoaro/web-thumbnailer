@@ -1,0 +1,336 @@
+{
+  "flickR": {
+    "domains": ["flickr.com"],
+    "finder": "FlickR",
+    "options": {
+      "hotlink_allowed": true,
+      "size": {
+        "default": "medium",
+        "thumb": {
+          "param": "t",
+          "maxwidth": "100",
+          "maxheight": "100"
+        },
+        "small": {
+          "param": "m",
+          "maxwidth": "240",
+          "maxheight": "240"
+        },
+        "smallplus": {
+          "param": "n",
+          "maxwidth": "320",
+          "maxheight": "320"
+        },
+        "medium": {
+          "param": "",
+          "maxwidth": "500",
+          "maxheight": "500"
+        },
+        "mediumplus": {
+          "param": "z",
+          "maxwidth": "640",
+          "maxheight": "640"
+        },
+        "large": {
+          "param": "c",
+          "maxwidth": "800",
+          "maxheight": "800"
+        },
+        "xlarge": {
+          "param": "b",
+          "maxwidth": "1024",
+          "maxheight": "1024"
+        },
+        "xxlarge": {
+          "param": "h",
+          "maxwidth": "1600",
+          "maxheight": "1600"
+        },
+        "xxxlarge": {
+          "param": "k",
+          "maxwidth": "2048",
+          "maxheight": "2048"
+        },
+        "_comment": "Original size is disabled because users may deny access to original size..."
+      }
+    },
+    "rules": {
+      "image_regex": "<meta property=\"og:image\" content=\"(.*?)\"",
+      "thumbnail_url": "${1}"
+    }
+  },
+  "giphy": {
+    "domains": ["giphy.com"],
+    "finder": "UrlRegex",
+    "options": {
+      "hotlink_allowed": true
+    },
+    "rules": {
+      "image_regex": "giphy\\.com/gifs/.*-([a-z0-9]+)",
+      "thumbnail_url": "https://media.giphy.com/media/${1}/giphy-facebook_s.jpg"
+    }
+  },
+  "gfycat": {
+    "domains": ["gfycat.com"],
+    "finder": "UrlRegex",
+    "options": {
+      "hotlink_allowed": true
+    },
+    "rules": {
+      "url_regex": "gfycat\\.com/(?:detail/)?(\\w+)",
+      "thumbnail_url": "https://thumbs.gfycat.com/${1}-mobile.jpg"
+    }
+  },
+  "gravatar": {
+    "domains": ["gravatar.com"],
+    "url_require": "/avatar/",
+    "finder": "UrlRegex",
+    "options": {
+      "hotlink_allowed": true,
+      "size": {
+        "default": "medium",
+        "small": {
+          "param": "160",
+          "maxwidth": "160",
+          "maxheight": "160"
+        },
+        "medium": {
+          "param": "320",
+          "maxwidth": "320",
+          "maxheight": "320"
+        },
+        "large": {
+          "param": "640",
+          "maxwidth": "640",
+          "maxheight": "640"
+        },
+        "huge": {
+          "_comment": "Most Gravatar user won't have a large enough image, resulting in a 503 error.",
+          "param": "2048",
+          "maxwidth": "2048",
+          "maxheight": "2048"
+        }
+      }
+    },
+    "rules": {
+      "url_regex": "\\.com/avatar/(\\w+)",
+      "thumbnail_url": "https://gravatar.com/avatar/${1}?s=${size}"
+    }
+  },
+  "imgur_single": {
+    "domains": ["imgur.com"],
+    "url_exclude": "/(gallery|a)/",
+    "finder": "UrlRegex",
+    "options": {
+      "hotlink_allowed": true,
+      "size": {
+        "default": "medium",
+        "small": {
+          "param": "t",
+          "maxwidth": "160",
+          "maxheight": "160"
+        },
+        "medium": {
+          "param": "m",
+          "maxwidth": "320",
+          "maxheight": "320"
+        },
+        "large": {
+          "param": "l",
+          "maxwidth": "640",
+          "maxheight": "640"
+        },
+        "huge": {
+          "param": "h",
+          "maxwidth": "1024",
+          "maxheight": "1024"
+        }
+      }
+    },
+    "rules": {
+      "url_regex": "\\.com/([\\w\\d]+)",
+      "thumbnail_url": "https://i.imgur.com/${1}${size}.jpg"
+    }
+  },
+  "imgur_album": {
+    "domains": ["imgur.com"],
+    "url_require": "/(gallery|a)/",
+    "finder": "QueryRegex",
+    "options": {
+      "hotlink_allowed": true,
+      "size": {
+        "default": "medium",
+        "small": {
+          "param": "t",
+          "maxwidth": "160",
+          "maxheight": "160"
+        },
+        "medium": {
+          "param": "m",
+          "maxwidth": "320",
+          "maxheight": "320"
+        },
+        "large": {
+          "param": "l",
+          "maxwidth": "640",
+          "maxheight": "640"
+        },
+        "huge": {
+          "param": "h",
+          "maxwidth": "1024",
+          "maxheight": "1024"
+        }
+      }
+    },
+    "rules": {
+      "image_regex": "<meta property=\"og:image\"\\s+content=\".*imgur.com/(\\w+)\\..*?(?:\\?.*)?\"",
+      "thumbnail_url": "https://i.imgur.com/${1}${size}.jpg"
+    }
+  },
+  "instagram": {
+    "domains": ["instagram.com"],
+    "finder": "QueryRegex",
+    "options": {
+      "hotlink_allowed": true
+    },
+    "rules": {
+      "image_regex": "<meta property=\"og:image\" content=\"(.*?)(?:\\?.*?)?\"",
+      "thumbnail_url": "${1}"
+    }
+  },
+  "pinterest": {
+    "domains": ["pinterest.com"],
+    "url_require": "/\\w+",
+    "url_exclude": "/search/",
+    "finder": "QueryRegex",
+    "options": {
+      "hotlink_allowed": true
+    },
+    "rules": {
+      "image_regex": "<meta property=\"og:image\" name=\"og:image\" content=\"((?!pinimg\\.com).*pinimg\\.com.*?)\"",
+      "thumbnail_url": "${1}"
+    }
+  },
+  "theoatmeal": {
+    "domains": ["theoatmeal.com"],
+    "url_require": "/comics/",
+    "finder": "QueryRegex",
+    "options": {
+      "hotlink_allowed": true
+    },
+    "rules": {
+      "image_regex": "<meta property=\"og:image\" content=\"(.*?)\"",
+      "thumbnail_url": "${1}"
+    }
+  },
+  "twitter": {
+    "domains": ["twitter.com"],
+    "url_require": "/status/",
+    "finder": "QueryRegex",
+    "options": {
+      "hotlink_allowed": true
+    },
+    "rules": {
+      "image_regex": "<meta  property=\"og:image\" content=\"(.*?)\"",
+      "thumbnail_url": "${1}"
+    }
+  },
+  "youtube": {
+    "domains": [
+      "youtube.com"
+    ],
+    "url_exclude": "/user/",
+    "finder": "UrlRegex",
+    "options": {
+      "hotlink_allowed": true,
+      "size": {
+        "default": "medium",
+        "small": {
+          "param": "default",
+          "maxwidth": "120",
+          "maxheight": "90"
+        },
+        "medium": {
+          "param": "mqdefault",
+          "maxwidth": "320",
+          "maxheight": "180"
+        },
+        "large": {
+          "param": "hqdefault",
+          "maxwidth": "480",
+          "maxheight": "360"
+        },
+        "xlarge": {
+          "param": "sddefault",
+          "maxwidth": "640",
+          "maxheight": "480"
+        }
+      }
+    },
+    "rules": {
+      "url_regex": "v=([^&]+)",
+      "thumbnail_url": "https://img.youtube.com/vi/${1}/${size}.jpg"
+    }
+  },
+  "youtube_profile": {
+    "domains": [
+      "youtube.com"
+    ],
+    "url_require": "/user/",
+    "finder": "QueryRegex",
+    "options": {
+      "hotlink_allowed": true
+    },
+    "rules": {
+      "image_regex": "<meta property=\"og:image\" content=\"(.*?)\"",
+      "thumbnail_url": "${1}"
+    }
+  },
+  "youtube_short": {
+    "domains": [
+      "youtu.be"
+    ],
+    "finder": "UrlRegex",
+    "options": {
+      "hotlink_allowed": true,
+      "size": {
+        "default": "medium",
+        "small": {
+          "param": "default",
+          "maxwidth": "120",
+          "maxheight": "90"
+        },
+        "medium": {
+          "param": "mqdefault",
+          "maxwidth": "320",
+          "maxheight": "180"
+        },
+        "large": {
+          "param": "hqdefault",
+          "maxwidth": "480",
+          "maxheight": "360"
+        },
+        "xlarge": {
+          "param": "sddefault",
+          "maxwidth": "640",
+          "maxheight": "480"
+        }
+      }
+    },
+    "rules": {
+      "url_regex": "youtu.be/([^&]+)",
+      "thumbnail_url": "https://img.youtube.com/vi/${1}/${size}.jpg"
+    }
+  },
+  "xkcd": {
+    "domains": ["xkcd.com"],
+    "finder": "QueryRegex",
+    "options": {
+      "hotlink_allowed": true
+    },
+    "rules": {
+      "image_regex": "<img src=\"(//imgs.xkcd.com/comics/.*?)\"",
+      "thumbnail_url": "${1}"
+    }
+  }
+}

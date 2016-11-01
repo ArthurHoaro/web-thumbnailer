@@ -12,7 +12,7 @@ namespace WebThumbnailer\Utils;
 class UrlUtilsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test getDomains() from various URL.
+     * Test getDomain() from various URL.
      */
     public function testGetDomain()
     {

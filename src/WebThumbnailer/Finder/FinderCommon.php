@@ -179,7 +179,7 @@ abstract class FinderCommon implements Finder
     /**
      * @inheritdoc
      */
-    public function getDomains()
+    public function getDomain()
     {
         return $this->domains;
     }

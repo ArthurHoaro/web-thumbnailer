@@ -77,7 +77,20 @@ class Thumbnailer
      */
     public function getThumbnail()
     {
-        $thumburl = $this->finder->find();
+        $cache = CacheManager::getCacheFilePath(
+            $this->url,
+            $this->finder->getDomain(),
+            CacheManager::TYPE_FINDER
+        );
+        // Loading Finder result from cache if enabled and valid to prevent useless requests.
+        if (empty($this->options[WebThumbnailer::NOCACHE])
+            && CacheManager::isCacheValid($cache, $this->finder->getDomain(), CacheManager::TYPE_FINDER)
+        ) {
+            $thumburl = file_get_contents($cache);
+        } else {
+            $thumburl = $this->finder->find();
+        }
+
         if (empty($thumburl)) {
             $error = 'No thumbnail could be found for this URL using '. $this->finder->getName() .' finder.';
             throw new \Exception($error);
@@ -145,7 +158,7 @@ class Thumbnailer
         // Cache file path.
         $thumbPath = CacheManager::getCacheFilePath(
             $thumburl,
-            $this->finder->getDomains(),
+            $this->finder->getDomain(),
             CacheManager::TYPE_THUMB,
             $this->options[WebThumbnailer::MAX_WIDTH],
             $this->options[WebThumbnailer::MAX_HEIGHT],
@@ -156,7 +169,7 @@ class Thumbnailer
         if (empty($this->options[WebThumbnailer::NOCACHE])
             && CacheManager::isCacheValid(
                 $thumbPath,
-                $this->finder->getDomains(),
+                $this->finder->getDomain(),
                 CacheManager::TYPE_THUMB
             )
         ) {

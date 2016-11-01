@@ -68,9 +68,9 @@ interface Finder
     function setUserOptions($userOptions);
 
     /**
-     * @return array List of domains used by this Finder.
+     * @return string Domain associated with the Finder and the current URL.
      */
-    function getDomains();
+    function getDomain();
 
     /**
      * @return string Return the Finder name.

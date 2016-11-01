@@ -89,10 +89,15 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotAnImage()
     {
+        $oldlog = ini_get('error_log');
+        ini_set('error_log', '/dev/null');
+
         $image = 'default/not-image.txt';
         $url = self::LOCAL_SERVER . $image;
         $wt = new WebThumbnailer();
         $this->assertFalse($wt->thumbnail($url));
+
+        ini_set('error_log', $oldlog);
     }
 
     /**
@@ -152,10 +157,15 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDownloadDirectImageResizeWidthCrop()
     {
+        $oldlog = ini_get('error_log');
+        ini_set('error_log', '/dev/null');
+
         $url = self::LOCAL_SERVER . 'default/image.png';
         $wt = new WebThumbnailer();
         $wt = $wt->maxWidth(341)->crop(true);
-        $this->assertFalse($wt->thumbnail($url));
+        $this->assertFalse(@$wt->thumbnail($url));
+
+        ini_set('error_log', $oldlog);
     }
 
     /**
@@ -163,10 +173,15 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDownloadDirectImageResizeHeightCrop()
     {
+        $oldlog = ini_get('error_log');
+        ini_set('error_log', '/dev/null');
+
         $url = self::LOCAL_SERVER . 'default/image.png';
         $wt = new WebThumbnailer();
         $wt = $wt->maxHeight(341)->crop(true);
         $this->assertFalse($wt->thumbnail($url));
+
+        ini_set('error_log', $oldlog);
     }
 
     /**

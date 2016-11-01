@@ -71,12 +71,16 @@ class CacheManager
      *
      * @return string Absolute file path.
      */
-    public static function getCacheFilePath($url, $domain, $type, $width, $height, $crop)
+    public static function getCacheFilePath($url, $domain, $type, $width = 0, $height = 0, $crop = false)
     {
         self::createDomainThumbCacheFolder($domain, $type);
         $domainFolder = FileUtils::getPath(self::getCachePath($type), $domain);
-        $suffix = $width . $height . ($crop ? '1' : '0');
-        return $domainFolder . self::getThumbFilename($url) . $suffix .'.png';
+        if ($type === self::TYPE_THUMB) {
+            $suffix = $width . $height . ($crop ? '1' : '0') .'.png';
+        } else {
+            $suffix = '';
+        }
+        return $domainFolder . self::getThumbFilename($url) . $suffix;
     }
 
     /**

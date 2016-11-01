@@ -8,6 +8,7 @@
     "size_large": 640,
     "default": {
       "download_mode": "DOWNLOAD",
+      "timeout": 30,
       "max_img_dl": 4194304,
       "max_width": 160,
       "max_height": 160,

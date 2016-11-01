@@ -2,7 +2,8 @@
 <phpunit
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
-        colors="true">
+        colors="true"
+        bootstrap="./tests/bootstrap.php">
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src/WebThumbnailer/</directory>
@@ -18,4 +19,9 @@
         <log type="coverage-html" target="coverage" lowUpperBound="30" highLowerBound="80"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
     </logging>
+    <php>
+        <const name="WEB_SERVER_HOST" value="localhost" />
+        <const name="WEB_SERVER_PORT" value="8081" />
+        <const name="WEB_SERVER_DOCROOT" value="./tests/public" />
+    </php>
 </phpunit>

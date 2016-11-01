@@ -2,7 +2,8 @@
 
 namespace WebThumbnailer\Finder;
 
-use WebThumbnailer\Application\WebAccess;
+use WebThumbnailer\Application\WebAccess\WebAccess;
+use WebThumbnailer\Application\WebAccess\WebAccessFactory;
 use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Utils\FinderUtils;
 
@@ -10,7 +11,7 @@ use WebThumbnailer\Utils\FinderUtils;
  * Class QueryXPathFinder
  *
  * DO NOT USE: SimpleXMLElement needs a strict XML validity, which doesn't work in HTML5.
- * For now, I don't want this lib to rely on libxml extention, neither rely on a 3rd party
+ * For now, I don't want this lib to rely on libxml extension, neither rely on a 3rd party
  * library to load the DOM. Use QueryRegexFinder instead.
  *
  * Generic Finder using XQuery on remote web content.
@@ -57,7 +58,7 @@ class QueryXPathFinder extends FinderCommon
      */
     public function __construct($domain, $url, $rules, $options)
     {
-        $this->webAccess = new WebAccess();
+        $this->webAccess = WebAccessFactory::getWebAccess($url);
         $this->url = $url;
         $this->domains = $domain;
         $this->loadRules($rules);
@@ -73,7 +74,7 @@ class QueryXPathFinder extends FinderCommon
      */
     public function find()
     {
-        $this->content = $this->webAccess->getWebContent($this->url);
+        $this->content = $this->webAccess->getContent($this->url);
         if (empty($this->content)) {
             return false;
         }
@@ -126,15 +127,5 @@ class QueryXPathFinder extends FinderCommon
     public function getName()
     {
         return 'Query Regex';
-    }
-
-    /**
-     * Set the web access.
-     *
-     * @param WebAccess $webAccess instance.
-     */
-    public function setWebAccess($webAccess)
-    {
-        $this->webAccess = $webAccess;
     }
 }

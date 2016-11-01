@@ -34,9 +34,11 @@ class DefaultFinderTest extends \PHPUnit_Framework_TestCase
      */
     public function testDefaultFinderNotImage()
     {
-        $url = 'http://domains.tld/notimage';
-        $finder = new DefaultFinder(null, $url, [], []);
+        $file = __DIR__ . '/../workdir/nope';
+        touch($file);
+        $finder = new DefaultFinder(null, $file, [], []);
         $this->assertFalse($finder->find());
+        @unlink($file);
     }
 
     /**
@@ -53,6 +55,7 @@ class DefaultFinderTest extends \PHPUnit_Framework_TestCase
         file_put_contents($file, base64_decode($data));
         $finder = new DefaultFinder(null, $file, null, null);
         $this->assertEquals($file, $finder->find());
+        @unlink($file);
     }
 
     /**

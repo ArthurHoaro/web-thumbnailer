@@ -2,7 +2,8 @@
 
 namespace WebThumbnailer\Finder;
 
-use WebThumbnailer\Application\WebAccess;
+use WebThumbnailer\Application\WebAccess\WebAccess;
+use WebThumbnailer\Application\WebAccess\WebAccessFactory;
 use WebThumbnailer\Utils\ImageUtils;
 use WebThumbnailer\Utils\UrlUtils;
 
@@ -27,7 +28,7 @@ class DefaultFinder extends FinderCommon
      */
     public function __construct($domain, $url, $rules, $options)
     {
-        $this->webAccess = new WebAccess();
+        $this->webAccess = WebAccessFactory::getWebAccess($url);
         $this->url = $url;
         $this->domains = $domain;
     }
@@ -43,7 +44,12 @@ class DefaultFinder extends FinderCommon
             return $this->url;
         }
 
-        $content = $this->webAccess->getWebContent($this->url);
+        list($headers, $content) = $this->webAccess->getContent($this->url);
+
+        if (strpos($headers[0], '200') === false) {
+            return false;
+        }
+
         if (ImageUtils::isImageString($content)) {
             return $this->url;
         }

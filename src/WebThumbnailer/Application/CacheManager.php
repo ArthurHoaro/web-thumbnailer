@@ -65,16 +65,18 @@ class CacheManager
      * @param string     $url    URL of the thumbnail (unique file per URL).
      * @param string     $domain Domain concerned.
      * @param string     $type   Type of cache.
-     * @param int|string $width User setting for image width.
+     * @param int|string $width  User setting for image width.
      * @param int|string $height User setting for image height.
+     * @param bool       $crop   Crop enabled or not.
      *
      * @return string Absolute file path.
      */
-    public static function getCacheFilePath($url, $domain, $type, $width, $height)
+    public static function getCacheFilePath($url, $domain, $type, $width, $height, $crop)
     {
         self::createDomainThumbCacheFolder($domain, $type);
         $domainFolder = FileUtils::getPath(self::getCachePath($type), $domain);
-        return $domainFolder . self::getThumbFilename($url) . $width . $height .'.png';
+        $suffix = $width . $height . ($crop ? '1' : '0');
+        return $domainFolder . self::getThumbFilename($url) . $suffix .'.png';
     }
 
     /**

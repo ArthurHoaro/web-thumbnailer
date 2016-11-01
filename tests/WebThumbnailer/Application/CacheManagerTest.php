@@ -82,12 +82,12 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
         $type = CacheManager::TYPE_THUMB;
         $width = 512;
         $height = 0;
-        $cacheFile = CacheManager::getCacheFilePath($url, $domain, $type, $width, $height);
+        $cacheFile = CacheManager::getCacheFilePath($url, $domain, $type, $width, $height, false);
         $whateverDir = self::$cache . 'thumb/whatever.io/';
         $this->assertTrue(is_dir($whateverDir));
         $this->assertContains($whateverDir, $cacheFile);
         // sha1 sum + dimensions
-        $this->assertContains('0a35602901944a0c6d853da2a5364665c2bda069' . '5120' . '.png', $cacheFile);
+        $this->assertContains('0a35602901944a0c6d853da2a5364665c2bda069' . '51200' . '.png', $cacheFile);
     }
 
     /**
@@ -96,7 +96,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     public function testIsCacheValidExisting()
     {
         $domain = 'whatever.io';
-        $filename = '0a35602901944a0c6d853da2a5364665c2bda0695120.png';
+        $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.png';
         mkdir(self::$cache);
         mkdir(self::$cache . '/thumb');
         mkdir(self::$cache . '/thumb/' . $domain);

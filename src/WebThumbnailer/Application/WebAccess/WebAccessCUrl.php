@@ -1,0 +1,143 @@
+<?php
+/**
+ * @copyright Shaarli Community under zlib license https://github.com/shaarli/Shaarli
+ *
+ * ZLIB/LIBPNG LICENSE
+ *
+ * This software is provided 'as-is', without any express or implied warranty.
+ * In no event will the authors be held liable for any damages arising from
+ * the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ * claim that you wrote the original software. If you use this software
+ * in a product, an acknowledgment in the product documentation would
+ * be appreciated but is not required.
+ *
+ * 2. Altered source versions must be plainly marked as such, and must
+ * not be misrepresented as being the original software.
+ *
+ * 3. This notice may not be removed or altered from any source distribution.
+ */
+
+namespace WebThumbnailer\Application\WebAccess;
+
+use WebThumbnailer\Application\ConfigManager;
+
+/**
+ * Class WebAccessCUrl
+ *
+ * Require php-curl
+ *
+ * @package WebThumbnailer\Application
+ */
+class WebAccessCUrl implements WebAccess
+{
+    /**
+     * Download content using cURL.
+     *
+     * @see https://secure.php.net/manual/en/ref.curl.php
+     * @see https://secure.php.net/manual/en/functions.anonymous.php
+     * @see https://secure.php.net/manual/en/function.preg-split.php
+     * @see https://secure.php.net/manual/en/function.explode.php
+     * @see http://stackoverflow.com/q/17641073
+     * @see http://stackoverflow.com/q/9183178
+     * @see http://stackoverflow.com/q/1462720
+     *
+     * @inheritdoc
+     */
+    public function getContent($url, $timeout = null, $maxBytes = null)
+    {
+        if (empty($timeout)) {
+            $timeout = ConfigManager::get('settings.default.timeout', 30);
+        }
+
+        if (empty($maxBytes)) {
+            $maxBytes = ConfigManager::get('settings.default.max_img_dl', 4194304);
+        }
+
+        $userAgent =
+            'Mozilla/5.0 (X11; Linux x86_64; rv:45.0; WebThumbnailer)'
+            . ' Gecko/20100101 Firefox/45.0';
+        $acceptLanguage =
+            substr(setlocale(LC_COLLATE, 0), 0, 2) . ',en-US;q=0.7,en;q=0.3';
+        $maxRedirs = 3;
+
+        $ch = curl_init($url);
+        if ($ch === false) {
+            return [[0 => 'curl_init() error'], false];
+        }
+
+        // General cURL settings
+        curl_setopt($ch, CURLOPT_AUTOREFERER,       true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION,    true);
+        curl_setopt($ch, CURLOPT_HEADER,            true);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            ['Accept-Language: ' . $acceptLanguage]
+        );
+        curl_setopt($ch, CURLOPT_MAXREDIRS,         $maxRedirs);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,    true);
+        curl_setopt($ch, CURLOPT_TIMEOUT,           $timeout);
+        curl_setopt($ch, CURLOPT_USERAGENT,         $userAgent);
+
+        // Max download size management
+        curl_setopt($ch, CURLOPT_BUFFERSIZE,        1024);
+        curl_setopt($ch, CURLOPT_NOPROGRESS,        false);
+        curl_setopt($ch, CURLOPT_PROGRESSFUNCTION,
+            function($arg0, $arg1, $arg2, $arg3, $arg4 = 0) use ($maxBytes)
+            {
+                // Callback has 5 arguments
+                $downloaded = $arg2;
+                // Non-zero return stops downloading
+                return ($downloaded > $maxBytes) ? 1 : 0;
+            }
+        );
+
+        $response = curl_exec($ch);
+        $errorNo = curl_errno($ch);
+        $errorStr = curl_error($ch);
+        $headSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        curl_close($ch);
+
+        if ($response === false) {
+            return [[0 => 'curl_exec() error #'. $errorNo .': ' . $errorStr], false];
+        }
+
+        // Formatting output like the fallback method
+        $rawHeaders = substr($response, 0, $headSize);
+
+        // Keep only headers from latest redirection
+        $rawHeadersArrayRedirs = explode("\r\n\r\n", trim($rawHeaders));
+        $rawHeadersLastRedir = end($rawHeadersArrayRedirs);
+
+        $content = substr($response, $headSize);
+        $headers = [];
+        foreach (preg_split('~[\r\n]+~', $rawHeadersLastRedir) as $line) {
+            if (empty($line) or ctype_space($line)) {
+                continue;
+            }
+            $splitLine = explode(': ', $line, 2);
+            if (count($splitLine) > 1) {
+                $key = $splitLine[0];
+                $value = $splitLine[1];
+                if (array_key_exists($key, $headers)) {
+                    if (!is_array($headers[$key])) {
+                        $headers[$key] = array(0 => $headers[$key]);
+                    }
+                    $headers[$key][] = $value;
+                } else {
+                    $headers[$key] = $value;
+                }
+            } else {
+                $headers[] = $splitLine[0];
+            }
+        }
+
+        return [$headers, $content];
+    }
+}

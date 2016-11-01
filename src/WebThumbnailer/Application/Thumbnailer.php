@@ -2,6 +2,7 @@
 
 namespace WebThumbnailer\Application;
 
+use WebThumbnailer\Application\WebAccess\WebAccessFactory;
 use WebThumbnailer\Finder\Finder;
 use WebThumbnailer\Finder\FinderFactory;
 use WebThumbnailer\Utils\ImageUtils;
@@ -147,7 +148,8 @@ class Thumbnailer
             $this->finder->getDomains(),
             CacheManager::TYPE_THUMB,
             $this->options[WebThumbnailer::MAX_WIDTH],
-            $this->options[WebThumbnailer::MAX_HEIGHT]
+            $this->options[WebThumbnailer::MAX_HEIGHT],
+            $this->options[WebThumbnailer::CROP]
         );
 
         // If the cache is valid, serve it.
@@ -161,21 +163,24 @@ class Thumbnailer
             return UrlUtils::generateRelativeUrlFromPath($this->server, $thumbPath);
         }
 
-        // FIXME! cURL implementation.
-        $webaccess = new WebAccess();
-        list($headers, $finalThumburl) = $webaccess->getRedirectedHeaders($thumburl);
+        $webaccess = WebAccessFactory::getWebAccess($thumburl);
+
+        // Download the thumb.
+        list($headers, $data) = $webaccess->getContent(
+            $thumburl,
+            $this->options[WebThumbnailer::DOWNLOAD_TIMEOUT],
+            $this->options[WebThumbnailer::DOWNLOAD_MAX_SIZE]
+        );
+
         if (strpos($headers[0], '200') === false) {
             throw new \Exception(
                 'Unreachable thumbnail URL. HTTP '. $headers[0] .'.'. PHP_EOL .
-                ' - Original thumbnail URL: '. $thumburl . PHP_EOL .
-                ' - Redirected thumbnail URL: '. $finalThumburl
+                ' - thumbnail URL: '. $thumburl
             );
         }
 
-        // Download the thumb.
-        $data = $webaccess->getWebContent($finalThumburl, $this->options[WebThumbnailer::DOWNLOAD_MAX_SIZE]);
-        if ($data === false) {
-            throw new \Exception('Couldn\'t download the thumbnail at '. $finalThumburl);
+        if (empty($data)) {
+            throw new \Exception('Couldn\'t download the thumbnail at '. $thumburl);
         }
 
         // Resize and save it locally.
@@ -226,6 +231,16 @@ class Thumbnailer
         } else {
             $maxdl = ConfigManager::get('settings.default.max_img_dl', 4194304);
             $this->options[WebThumbnailer::DOWNLOAD_MAX_SIZE] = $maxdl;
+        }
+
+        // DL timeout option
+        if (isset($options[WebThumbnailer::DOWNLOAD_TIMEOUT])
+            && is_int($options[WebThumbnailer::DOWNLOAD_TIMEOUT])
+        ) {
+            $this->options[WebThumbnailer::DOWNLOAD_TIMEOUT] = $options[WebThumbnailer::DOWNLOAD_TIMEOUT];
+        } else {
+            $timeout = ConfigManager::get('settings.default.timeout', 30);
+            $this->options[WebThumbnailer::DOWNLOAD_TIMEOUT] = $timeout;
         }
 
         if (isset($options[WebThumbnailer::NOCACHE])) {

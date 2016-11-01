@@ -34,6 +34,10 @@ class WebThumbnailer
      */
     const HOTLINK_STRICT = 'HOTLINK_STRICT';
     /**
+     * Network timeout, in seconds.
+     */
+    const DOWNLOAD_TIMEOUT = 'DOWNLOAD_TIMEOUT';
+    /**
      * Number of bytes to download for a thumbnail. Default 4194304 (4MB).
      */
     const DOWNLOAD_MAX_SIZE = 'DOWNLOAD_MAX_SIZE';
@@ -64,7 +68,7 @@ class WebThumbnailer
     
     protected $crop;
 
-    protected $downloadMode;
+    protected $downloadMode = self::DOWNLOAD;
 
     /**
      * Get the thumbnail for the given URL>
@@ -170,6 +174,7 @@ class WebThumbnailer
     public function modeDownload()
     {
         $this->downloadMode = self::DOWNLOAD;
+        return $this;
     }
 
     /**
@@ -179,6 +184,7 @@ class WebThumbnailer
     public function modeHotlink()
     {
         $this->downloadMode = self::HOTLINK;
+        return $this;
     }
 
     /**
@@ -188,5 +194,6 @@ class WebThumbnailer
     public function modeHotlinkStrict()
     {
         $this->downloadMode = self::HOTLINK_STRICT;
+        return $this;
     }
 }

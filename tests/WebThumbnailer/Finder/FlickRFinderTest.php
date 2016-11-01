@@ -2,8 +2,6 @@
 
 namespace WebThumbnailer\Finder;
 
-use WebThumbnailer\Application\FileAccess;
-
 /**
  * Class FlickRFinderTest
  *
@@ -52,7 +50,6 @@ class FlickRFinderTest extends \PHPUnit_Framework_TestCase
         $expected = 'https://c1.staticflickr.com/9/8657/29903845474_7d23197890_c.jpg';
 
         $finder = new FlickRFinder('flickr.com', $url, self::$rules, self::$params);
-        $finder->setWebAccess(new FileAccess());
         $this->assertEquals($expected, $finder->find());
     }
 
@@ -68,7 +65,6 @@ class FlickRFinderTest extends \PHPUnit_Framework_TestCase
         self::$params['size']['large']['param'] = '';
 
         $finder = new FlickRFinder('flickr.com', $url, self::$rules, self::$params);
-        $finder->setWebAccess(new FileAccess());
         $this->assertEquals($expected, $finder->find());
     }
 
@@ -81,7 +77,6 @@ class FlickRFinderTest extends \PHPUnit_Framework_TestCase
         $expected = 'https://c7.staticflickr.com/9/8562/29912456894_b3e6ddfe28_c.jpg';
 
         $finder = new FlickRFinder('flickr.com', $url, self::$rules, self::$params);
-        $finder->setWebAccess(new FileAccess());
         $this->assertEquals($expected, $finder->find());
     }
 
@@ -94,7 +89,6 @@ class FlickRFinderTest extends \PHPUnit_Framework_TestCase
         $expected = 'https://farm4.staticflickr.com/3914/15118079089_489aa62638_c.jpg';
 
         $finder = new FlickRFinder('flickr.com', $url, self::$rules, self::$params);
-        $finder->setWebAccess(new FileAccess());
         $this->assertEquals($expected, $finder->find());
     }
 
@@ -106,7 +100,6 @@ class FlickRFinderTest extends \PHPUnit_Framework_TestCase
         $url = __DIR__ . '/../resources/flickr/flickr-doc.html';
 
         $finder = new FlickRFinder('flickr.com', $url, self::$rules, self::$params);
-        $finder->setWebAccess(new FileAccess());
         $this->assertFalse($finder->find());
     }
 }

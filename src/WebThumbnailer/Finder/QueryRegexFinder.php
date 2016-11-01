@@ -2,7 +2,8 @@
 
 namespace WebThumbnailer\Finder;
 
-use WebThumbnailer\Application\WebAccess;
+use WebThumbnailer\Application\WebAccess\WebAccess;
+use WebThumbnailer\Application\WebAccess\WebAccessFactory;
 use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Utils\FinderUtils;
 
@@ -50,7 +51,7 @@ class QueryRegexFinder extends FinderCommon
      */
     public function __construct($domain, $url, $rules, $options)
     {
-        $this->webAccess = new WebAccess();
+        $this->webAccess = WebAccessFactory::getWebAccess($url);
         $this->url = $url;
         $this->domains = $domain;
         $this->loadRules($rules);
@@ -68,8 +69,8 @@ class QueryRegexFinder extends FinderCommon
      */
     public function find()
     {
-        $this->content = $this->webAccess->getWebContent($this->url);
-        if (empty($this->content)) {
+        list($headers, $this->content) = $this->webAccess->getContent($this->url);
+        if (empty($this->content) || strpos($headers[0], '200') === false) {
             return false;
         }
 

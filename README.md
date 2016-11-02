@@ -1,6 +1,6 @@
 # Web Thumbnailer
 
-PHP library which will try to retrieve a thumbnail for any given URL.
+PHP library which will retrieve a thumbnail for any given URL, if available.
 
 ## Features
 
@@ -22,6 +22,8 @@ Recommended:
   - PHP cURL extension
   
 ## Installation
+
+> NOT AVAILABLE YET: work in progress.
 
 Using [Composer](https://getcomposer.org/):
 
@@ -59,7 +61,7 @@ Result:
 
 ## Thumbnail configuration
 
-There are 2 ways to setup thumbnail configuration:
+There are 2 ways to set up thumbnail configuration:
 
   * using `WebThumbnailer` helper functions as shown in *Usage* section.
   * passing an array of settings to `thumbnail()` while getting a thumbnail.
@@ -119,7 +121,7 @@ $conf = [WebThumbnailer::MAX_WIDTH => 180];
 ```
   
 > **Bonus feature**: for websites which support an open API regarding their thumbnail size (e.g. Imgur, FlickR),
-  WebThumbnailer makes sure to download the smaller image matching size requirements.
+  WebThumbnailer makes sure to download the smallest image matching size requirements.
   
 ### Image Crop
 
@@ -158,7 +160,7 @@ $conf = [
 
 ## Settings
 
-Settings are stored in JSON, and can be overrided using a custom JSON file:
+Settings are stored in JSON, and can be overrode using a custom JSON file:
 
 ```php
 use WebThumbnailer\Application\ConfigManager;
@@ -171,7 +173,7 @@ Available settings:
   * `default`:
     * `download_mode`: default download mode (`DOWNLOAD`, `HOTLINK` or `HOTLINK_STRICT`).
     * `timeout`: default download timeout, in seconds.
-    * `max_img_dl`: default download max sixe, in bytes.
+    * `max_img_dl`: default download max size, in bytes.
     * `max_width`: default max width if no size requirement is provided.
     * `max_height`: default max height if no size requirement is provided.
     * `cache_duration`: cache validity duration, in seconds.
@@ -184,6 +186,8 @@ WebThumbnailer can easily support more website by adding new rules in `rules.jso
 or by writing a new Finder for specific cases.
 
 Please report any issue you might encounter.
+
+Also, feel free to correct any horrible English mistake I may have made in this README.
 
 ## License
 

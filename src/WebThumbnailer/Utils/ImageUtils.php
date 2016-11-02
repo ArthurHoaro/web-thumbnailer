@@ -75,8 +75,8 @@ class ImageUtils
 
         if ($crop) {
             $targetImg = imagecrop($targetImg, [
-                'x' => $finalWidth > $finalHeight ? ($finalWidth - $maxWidth) / 2 : 0,
-                'y' => $finalHeight < $finalWidth ? ($finalHeight - $maxHeight) / 2 : 0,
+                'x' => $finalWidth >= $finalHeight ? ($finalWidth - $maxWidth) / 2 : 0,
+                'y' => $finalHeight <= $finalWidth ? ($finalHeight - $maxHeight) / 2 : 0,
                 'width' => $maxWidth,
                 'height' => $maxHeight
             ]);

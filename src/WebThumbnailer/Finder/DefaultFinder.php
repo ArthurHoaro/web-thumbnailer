@@ -55,12 +55,15 @@ class DefaultFinder extends FinderCommon
         }
 
         // Try to retrieve OpenGraph image.
-        $ogRegex = '#<meta property=["\']?og:image["\'\s][^>]+content=["\']?(.*?)["\'\s>]#';
-        if (preg_match($ogRegex, $content, $matches) > 0) {
-            // Check extension, for example to reject GIF.
-            if (ImageUtils::isImageExtension(UrlUtils::getUrlFileExtension($matches[1]))) {
-                return $matches[1];
-            }
+        $ogRegex = '#<meta[^>]+property=["\']?og:image["\'\s][^>]*content=["\']?(.*?)["\'\s>]#';
+        // If the attributes are not in the order property => content (e.g. Github)
+        // New regex to keep this readable... more or less.
+        $ogRegexReverse = '#<meta[^>]+content=["\']?([^"\'\s]+)[^>]+property=["\']?og:image["\'\s/>]#';
+
+        if (preg_match($ogRegex, $content, $matches) > 0
+            || preg_match($ogRegexReverse, $content, $matches) > 0
+        ) {
+            return $matches[1];
         }
 
         return false;

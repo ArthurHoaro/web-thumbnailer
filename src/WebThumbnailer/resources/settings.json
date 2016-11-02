@@ -13,7 +13,6 @@
       "max_width": 160,
       "max_height": 160,
       "cache_duration": 2678400,
-      "cache_clean_frequency": 86400
     },
     "path": {
       "cache": "cache/"

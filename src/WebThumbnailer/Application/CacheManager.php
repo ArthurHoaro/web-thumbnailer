@@ -116,40 +116,7 @@ class CacheManager
         $domainFolder = self::getCachePath($type) . $domain;
         if (!file_exists($domainFolder)) {
             mkdir($domainFolder, 0775, false);
-            touch($domainFolder . self::$CLEAN_FILE);
-        }
-    }
-
-    /**
-     * Clean the thumb domains cache folder if clean frequency is reached.
-     *
-     * Disabled. We shouldn't remove the cache, especially for images.
-     * FIXME! remove.
-     *
-     * @param string $domain Domain used.
-     * @param string $type   Type of cache.
-     */
-    protected static function cleanCacheDomainFolder($domain, $type)
-    {
-        $domainFolder = FileUtils::getPath(self::getCachePath($type), $domain);
-        $cleanFile = $domainFolder . self::$CLEAN_FILE;
-        if (! is_file($cleanFile)) {
-            touch($cleanFile);
-            return;
-        }
-
-        $cleanFrequency = ConfigManager::get('settings.cache_clean_frequency', 3600*24);
-        if ((time() - filemtime($cleanFile)) < $cleanFrequency) {
-            return;
-        }
-
-        $cacheFiles = array_diff(scandir($domainFolder), array('..', '.', self::$CLEAN_FILE));
-        foreach ($cacheFiles as $cacheFilename) {
-            $cacheFile = $domainFolder . $cacheFilename;
-            $cacheDuration = ConfigManager::get('settings.cache_duration', 3600*24*31);
-            if ((time() - filemtime($cacheFile)) > $cacheDuration) {
-                unlink($cacheFile);
-            }
+            touch($domainFolder . '/' . self::$CLEAN_FILE);
         }
     }
 

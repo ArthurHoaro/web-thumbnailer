@@ -97,9 +97,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     {
         $domain = 'whatever.io';
         $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.png';
-        mkdir(self::$cache);
-        mkdir(self::$cache . '/thumb');
-        mkdir(self::$cache . '/thumb/' . $domain);
+        mkdir(self::$cache . '/thumb/' . $domain, 0755, true);
         $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
         touch($cacheFile);
 
@@ -113,9 +111,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     {
         $domain = 'whatever.io';
         $filename = '0a35602901944a0c6d853da2a5364665c2bda0695120.png';
-        mkdir(self::$cache);
-        mkdir(self::$cache . '/thumb');
-        mkdir(self::$cache . '/thumb/' . $domain);
+        mkdir(self::$cache . '/thumb/' . $domain, 0755, true);
         $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
         touch($cacheFile, time() - ConfigManager::get('settings.cache_duration') - 1);
 

@@ -2,19 +2,14 @@
 *       text=auto eol=lf
 
 # Ensure sources are processed
-*.conf  text
-*.css   text
+*.json  text
 *.html  text diff=html
-*.js    text
 *.md    text
 *.php   text diff=php
 
 # Do not alter images nor minified scripts
-*.ico           binary
 *.jpg           binary
 *.png           binary
-*.min.css       binary
-*.min.js        binary
 
 # Exclude from Git archives
 .gitattributes  export-ignore
@@ -22,4 +17,3 @@
 .travis.yml     export-ignore
 phpunit.xml     export-ignore
 tests/          export-ignore
-examples/       export-ignore

@@ -54,7 +54,7 @@ class CacheManager
             self::rebuildCacheFolders();
             return self::getCachePath($type, true);
         } else if (!$path) {
-            throw new \Exception('Cache folders are not writable.');
+            throw new \Exception('Cache folders are not writable: '. $cache);
         }
         return $path;
     }

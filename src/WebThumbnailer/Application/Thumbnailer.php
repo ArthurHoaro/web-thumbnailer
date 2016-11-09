@@ -93,7 +93,7 @@ class Thumbnailer
         }
 
         if (empty($thumburl)) {
-            $error = 'No thumbnail could be found for this URL using '. $this->finder->getName() .' finder.';
+            $error = 'No thumbnail could be found using '. $this->finder->getName() .' finder: '. $this->url;
             throw new \Exception($error);
         }
 

@@ -1,0 +1,8 @@
+{
+  "settings": {
+    "cache_duration": -1,
+    "path": {
+      "cache": "tests/WebThumbnailer/workdir/cache/"
+    }
+  }
+}

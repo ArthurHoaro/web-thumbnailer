@@ -87,6 +87,8 @@ class CacheManager
      * Check whether a valid cache file exists or not.
      * Also check that that file is still valid.
      *
+     * Support endless cache using a negative value.
+     *
      * @param string $cacheFile Cache file path.
      * @param string $domain Domain concerned.
      * @param string $type   Type of cache.
@@ -96,7 +98,10 @@ class CacheManager
     public static function isCacheValid($cacheFile, $domain, $type) {
         $out = false;
         $cacheDuration = ConfigManager::get('settings.cache_duration', 3600*24*31);
-        if (is_readable($cacheFile) && (time() - filemtime($cacheFile)) < $cacheDuration) {
+
+        if (is_readable($cacheFile)
+            && ($cacheDuration < 0 || (time() - filemtime($cacheFile)) < $cacheDuration)
+        ) {
             $out = true;
         } else {
             self::createDomainThumbCacheFolder($domain, $type);

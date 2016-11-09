@@ -21,7 +21,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * Load test config before running tests.
      */
-    public static function setUpBeforeClass()
+    public function setUp()
     {
         $resource = 'tests/WebThumbnailer/resources/';
         ConfigManager::$configFiles = [$resource . 'settings-useful.json'];
@@ -126,5 +126,46 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
         $domain = 'whatever.io';
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
         $this->assertTrue(is_dir(self::$cache . '/thumb/' . $domain));
+    }
+
+    /**
+     * Test isCacheValid() without any file and infinite cache setting.
+     */
+    public function testIsCacheValidInfiniteNotExistent()
+    {
+        $domain = 'whatever.io';
+        ConfigManager::addFile('tests/WebThumbnailer/resources/settings-infinite-cache.json');
+        $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
+        $this->assertTrue(is_dir(self::$cache . '/thumb/' . $domain));
+    }
+
+    /**
+     * Test isCacheValid() with an existing file and infinite cache setting.
+     */
+    public function testIsCacheValidInfiniteExisting()
+    {
+        $domain = 'whatever.io';
+        $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.png';
+        mkdir(self::$cache . '/thumb/' . $domain, 0755, true);
+        $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
+        touch($cacheFile);
+
+        ConfigManager::addFile('tests/WebThumbnailer/resources/settings-infinite-cache.json');
+        $this->assertTrue(CacheManager::isCacheValid($cacheFile, $domain, CacheManager::TYPE_THUMB));
+    }
+
+    /**
+     * Test isCacheValid() with an existing file and infinite cache setting.
+     */
+    public function testIsCacheValidInfiniteExistingOneYear()
+    {
+        $domain = 'whatever.io';
+        $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.png';
+        mkdir(self::$cache . '/thumb/' . $domain, 0755, true);
+        $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
+        touch($cacheFile, time() - 3600*24*31*12);
+
+        ConfigManager::addFile('tests/WebThumbnailer/resources/settings-infinite-cache.json');
+        $this->assertTrue(CacheManager::isCacheValid($cacheFile, $domain, CacheManager::TYPE_THUMB));
     }
 }

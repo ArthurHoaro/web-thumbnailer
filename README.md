@@ -174,7 +174,7 @@ Available settings:
     * `max_img_dl`: default download max size, in bytes.
     * `max_width`: default max width if no size requirement is provided.
     * `max_height`: default max height if no size requirement is provided.
-    * `cache_duration`: cache validity duration, in seconds.
+    * `cache_duration`: cache validity duration, in seconds (use a negative value for infinite cache).
   * `path`:
     * `cache`: cache path.
     

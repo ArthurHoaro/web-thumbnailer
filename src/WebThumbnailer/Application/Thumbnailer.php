@@ -89,6 +89,7 @@ class Thumbnailer
             $thumburl = file_get_contents($cache);
         } else {
             $thumburl = $this->finder->find();
+            file_put_contents($cache, $thumburl);
         }
 
         if (empty($thumburl)) {

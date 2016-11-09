@@ -48,7 +48,7 @@ class ConfigManager
     {
         self::$loadedConfig = [];
         foreach(self::$configFiles as $configFile) {
-            self::$loadedConfig = array_merge(self::$loadedConfig, DataUtils::loadJson($configFile));
+            self::$loadedConfig = array_replace_recursive(self::$loadedConfig, DataUtils::loadJson($configFile));
         }
     }
 

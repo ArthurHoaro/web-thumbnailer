@@ -30,6 +30,11 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     protected static $expected = 'tests/WebThumbnailer/resources/expected-thumbs/';
 
     /**
+     * @var string $regenerated relative path were GD will regenerate expected image.
+     */
+    protected static $regenerated = 'tests/WebThumbnailer/workdir/regnerated/';
+
+    /**
      * Load test config before running tests.
      */
     public function setUp()
@@ -44,6 +49,7 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         FileUtils::rmdir(self::$cache);
+        FileUtils::rmdir(self::$regenerated);
     }
 
     /**
@@ -52,10 +58,12 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     public function testDirectImage()
     {
         $image = 'default/image.png';
-        $expected = self::$expected . $image;
+        $this->regenerate($image);
+        $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . $image;
         $wt = new WebThumbnailer();
         $thumb = $wt->thumbnail($url);
+        $this->assertEquals(base64_encode(file_get_contents($expected)), base64_encode(file_get_contents($thumb)));
         $this->assertFileEquals($expected, $thumb);
     }
 
@@ -65,7 +73,8 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     public function testDirectImageWithoutExtension()
     {
         $image = 'default/image';
-        $expected = self::$expected . $image;
+        $this->regenerate($image);
+        $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . $image;
         $wt = new WebThumbnailer();
         $thumb = $wt->thumbnail($url);
@@ -77,7 +86,9 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testOpenGraphImage()
     {
-        $expected = self::$expected . 'default/le-monde.png';
+        $image = 'default/le-monde.png';
+        $this->regenerate($image);
+        $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/le-monde.html';
         $wt = new WebThumbnailer();
         $thumb = $wt->thumbnail($url);
@@ -105,7 +116,9 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDownloadDirectImageResizeWidth()
     {
-        $expected = self::$expected . 'default/image-width-341.png';
+        $image = 'default/image-width-341.png';
+        $this->regenerate($image);
+        $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/image.png';
         $wt = new WebThumbnailer();
         $wt = $wt->maxWidth(341);
@@ -118,7 +131,9 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDownloadDirectImageResizeHeight()
     {
-        $expected = self::$expected . 'default/image-height-341.png';
+        $image = 'default/image-height-341.png';
+        $this->regenerate($image);
+        $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/image.png';
         $wt = new WebThumbnailer();
         $wt = $wt->maxHeight(341);
@@ -131,7 +146,9 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDownloadDirectImageResizeBothWidth()
     {
-        $expected = self::$expected . 'default/image-width-341.png';
+        $image = 'default/image-width-341.png';
+        $this->regenerate($image);
+        $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/image.png';
         $wt = new WebThumbnailer();
         $wt = $wt->maxWidth(341)->maxHeight(341);
@@ -144,7 +161,9 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDownloadDirectImageResizeBothHeight()
     {
-        $expected = self::$expected . 'default/image-vertical-height-341.png';
+        $image = 'default/image-vertical-height-341.png';
+        $this->regenerate($image);
+        $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/image-vertical.png';
         $wt = new WebThumbnailer();
         $wt = $wt->maxHeight(341)->maxWidth(341);
@@ -189,11 +208,14 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDownloadDirectImageResizeWidthHeightCrop()
     {
-        $expected = self::$expected . 'default/image-crop-341-341.png';
+        $image = 'default/image-crop-341-341.png';
+        $this->regenerate($image, true);
+        $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/image-crop.png';
         $wt = new WebThumbnailer();
         $wt = $wt->maxHeight(341)->maxWidth(341)->crop(true);
         $thumb = $wt->thumbnail($url);
+        $this->assertEquals(base64_encode(file_get_contents($expected)), base64_encode(file_get_contents($thumb)));
         $this->assertFileEquals($expected, $thumb);
     }
 
@@ -203,7 +225,9 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDownloadDirectImageResizeWidthHeightCropOverride()
     {
-        $expected = self::$expected . 'default/image-crop-120-160.png';
+        $image = 'default/image-crop-120-160.png';
+        $this->regenerate($image, true);
+        $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/image-crop.png';
         $wt = new WebThumbnailer();
         $wt = $wt->maxHeight(341)->maxWidth(341)->crop(true);
@@ -214,6 +238,7 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
                 WebThumbnailer::MAX_HEIGHT => 160,
             ]
         );
+        $this->assertEquals(base64_encode(file_get_contents($expected)), base64_encode(file_get_contents($thumb)));
         $this->assertFileEquals($expected, $thumb);
     }
 
@@ -249,5 +274,56 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
         $wt = new WebThumbnailer();
         $thumb = $wt->modeHotlink()->thumbnail($url);
         $this->assertEquals($expected, $thumb);
+    }
+
+    /**
+     * Duplicate expected thumbnails using the current GD version.
+     *
+     * Different versions of GD will result in slightly different images,
+     * which would make the comparaison test fail. By regenerating expected thumbs,
+     * the expected and actual result should be the same.
+     *
+     * @param string $image relative path of the expected thumb inside the expected thumb directory.
+     * @param bool   $crop  Set to true to apply the crop function.
+     *
+     * @throws \Exception couldn't create the image.
+     */
+    public function regenerate($image, $crop = false)
+    {
+        $targetFolder = dirname(self::$regenerated . $image);
+        if (! is_dir($targetFolder)) {
+            mkdir($targetFolder, 0755, true);
+        }
+
+        $content = file_get_contents(self::$expected . $image);
+        $sourceImg = @imagecreatefromstring($content);
+        $width = imagesx($sourceImg);
+        $height = imagesy($sourceImg);
+
+        $targetImg = imagecreatetruecolor($width, $height);
+        if (! imagecopyresized(
+            $targetImg, $sourceImg,
+            0, 0, 0, 0,
+            $width, $height, $width, $height
+        )
+        ) {
+            @imagedestroy($sourceImg);
+            @imagedestroy($targetImg);
+            throw new \Exception('Could not generate the thumbnail from source image.');
+        }
+
+        if ($crop) {
+            $targetImg = imagecrop($targetImg, [
+                'x' => 0,
+                'y' => 0,
+                'width' => $width,
+                'height' => $height
+            ]);
+        }
+
+        $target = self::$regenerated . $image;
+        imagedestroy($sourceImg);
+        imagepng($targetImg, $target);
+        imagedestroy($targetImg);
     }
 }

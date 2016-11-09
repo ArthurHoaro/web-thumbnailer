@@ -12,7 +12,7 @@
       "max_img_dl": 4194304,
       "max_width": 160,
       "max_height": 160,
-      "cache_duration": 2678400,
+      "cache_duration": 8035200
     },
     "path": {
       "cache": "cache/"

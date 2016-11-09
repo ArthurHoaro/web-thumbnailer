@@ -23,12 +23,10 @@ Recommended:
   
 ## Installation
 
-> NOT AVAILABLE YET: work in progress.
-
 Using [Composer](https://getcomposer.org/):
 
 ```bash
-composer require arthurhoaro/WebThumbnailer
+composer require arthurhoaro/web-thumbnailer
 ```
   
 ## Usage

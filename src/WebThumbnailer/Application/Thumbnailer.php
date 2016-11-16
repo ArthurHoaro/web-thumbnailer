@@ -282,7 +282,9 @@ class Thumbnailer
         if (! empty($options[WebThumbnailer::MAX_WIDTH])) {
             if (SizeUtils::isMetaSize($options[WebThumbnailer::MAX_WIDTH])) {
                 $width = SizeUtils::getMetaSize($options[WebThumbnailer::MAX_WIDTH]);
-            } else if (is_int($options[WebThumbnailer::MAX_WIDTH])) {
+            } else if (is_int($options[WebThumbnailer::MAX_WIDTH])
+                || ctype_digit($options[WebThumbnailer::MAX_WIDTH])
+            ) {
                 $width = $options[WebThumbnailer::MAX_WIDTH];
             }
         }
@@ -293,7 +295,9 @@ class Thumbnailer
         if (!empty($options[WebThumbnailer::MAX_HEIGHT])) {
             if (SizeUtils::isMetaSize($options[WebThumbnailer::MAX_HEIGHT])) {
                 $height = SizeUtils::getMetaSize($options[WebThumbnailer::MAX_HEIGHT]);
-            } else if (is_int($options[WebThumbnailer::MAX_HEIGHT])) {
+            } else if (is_int($options[WebThumbnailer::MAX_HEIGHT])
+                || ctype_digit($options[WebThumbnailer::MAX_WIDTH])
+            ) {
                 $height = $options[WebThumbnailer::MAX_HEIGHT];
             }
         }

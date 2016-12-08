@@ -9,7 +9,7 @@
     "default": {
       "download_mode": "DOWNLOAD",
       "timeout": 30,
-      "max_img_dl": 4194304,
+      "max_img_dl": 16777216,
       "max_width": 160,
       "max_height": 160,
       "cache_duration": 8035200

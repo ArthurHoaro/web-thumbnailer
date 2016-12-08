@@ -56,15 +56,16 @@ class WebAccessCUrl implements WebAccess
         }
 
         if (empty($maxBytes)) {
-            $maxBytes = ConfigManager::get('settings.default.max_img_dl', 4194304);
+            $maxBytes = ConfigManager::get('settings.default.max_img_dl', 16777216);
         }
 
+        $cookie = ConfigManager::get('settings.path.cache') . '/cookie.txt';
         $userAgent =
             'Mozilla/5.0 (X11; Linux x86_64; rv:45.0; WebThumbnailer)'
             . ' Gecko/20100101 Firefox/45.0';
         $acceptLanguage =
             substr(setlocale(LC_COLLATE, 0), 0, 2) . ',en-US;q=0.7,en;q=0.3';
-        $maxRedirs = 3;
+        $maxRedirs = 6;
 
         $ch = curl_init($url);
         if ($ch === false) {
@@ -84,6 +85,10 @@ class WebAccessCUrl implements WebAccess
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,    true);
         curl_setopt($ch, CURLOPT_TIMEOUT,           $timeout);
         curl_setopt($ch, CURLOPT_USERAGENT,         $userAgent);
+
+        curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+        curl_setopt($ch, CURLOPT_COOKIEFILE,        $cookie);
+        curl_setopt($ch, CURLOPT_COOKIEJAR,         $cookie);
 
         // Max download size management
         curl_setopt($ch, CURLOPT_BUFFERSIZE,        1024);

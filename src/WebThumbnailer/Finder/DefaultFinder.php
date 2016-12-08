@@ -54,11 +54,12 @@ class DefaultFinder extends FinderCommon
             return $this->url;
         }
 
+        $propertiesKey = ['property', 'name', 'itemprop'];
         // Try to retrieve OpenGraph image.
-        $ogRegex = '#<meta[^>]+property=["\']?og:image["\'\s][^>]*content=["\']?(.*?)["\'\s>]#';
+        $ogRegex = '#<meta[^>]+(?:'. implode('|', $propertiesKey) .')=["\']?og:image["\'\s][^>]*content=["\']?(.*?)["\'\s>]#';
         // If the attributes are not in the order property => content (e.g. Github)
         // New regex to keep this readable... more or less.
-        $ogRegexReverse = '#<meta[^>]+content=["\']?([^"\'\s]+)[^>]+property=["\']?og:image["\'\s/>]#';
+        $ogRegexReverse = '#<meta[^>]+content=["\']?([^"\'\s]+)[^>]+(?:'. implode('|', $propertiesKey) .')=["\']?og:image["\'\s/>]#';
 
         if (preg_match($ogRegex, $content, $matches) > 0
             || preg_match($ogRegexReverse, $content, $matches) > 0

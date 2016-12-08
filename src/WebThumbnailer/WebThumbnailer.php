@@ -104,7 +104,7 @@ class WebThumbnailer
             return $downloader->getThumbnail();
         } catch (\Exception $e) {
             error_log($e->getMessage());
-            if (isset($options[self::DEBUG])) {
+            if (isset($options[self::DEBUG]) && $options[self::DEBUG] === true) {
                 throw $e;
             }
 

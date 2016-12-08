@@ -6,6 +6,7 @@ use WebThumbnailer\Application\WebAccess\WebAccess;
 use WebThumbnailer\Application\WebAccess\WebAccessFactory;
 use WebThumbnailer\Utils\ImageUtils;
 use WebThumbnailer\Utils\UrlUtils;
+use WebThumbnailer\WebThumbnailer;
 
 /**
  * Class DefaultFinder
@@ -44,7 +45,10 @@ class DefaultFinder extends FinderCommon
             return $this->url;
         }
 
-        list($headers, $content) = $this->webAccess->getContent($this->url);
+        list($headers, $content) = $this->webAccess->getContent(
+            $this->url,
+            $this->userOptions[WebThumbnailer::DEBUG]
+        );
 
         if (strpos($headers[0], '200') === false) {
             return false;

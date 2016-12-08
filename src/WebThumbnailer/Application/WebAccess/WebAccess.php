@@ -14,6 +14,7 @@ interface WebAccess
      * Uses the cURL library or a fallback method
      *
      * @param string $url      URL to get (http://...)
+     * @param bool   $debug    Enable debug mode (e.g. verbose for cURL).
      * @param int    $timeout  network timeout (in seconds)
      * @param int    $maxBytes maximum downloaded bytes (default: 4 MiB)
      *
@@ -33,5 +34,5 @@ interface WebAccess
      *
      * @throws \Exception An error occurred with cURL download.
      */
-    public function getContent($url, $timeout = null, $maxBytes = null);
+    public function getContent($url, $debug = false, $timeout = null, $maxBytes = null);
 }

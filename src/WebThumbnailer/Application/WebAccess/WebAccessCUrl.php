@@ -49,7 +49,7 @@ class WebAccessCUrl implements WebAccess
      *
      * @inheritdoc
      */
-    public function getContent($url, $debug = false, $timeout = null, $maxBytes = null)
+    public function getContent($url, $timeout = null, $maxBytes = null)
     {
         if (empty($timeout)) {
             $timeout = ConfigManager::get('settings.default.timeout', 30);
@@ -58,10 +58,6 @@ class WebAccessCUrl implements WebAccess
         if (empty($maxBytes)) {
             $maxBytes = ConfigManager::get('settings.default.max_img_dl', 16777216);
         }
-
-        // tmp travis
-        error_log('TIMEOUT: '. $timeout);
-        error_log('MAXBYTE: '. $maxBytes);
 
         $cookie = ConfigManager::get('settings.path.cache') . '/cookie.txt';
         $userAgent =
@@ -95,7 +91,7 @@ class WebAccessCUrl implements WebAccess
         curl_setopt($ch, CURLOPT_COOKIEJAR,         $cookie);
 
         // Max download size management
-        curl_setopt($ch, CURLOPT_BUFFERSIZE,        1024);
+        curl_setopt($ch, CURLOPT_BUFFERSIZE,        1024*16);
         curl_setopt($ch, CURLOPT_NOPROGRESS,        false);
         curl_setopt($ch, CURLOPT_PROGRESSFUNCTION,
             function($arg0, $arg1, $arg2, $arg3, $arg4 = 0) use ($maxBytes)
@@ -106,11 +102,6 @@ class WebAccessCUrl implements WebAccess
                 return ($downloaded > $maxBytes) ? 1 : 0;
             }
         );
-
-        if ($debug) {
-//            curl_setopt($ch, CURLOPT_VERBOSE, true);
-//            curl_setopt($ch, CURLOPT_STDERR, fopen('php://stderr', 'w'));
-        }
 
         $response = curl_exec($ch);
         $errorNo = curl_errno($ch);

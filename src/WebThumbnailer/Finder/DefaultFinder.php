@@ -45,10 +45,7 @@ class DefaultFinder extends FinderCommon
             return $this->url;
         }
 
-        list($headers, $content) = $this->webAccess->getContent(
-            $this->url,
-            $this->userOptions[WebThumbnailer::DEBUG]
-        );
+        list($headers, $content) = $this->webAccess->getContent($this->url);
 
         if (strpos($headers[0], '200') === false) {
             return false;

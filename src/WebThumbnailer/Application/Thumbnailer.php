@@ -186,7 +186,6 @@ class Thumbnailer
         // Download the thumb.
         list($headers, $data) = $webaccess->getContent(
             $thumburl,
-            $this->options[WebThumbnailer::DEBUG],
             $this->options[WebThumbnailer::DOWNLOAD_TIMEOUT],
             $this->options[WebThumbnailer::DOWNLOAD_MAX_SIZE]
         );

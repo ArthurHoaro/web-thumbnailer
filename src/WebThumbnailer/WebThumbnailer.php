@@ -3,6 +3,7 @@
 namespace WebThumbnailer;
 
 use WebThumbnailer\Application\Thumbnailer;
+use WebThumbnailer\Exception\WebThumbnailerException;
 
 /**
  * WebThumbnailer.php
@@ -78,7 +79,7 @@ class WebThumbnailer
      *
      * @return bool|string Thumbnail URL, false if not found.
      *
-     * @throws \Exception Only throw exception in debug mode.
+     * @throws WebThumbnailerException Only throw exception in debug mode.
      */
     public function thumbnail($url, $options = [])
     {
@@ -102,11 +103,11 @@ class WebThumbnailer
         try {
             $downloader = new Thumbnailer($url, $options, $_SERVER);
             return $downloader->getThumbnail();
-        } catch (\Exception $e) {
-            error_log($e->getMessage());
+        } catch (WebThumbnailerException $e) {
             if (isset($options[self::DEBUG]) && $options[self::DEBUG] === true) {
                 throw $e;
             }
+            error_log($e->getMessage());
 
             return false;
         }

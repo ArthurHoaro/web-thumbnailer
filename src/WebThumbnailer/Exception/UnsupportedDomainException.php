@@ -2,7 +2,7 @@
 
 namespace WebThumbnailer\Exception;
 
-class UnsupportedDomainException extends \Exception
+class UnsupportedDomainException extends WebThumbnailerException
 {
 
 }

@@ -3,6 +3,10 @@
 namespace WebThumbnailer\Application;
 
 use WebThumbnailer\Application\WebAccess\WebAccessFactory;
+use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\Exception\DownloadException;
+use WebThumbnailer\Exception\ImageConvertException;
+use WebThumbnailer\Exception\ThumbnailNotFoundException;
 use WebThumbnailer\Finder\Finder;
 use WebThumbnailer\Finder\FinderFactory;
 use WebThumbnailer\Utils\ImageUtils;
@@ -73,7 +77,7 @@ class Thumbnailer
      *
      * @return string|bool The thumbnail URL (relative if downloaded), or false if no thumb found.
      *
-     * @throws \Exception Something went wrong, see exception message for more info.
+     * @throws ThumbnailNotFoundException
      */
     public function getThumbnail()
     {
@@ -94,7 +98,7 @@ class Thumbnailer
 
         if (empty($thumburl)) {
             $error = 'No thumbnail could be found using '. $this->finder->getName() .' finder: '. $this->url;
-            throw new \Exception($error);
+            throw new ThumbnailNotFoundException($error);
         }
 
         // Only hotlink, find() is enough.
@@ -119,12 +123,12 @@ class Thumbnailer
      *
      * @return string The thumbnail URL, or false if hotlinking is disabled.
      *
-     * @throws \Exception Hotlink is disabled for this domains.
+     * @throws ThumbnailNotFoundException Hotlink is disabled for this domains.
      */
     protected function thumbnailStrictHotlink($thumburl)
     {
         if (! $this->finder->isHotlinkAllowed()) {
-            throw new \Exception('Hotlink is not supported for this URL.');
+            throw new ThumbnailNotFoundException('Hotlink is not supported for this URL.');
         }
         return $thumburl;
     }
@@ -151,8 +155,8 @@ class Thumbnailer
      *
      * @return string|bool The thumbnail URL, or false if no thumb found.
      *
-     * @throws \Exception
-     * @throws \WebThumbnailer\Exception\NotAnImageException
+     * @throws DownloadException     Couldn't download the image
+     * @throws ImageConvertException Thumbnail not generated
      */
     protected function thumbnailDownload($thumburl)
     {
@@ -182,19 +186,20 @@ class Thumbnailer
         // Download the thumb.
         list($headers, $data) = $webaccess->getContent(
             $thumburl,
+            $this->options[WebThumbnailer::DEBUG],
             $this->options[WebThumbnailer::DOWNLOAD_TIMEOUT],
             $this->options[WebThumbnailer::DOWNLOAD_MAX_SIZE]
         );
 
         if (strpos($headers[0], '200') === false) {
-            throw new \Exception(
+            throw new DownloadException(
                 'Unreachable thumbnail URL. HTTP '. $headers[0] .'.'. PHP_EOL .
                 ' - thumbnail URL: '. $thumburl
             );
         }
 
         if (empty($data)) {
-            throw new \Exception('Couldn\'t download the thumbnail at '. $thumburl);
+            throw new DownloadException('Couldn\'t download the thumbnail at '. $thumburl);
         }
 
         // Resize and save it locally.
@@ -207,7 +212,7 @@ class Thumbnailer
         );
 
         if (! is_file($thumbPath)) {
-            throw new \Exception('Thumbnail was not generated.');
+            throw new ImageConvertException('Thumbnail was not generated.');
         }
 
         return UrlUtils::generateRelativeUrlFromPath($this->server, $thumbPath);
@@ -217,8 +222,6 @@ class Thumbnailer
      * Set Thumbnailer options from user input.
      *
      * @param array $options User options array.
-     *
-     * @throws \Exception
      */
     protected function setOptions($options)
     {
@@ -265,6 +268,12 @@ class Thumbnailer
             $this->options[WebThumbnailer::CROP] = $options[WebThumbnailer::CROP];
         } else {
             $this->options[WebThumbnailer::CROP] = false;
+        }
+
+        if (isset($options[WebThumbnailer::DEBUG])) {
+            $this->options[WebThumbnailer::DEBUG] = $options[WebThumbnailer::DEBUG];
+        } else {
+            $this->options[WebThumbnailer::DEBUG] = false;
         }
 
         // Image size
@@ -317,7 +326,7 @@ class Thumbnailer
      *
      * @param array $options User options array.
      *
-     * @throws \Exception Invalid options.
+     * @throws BadRulesException Invalid options.
      */
     protected static function checkOptions($options)
     {
@@ -331,7 +340,7 @@ class Thumbnailer
                 foreach ($incompatibleFlags as $flag) {
                     $error .= $flag .' ';
                 }
-                throw new \Exception($error);
+                throw new BadRulesException($error);
             }
         }
     }

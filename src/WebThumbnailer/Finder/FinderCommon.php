@@ -3,6 +3,7 @@
 namespace WebThumbnailer\Finder;
 
 use WebThumbnailer\Application\WebAccess;
+use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Utils\SizeUtils;
 use WebThumbnailer\WebThumbnailer;
 
@@ -51,8 +52,6 @@ abstract class FinderCommon implements Finder
      * @param string $option       Option to replace.
      *
      * @return string Thumbnail URL updated with the proper option placeholder replacement.
-     *
-     * @throws \Exception
      */
     protected function replaceOption($thumbnailUrl, $option)
     {
@@ -64,7 +63,7 @@ abstract class FinderCommon implements Finder
     {
         // If the provided option is not defined in the Finder rules.
         if (empty($this->finderOptions) || ! in_array($option, array_keys($this->finderOptions))) {
-            throw new \Exception('Unknown option "'. $option .'" for the finder "'. $this->getName() .'"');
+            throw new BadRulesException('Unknown option "'. $option .'" for the finder "'. $this->getName() .'"');
         }
 
         // User option is defined.
@@ -80,14 +79,14 @@ abstract class FinderCommon implements Finder
         // If no user option has been found, and no default value is provided: error.
         if (! isset($this->finderOptions[$option]['default'])) {
             $error = 'No default set for option "'. $option .'" for the finder "'. $this->getName() .'"';
-            throw new \Exception($error);
+            throw new BadRulesException($error);
         }
 
         // Use default option replacement.
         $default = $this->finderOptions[$option]['default'];
         if (!isset($this->finderOptions[$option][$default]['param'])) {
             $error = 'No default parameter set for option "'. $option .'" for the finder "'. $this->getName() .'"';
-            throw new \Exception($error);
+            throw new BadRulesException($error);
         }
 
         return $this->finderOptions[$option][$default]['param'];

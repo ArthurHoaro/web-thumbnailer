@@ -41,7 +41,8 @@ class UrlUtils
     public static function generateRelativeUrlFromPath($server, $path)
     {
         if (isset($server['DOCUMENT_ROOT'])) {
-            return substr($path, strlen($server['DOCUMENT_ROOT']));
+            $root = ! empty($server['DOCUMENT_ROOT']) ? rtrim($server['DOCUMENT_ROOT'], '/') .'/' : '';
+            return substr($path, strlen($root));
         }
         return $path;
     }

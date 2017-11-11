@@ -3,7 +3,7 @@
 namespace WebThumbnailer\Exception;
 
 
-class NotAnImageException extends \Exception
+class NotAnImageException extends WebThumbnailerException
 {
 
 }

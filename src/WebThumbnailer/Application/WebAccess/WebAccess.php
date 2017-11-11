@@ -31,8 +31,6 @@ interface WebAccess
      *  } else {
      *      echo 'There was an error: '.htmlspecialchars($headers[0]);
      *  }
-     *
-     * @throws \Exception An error occurred with cURL download.
      */
     public function getContent($url, $debug = false, $timeout = null, $maxBytes = null);
 }

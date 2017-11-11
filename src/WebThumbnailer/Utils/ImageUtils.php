@@ -2,6 +2,7 @@
 
 namespace WebThumbnailer\Utils;
 
+use WebThumbnailer\Exception\ImageConvertException;
 use WebThumbnailer\Exception\NotAnImageException;
 
 /**
@@ -26,17 +27,17 @@ class ImageUtils
      * @param int      $maxHeight Max height for the generated thumb.
      * @param bool     $crop      Will crop the image to a fixed size if true. Height AND width must be provided.
      *
-     * @throws NotAnImageException The given resource isn't an image.
-     * @throws \Exception          Another error occured.
+     * @throws NotAnImageException   The given resource isn't an image.
+     * @throws ImageConvertException Another error occured.
      */
     public static function generateThumbnail($imageStr, $target, $maxWidth, $maxHeight, $crop = false)
     {
         if (! touch($target)) {
-            throw new \Exception('Target file is not writable.');
+            throw new ImageConvertException('Target file is not writable.');
         }
 
         if ($crop && ($maxWidth == 0  || $maxHeight == 0)) {
-            throw new \Exception('Both width and height must be provided for cropping');
+            throw new ImageConvertException('Both width and height must be provided for cropping');
         }
 
         $sourceImg = @imagecreatefromstring($imageStr);
@@ -70,7 +71,7 @@ class ImageUtils
         ) {
             @imagedestroy($sourceImg);
             @imagedestroy($targetImg);
-            throw new \Exception('Could not generate the thumbnail from source image.');
+            throw new ImageConvertException('Could not generate the thumbnail from source image.');
         }
 
         if ($crop) {
@@ -90,7 +91,7 @@ class ImageUtils
     public static function calcNewSize($originalWidth, $originalHeight, $maxWidth, $maxHeight, $crop)
     {
         if (empty($maxHeight) && empty($maxWidth)) {
-            throw new \Exception('At least maxwidth or maxheight needs to be defined.');
+            throw new ImageConvertException('At least maxwidth or maxheight needs to be defined.');
         }
         $diffWidth = !empty($maxWidth) ? $originalWidth - $maxWidth : false;
         $diffHeight = !empty($maxHeight) ? $originalHeight - $maxHeight : false;

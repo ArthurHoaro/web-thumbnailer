@@ -3,7 +3,7 @@
 namespace WebThumbnailer\Exception;
 
 
-class BadRegexException extends \Exception
+class BadRegexException extends WebThumbnailerException
 {
 
 }

@@ -2,6 +2,9 @@
 
 namespace WebThumbnailer\Utils;
 
+use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\Exception\IOException;
+
 /**
  * Class DataUtils
  *
@@ -18,17 +21,19 @@ class DataUtils
      *
      * @return array JSON loaded in an array.
      *
-     * @throws \Exception JSON file is not readable or badly formatted.
+     * @throws IOException       JSON file is not readable
+     * @throws BadRulesException JSON file badly formatted.
      */
     public static function loadJson($jsonFile)
     {
         if (! file_exists($jsonFile) || ! is_readable($jsonFile)) {
-            throw new \Exception('JSON resource file not found or not readable.');
+            throw new IOException('JSON resource file not found or not readable.');
         }
         $data = json_decode(file_get_contents($jsonFile), true);
         if ($data === null) {
             $error = json_last_error();
-            throw new \Exception('An error occured while parsing JSON file: error code #'. $error);
+            $msg = json_last_error_msg();
+            throw new BadRulesException('An error occured while parsing JSON file: error code #'. $error .': '. $msg);
         }
         return $data;
     }

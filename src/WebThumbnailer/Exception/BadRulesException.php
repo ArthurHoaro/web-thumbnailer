@@ -3,7 +3,7 @@
 namespace WebThumbnailer\Exception;
 
 
-class BadRulesException extends \Exception
+class BadRulesException extends WebThumbnailerException
 {
 
 }

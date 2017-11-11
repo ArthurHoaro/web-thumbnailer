@@ -3,6 +3,8 @@
 namespace WebThumbnailer\Application;
 
 
+use WebThumbnailer\Exception\CacheException;
+use WebThumbnailer\Exception\IOException;
 use WebThumbnailer\Utils\FileUtils;
 
 /**
@@ -43,7 +45,7 @@ class CacheManager
      *
      * @return string Cache absolute path.
      *
-     * @throws \Exception Type not found.
+     * @throws IOException Type not found.
      */
     public static function getCachePath($type, $rebuilt = false)
     {
@@ -54,7 +56,7 @@ class CacheManager
             self::rebuildCacheFolders();
             return self::getCachePath($type, true);
         } else if (!$path) {
-            throw new \Exception('Cache folders are not writable: '. $cache);
+            throw new IOException('Cache folders are not writable: '. $cache);
         }
         return $path;
     }
@@ -143,12 +145,12 @@ class CacheManager
      *
      * @param string $type Cache type.
      *
-     * @throws \Exception Cache type doesn't exists.
+     * @throws CacheException Cache type doesn't exists.
      */
     protected static function checkCacheType($type)
     {
         if ($type != self::TYPE_THUMB && $type != self::TYPE_FINDER) {
-            throw new \Exception('Unknown cache type '. $type);
+            throw new CacheException('Unknown cache type '. $type);
         }
     }
 

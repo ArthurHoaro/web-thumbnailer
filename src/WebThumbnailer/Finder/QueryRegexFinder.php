@@ -70,6 +70,10 @@ class QueryRegexFinder extends FinderCommon
     public function find()
     {
         list($headers, $this->content) = $this->webAccess->getContent($this->url);
+        // tmp travis debug
+        error_log(get_class($this->webAccess));
+        error_log(var_export($headers, true));
+        error_log(var_export($this->content, true));
         if (empty($this->content) || strpos($headers[0], '200') === false) {
             return false;
         }

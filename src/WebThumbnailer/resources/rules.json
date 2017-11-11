@@ -235,6 +235,17 @@
       "thumbnail_url": "${1}"
     }
   },
+  "twitter_profile": {
+    "domains": ["twitter.com"],
+    "finder": "QueryRegex",
+    "options": {
+      "hotlink_allowed": true
+    },
+    "rules": {
+      "image_regex": "<img class=\"ProfileAvatar-image\\s*\" src=\"(.*?)\"",
+      "thumbnail_url": "${1}"
+    }
+  },
   "youtube": {
     "domains": [
       "youtube.com"

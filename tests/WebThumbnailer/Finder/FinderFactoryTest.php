@@ -61,9 +61,6 @@ class FinderFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $finder = FinderFactory::getFinder('gravatar.com');
         $this->assertEquals(DefaultFinder::class, get_class($finder));
-
-        $finder = FinderFactory::getFinder('twitter.com');
-        $this->assertEquals(DefaultFinder::class, get_class($finder));
     }
 
     /**

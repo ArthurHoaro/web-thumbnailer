@@ -59,6 +59,10 @@ class WebAccessCUrl implements WebAccess
             $maxBytes = ConfigManager::get('settings.default.max_img_dl', 16777216);
         }
 
+        // tmp travis
+        error_log('TIMEOUT: '. $timeout);
+        error_log('MAXBYTE: '. $maxBytes);
+
         $cookie = ConfigManager::get('settings.path.cache') . '/cookie.txt';
         $userAgent =
             'Mozilla/5.0 (X11; Linux x86_64; rv:45.0; WebThumbnailer)'
@@ -104,8 +108,8 @@ class WebAccessCUrl implements WebAccess
         );
 
         if ($debug) {
-            curl_setopt($ch, CURLOPT_VERBOSE, true);
-            curl_setopt($ch, CURLOPT_STDERR, fopen('php://stderr', 'w'));
+//            curl_setopt($ch, CURLOPT_VERBOSE, true);
+//            curl_setopt($ch, CURLOPT_STDERR, fopen('php://stderr', 'w'));
         }
 
         $response = curl_exec($ch);

@@ -9,6 +9,7 @@ use WebThumbnailer\Exception\ImageConvertException;
 use WebThumbnailer\Exception\ThumbnailNotFoundException;
 use WebThumbnailer\Finder\Finder;
 use WebThumbnailer\Finder\FinderFactory;
+use WebThumbnailer\Utils\ApplicationUtils;
 use WebThumbnailer\Utils\ImageUtils;
 use WebThumbnailer\Utils\SizeUtils;
 use WebThumbnailer\Utils\UrlUtils;
@@ -54,12 +55,18 @@ class Thumbnailer
     /**
      * Thumbnailer constructor.
      *
-     * @param string $url     User given URL, from where to generate a thumbnail.
-     * @param array  $options Thumbnailer user options.
-     * @param array  $server  $_SERVER.
+     * @param string $url User given URL, from where to generate a thumbnail.
+     * @param array $options Thumbnailer user options.
+     * @param array $server $_SERVER.
+     *
+     * @throws \WebThumbnailer\Exception\MissingRequirementException
+     * @throws \WebThumbnailer\Exception\UnsupportedDomainException
      */
     public function __construct($url, $options, $server)
     {
+        ApplicationUtils::checkExtensionRequirements(['gd']);
+        ApplicationUtils::checkPHPVersion('5.6', PHP_VERSION);
+
         $this->url = $url;
         $this->server = $server;
         $this->finder = FinderFactory::getFinder($url);

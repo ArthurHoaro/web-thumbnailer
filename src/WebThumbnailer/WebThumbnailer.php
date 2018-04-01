@@ -3,6 +3,7 @@
 namespace WebThumbnailer;
 
 use WebThumbnailer\Application\Thumbnailer;
+use WebThumbnailer\Exception\MissingRequirementException;
 use WebThumbnailer\Exception\WebThumbnailerException;
 
 /**
@@ -103,6 +104,8 @@ class WebThumbnailer
         try {
             $downloader = new Thumbnailer($url, $options, $_SERVER);
             return $downloader->getThumbnail();
+        } catch(MissingRequirementException $e) {
+            throw $e;
         } catch (WebThumbnailerException $e) {
             if (isset($options[self::DEBUG]) && $options[self::DEBUG] === true) {
                 throw $e;

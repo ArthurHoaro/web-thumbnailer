@@ -1,5 +1,7 @@
 # Web Thumbnailer
 
+![](https://travis-ci.org/ArthurHoaro/web-thumbnailer.svg?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/ArthurHoaro/web-thumbnailer/badge.svg?branch=master)](https://coveralls.io/github/ArthurHoaro/web-thumbnailer?branch=master)
 PHP library which will retrieve a thumbnail for any given URL, if available.
 
 ## Features

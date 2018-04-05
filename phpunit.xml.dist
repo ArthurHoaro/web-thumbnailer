@@ -18,6 +18,7 @@
     <logging>
         <log type="coverage-html" target="coverage" lowUpperBound="30" highLowerBound="80"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
+        <log type="coverage-clover" target="coverage/logs/clover.xml"/>
     </logging>
     <php>
         <const name="WEB_SERVER_HOST" value="localhost" />

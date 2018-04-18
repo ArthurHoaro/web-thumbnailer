@@ -40,7 +40,7 @@ class UrlRegexFinder extends FinderCommon
     public function __construct($domain, $url, $rules, $options)
     {
         $this->url = $url;
-        $this->domains = $domain;
+        $this->domain = $domain;
 
         $this->loadRules($rules);
         $this->finderOptions = $options;
@@ -57,8 +57,9 @@ class UrlRegexFinder extends FinderCommon
     public function find()
     {
         $this->thumbnailUrl = $this->thumbnailUrlFormat;
-        if (preg_match($this->urlRegex, $this->url, $matches) != false) {
-            for ($i = 1; $i < count($matches); $i++) {
+        if (preg_match($this->urlRegex, $this->url, $matches) !== 0) {
+            $total = count($matches);
+            for ($i = 1; $i < $total; $i++) {
                 $this->thumbnailUrl = str_replace('${'. $i . '}', $matches[$i], $this->thumbnailUrl);
             }
 
@@ -107,7 +108,7 @@ class UrlRegexFinder extends FinderCommon
     /**
      * {@inheritdoc}
      */
-    function getName()
+    public function getName()
     {
         return 'URL regex';
     }

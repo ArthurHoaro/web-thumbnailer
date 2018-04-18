@@ -32,7 +32,7 @@ class DefaultFinder extends FinderCommon
     {
         $this->webAccess = WebAccessFactory::getWebAccess($url);
         $this->url = $url;
-        $this->domains = $domain;
+        $this->domain = $domain;
     }
 
     /**
@@ -40,7 +40,7 @@ class DefaultFinder extends FinderCommon
      *
      * @inheritdoc
      */
-    function find()
+    public function find()
     {
         if (ImageUtils::isImageExtension(UrlUtils::getUrlFileExtension($this->url))) {
             return $this->url;
@@ -169,21 +169,21 @@ class DefaultFinder extends FinderCommon
     /**
      * @inheritdoc
      */
-    function checkRules($rules)
+    public function checkRules($rules)
     {
     }
 
     /**
      * @inheritdoc
      */
-    function loadRules($rules)
+    public function loadRules($rules)
     {
     }
 
     /**
      * @inheritdoc
      */
-    function getName()
+    public function getName()
     {
         return 'default';
     }

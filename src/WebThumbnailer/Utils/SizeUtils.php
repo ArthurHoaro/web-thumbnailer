@@ -31,13 +31,13 @@ class SizeUtils
     public static function getMetaSize($size) {
         switch ($size) {
             case WebThumbnailer::SIZE_SMALL:
-                return ConfigManager::get('settings.size_small', 160);
+                return (int) ConfigManager::get('settings.size_small', 160);
             case WebThumbnailer::SIZE_MEDIUM:
-                return ConfigManager::get('settings.size_medium', 320);
+                return (int) ConfigManager::get('settings.size_medium', 320);
             case WebThumbnailer::SIZE_LARGE:
-                return ConfigManager::get('settings.size_large', 640);
+                return (int) ConfigManager::get('settings.size_large', 640);
             default:
-                return ConfigManager::get('settings.size_small', 160);
+                return (int) ConfigManager::get('settings.size_small', 160);
         }
     }
 

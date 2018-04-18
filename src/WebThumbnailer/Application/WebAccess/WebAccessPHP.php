@@ -57,12 +57,12 @@ class WebAccessPHP implements WebAccess
      * @return array containing HTTP headers.
      */
     protected function getRedirectedHeaders($url, $timeout, $redirectionLimit = 3) {
-        stream_context_set_default(self::getContext($timeout));
+        stream_context_set_default($this->getContext($timeout));
 
         $headers = @get_headers($url, 1);
         // Some hosts don't like fulluri request, some requires it...
         if ($headers === false) {
-            stream_context_set_default(self::getContext($timeout, false));
+            stream_context_set_default($this->getContext($timeout, false));
             $headers = @get_headers($url, 1);
         }
 
@@ -74,7 +74,7 @@ class WebAccessPHP implements WebAccess
         ) {
             $redirection = is_array($headers['Location']) ? end($headers['Location']) : $headers['Location'];
             if ($redirection != $url) {
-                return self::getRedirectedHeaders($redirection, $timeout, $redirectionLimit);
+                return $this->getRedirectedHeaders($redirection, $timeout, $redirectionLimit);
             }
         }
 

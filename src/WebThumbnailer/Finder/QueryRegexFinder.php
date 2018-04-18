@@ -52,7 +52,7 @@ class QueryRegexFinder extends FinderCommon
     {
         $this->webAccess = WebAccessFactory::getWebAccess($url);
         $this->url = $url;
-        $this->domains = $domain;
+        $this->domain = $domain;
         $this->loadRules($rules);
         $this->finderOptions = $options;
     }
@@ -151,8 +151,9 @@ class QueryRegexFinder extends FinderCommon
     public function extractThumbContent($content)
     {
         $thumbnailUrl = $this->thumbnailUrlFormat;
-        if (preg_match($this->urlRegex, $content, $matches) != false) {
-            for ($i = 1; $i < count($matches); $i++) {
+        if (preg_match($this->urlRegex, $content, $matches) !== 0) {
+            $total = count($matches);
+            for ($i = 1; $i < $total; $i++) {
                 $thumbnailUrl = str_replace('${'. $i . '}', $matches[$i], $thumbnailUrl);
             }
 

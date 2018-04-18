@@ -64,7 +64,7 @@ class QueryXPathFinder extends FinderCommon
         throw new NotImplementedException();
         $this->webAccess = WebAccessFactory::getWebAccess($url);
         $this->url = $url;
-        $this->domains = $domain;
+        $this->domain = $domain;
         $this->loadRules($rules);
         $this->finderOptions = $options;
     }

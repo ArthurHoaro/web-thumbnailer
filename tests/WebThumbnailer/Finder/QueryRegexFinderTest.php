@@ -18,6 +18,11 @@ class QueryRegexFinderTest extends \PHPUnit_Framework_TestCase
     protected static $rules;
 
     /**
+     * PHP builtin local server URL.
+     */
+    const LOCAL_SERVER = 'http://localhost:8081/';
+
+    /**
      * Before every tests, reset rules and params.
      */
     public function setUp()
@@ -74,6 +79,74 @@ class QueryRegexFinderTest extends \PHPUnit_Framework_TestCase
         ];
         $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, $params);
         $this->assertEquals($expected, $finder->find());
+    }
+
+    /**
+     * Test find() with a valid thumb found.
+     */
+    public function testQueryRegexFinderCurlValid()
+    {
+        $url = self::LOCAL_SERVER .'queryregex/one-thumb.html';
+        $expected = 'https://domain.tld/pics/thumb.png?name=text';
+        $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, null);
+        $this->assertEquals($expected, $finder->find());
+    }
+
+    /**
+     * Test find() with 2 valid thumbs matching the regex, we use the first one.
+     */
+    public function testQueryRegexFinderCurlTwoThumbs()
+    {
+        $url = self::LOCAL_SERVER .'queryregex/two-thumb.html';
+        $expected = 'https://domain.tld/pics/thumb.png?name=text';
+        $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, null);
+        $this->assertEquals($expected, $finder->find());
+    }
+
+    /**
+     * Test find() with parameter.
+     */
+    public function testQueryRegexFinderCurlWithParameter()
+    {
+        $url = self::LOCAL_SERVER .'queryregex/one-thumb.html';
+        $expected = 'https://domain.tld/pics/thumb.png?param=foobar-other';
+        self::$rules['thumbnail_url'] = 'https://domain.tld/pics/${1}?param=${option1}-${option2}';
+        $params = [
+            'option1' => [
+                'default' => 'name',
+                'name' => [
+                    'param' => 'foobar',
+                ]
+            ],
+            'option2' => [
+                'default' => 'name',
+                'name' => [
+                    'param' => 'other',
+                ]
+            ]
+        ];
+        $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, $params);
+        $this->assertEquals($expected, $finder->find());
+    }
+
+    /**
+     * Test the default finder trying to find an image mime-type.
+     */
+    public function testQueryRegexFinderImageMimetype()
+    {
+        $url = self::LOCAL_SERVER . 'default/image-mimetype.php';
+        $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, null);
+        $this->assertFalse($finder->find());
+    }
+
+    /**
+     * Test the default finder finding a non 200 status code.
+     */
+    public function testQueryRegexFinderStatusError()
+    {
+        $url = self::LOCAL_SERVER . 'default/status-ko.php';
+        $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, null);
+        $this->assertFalse($finder->find());
     }
 
     /**

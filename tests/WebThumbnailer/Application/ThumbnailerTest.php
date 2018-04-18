@@ -2,6 +2,7 @@
 
 namespace WebThumbnailer\Application;
 
+use WebThumbnailer\Utils\FileUtils;
 use WebThumbnailer\Utils\SizeUtils;
 use WebThumbnailer\WebThumbnailer;
 
@@ -9,7 +10,6 @@ use WebThumbnailer\WebThumbnailer;
  * Class ThumbnailerTest
  *
  * Rely on UrlRegexFinder.
- * FIXME! find a way to test this without requesting the internet
  *
  * @package WebThumbnailer\Application
  */
@@ -25,12 +25,17 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public static $gravatarThumb = 'https://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f?s=320';
 
+    public function setUp()
+    {
+        FileUtils::rmdir(__DIR__ .'/../../../cache/finder');
+        FileUtils::rmdir(__DIR__ .'/../../../cache/thumb');
+    }
+
     /**
      * Test strictHotlinkThumbnail().
      */
     public function testStrictHotlinkThumbnail()
     {
-        $this->markTestSkipped();
         $options = [WebThumbnailer::HOTLINK_STRICT];
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
@@ -59,7 +64,6 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHotlinkThumbnail()
     {
-        $this->markTestSkipped();
         $options = array(WebThumbnailer::HOTLINK);
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
@@ -85,21 +89,19 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDownloadThumbnailValid()
     {
-        $this->markTestSkipped();
         $options = array(WebThumbnailer::DOWNLOAD);
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
         $fileHash = hash('sha1', self::$gravatarThumb);
-        $this->assertContains('/cache/thumb/gravatar.com/'. $fileHash .'160160.png', $thumburl);
+        $this->assertContains('/cache/thumb/gravatar.com/'. $fileHash .'1601600.png', $thumburl);
         unlink($thumburl);
     }
 
     /**
-     *Test downloadThumbnail() with given size.
+     *Test downloadThumbnail() with both width and height defined.
      */
-    public function testDownloadSizedThumbnail()
+    public function testDownloadSizedThumbnailBoth()
     {
-        $this->markTestSkipped();
         $options = array(
             WebThumbnailer::DOWNLOAD,
             WebThumbnailer::MAX_WIDTH => 205,
@@ -109,26 +111,19 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
 
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $this->assertContains('/cache/thumb/gravatar.com/'. $fileHash .'205205.png', $thumburl);
+        $this->assertContains('/cache/thumb/gravatar.com/' . $fileHash . '2052050.png', $thumburl);
         $img = imagecreatefrompng($thumburl);
         $this->assertEquals(205, imagesx($img));
         $this->assertEquals(205, imagesy($img));
         imagedestroy($img);
         unlink($thumburl);
+    }
 
-        $options = array(
-            WebThumbnailer::DOWNLOAD,
-            WebThumbnailer::MAX_HEIGHT => 205,
-        );
-        $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
-        $thumburl = $thumbnailer->getThumbnail();
-        $this->assertContains('/cache/thumb/gravatar.com/'. $fileHash .'0205.png', $thumburl);
-        $img = imagecreatefrompng($thumburl);
-        $this->assertEquals(205, imagesx($img));
-        $this->assertEquals(205, imagesy($img));
-        imagedestroy($img);
-        unlink($thumburl);
-
+    /**
+     *Test downloadThumbnail() with both width and height defined with preset values.
+     */
+    public function testDownloadSizedThumbnailBothPreset()
+    {
         $options = array(
             WebThumbnailer::DOWNLOAD,
             WebThumbnailer::MAX_HEIGHT => WebThumbnailer::SIZE_SMALL,
@@ -137,10 +132,52 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
         $fileHash = hash('sha1', 'https://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f?s=160');
-        $this->assertContains('/cache/thumb/gravatar.com/'. $fileHash .'160160.png', $thumburl);
+        $this->assertContains('/cache/thumb/gravatar.com/'. $fileHash .'1601600.png', $thumburl);
         $img = imagecreatefrompng($thumburl);
         $this->assertEquals(SizeUtils::getMetaSize(WebThumbnailer::SIZE_SMALL), imagesx($img));
         $this->assertEquals(SizeUtils::getMetaSize(WebThumbnailer::SIZE_SMALL), imagesy($img));
+        imagedestroy($img);
+        unlink($thumburl);
+    }
+
+    /**
+     *Test downloadThumbnail() with height defined.
+     */
+    public function testDownloadSizedThumbnailHeight()
+    {
+        $options = array(
+            WebThumbnailer::DOWNLOAD,
+            WebThumbnailer::MAX_HEIGHT => 205,
+        );
+        $fileHash = hash('sha1', self::$gravatarThumb);
+
+        $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
+        $thumburl = $thumbnailer->getThumbnail();
+        $this->assertContains('/cache/thumb/gravatar.com/' . $fileHash . '02050.png', $thumburl);
+        $img = imagecreatefrompng($thumburl);
+        $this->assertEquals(205, imagesx($img));
+        $this->assertEquals(205, imagesy($img));
+        imagedestroy($img);
+        unlink($thumburl);
+    }
+
+    /**
+     *Test downloadThumbnail() with width defined.
+     */
+    public function testDownloadSizedThumbnailWidth()
+    {
+        $options = array(
+            WebThumbnailer::DOWNLOAD,
+            WebThumbnailer::MAX_WIDTH => 205,
+        );
+        $fileHash = hash('sha1', self::$gravatarThumb);
+
+        $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
+        $thumburl = $thumbnailer->getThumbnail();
+        $this->assertContains('/cache/thumb/gravatar.com/' . $fileHash . '20500.png', $thumburl);
+        $img = imagecreatefrompng($thumburl);
+        $this->assertEquals(205, imagesx($img));
+        $this->assertEquals(205, imagesy($img));
         imagedestroy($img);
         unlink($thumburl);
     }

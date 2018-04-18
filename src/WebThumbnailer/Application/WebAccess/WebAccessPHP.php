@@ -17,7 +17,7 @@ class WebAccessPHP implements WebAccess
      *
      * @inheritdoc
      */
-    public function getContent($url, $timeout = null, $maxBytes = null)
+    public function getContent($url, $timeout = null, $maxBytes = null, $downloadCallback = null, &$downloadedContent = null)
     {
         if (empty($timeout)) {
             $timeout = ConfigManager::get('settings.default.timeout', 30);

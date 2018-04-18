@@ -51,6 +51,8 @@ class UrlRegexFinder extends FinderCommon
      * Also replace eventual URL options.
      *
      * {@inheritdoc}
+     *
+     * @throws Exception\BadRulesException
      */
     public function find()
     {

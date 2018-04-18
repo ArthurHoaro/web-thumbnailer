@@ -49,9 +49,11 @@ abstract class FinderCommon implements Finder
      *      it will be replaced by the proper size from $finderOptions, depending of size options in $userOptions.
      *
      * @param string $thumbnailUrl Thumbnail resolved URL.
-     * @param string $option       Option to replace.
+     * @param string $option Option to replace.
      *
      * @return string Thumbnail URL updated with the proper option placeholder replacement.
+     *
+     * @throws BadRulesException
      */
     protected function replaceOption($thumbnailUrl, $option)
     {
@@ -59,6 +61,14 @@ abstract class FinderCommon implements Finder
         return str_replace('${'. $option .'}', $chosenOption, $thumbnailUrl);
     }
 
+    /**
+     *
+     *
+     * @param $option
+     * @return mixed
+     *
+     * @throws BadRulesException
+     */
     protected function getOptionValue($option)
     {
         // If the provided option is not defined in the Finder rules.

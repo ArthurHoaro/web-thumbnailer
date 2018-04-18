@@ -54,9 +54,9 @@ class UrlUtilsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('gz', UrlUtils::getUrlFileExtension($url));
 
         $url = 'http://hostname.tld/path/?arg=value#anchor';
-        $this->assertFalse(UrlUtils::getUrlFileExtension($url));
+        $this->assertEquals('', UrlUtils::getUrlFileExtension($url));
 
         $url = 'http://hostname.tld/path/file.php/otherpath/?arg=value#anchor';
-        $this->assertFalse(UrlUtils::getUrlFileExtension($url));
+        $this->assertEquals('', UrlUtils::getUrlFileExtension($url));
     }
 }

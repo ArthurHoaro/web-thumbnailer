@@ -96,7 +96,6 @@ class WebAccessCUrl implements WebAccess
         curl_setopt($ch, CURLOPT_PROGRESSFUNCTION,
             function($arg0, $arg1, $arg2, $arg3, $arg4 = 0) use ($maxBytes)
             {
-                // Callback has 5 arguments
                 $downloaded = $arg2;
                 // Non-zero return stops downloading
                 return ($downloaded > $maxBytes) ? 1 : 0;

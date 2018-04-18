@@ -16,21 +16,19 @@ class FileUtils
 
     /**
      * Build the real path from all given folders, with a trailing /.
-     * (PHP 5.3 compliant)
      *
-     * @param ...strings $_ Suite of path/folders.
+     * @param string[] $args Suite of path/folders.
      *
      * @return string|bool Real path with proper directory separators, false if it doesn't exist.
      */
-    public static function getPath()
+    public static function getPath(...$args)
     {
         $out = '';
-        $nbArgs = func_num_args();
-        if ($nbArgs == 0) {
+        if (empty($args)) {
             return false;
         }
-        for($i = 0; $i < $nbArgs; $i++) {
-            $out .= rtrim(rtrim(func_get_arg($i), '/'), '\\') . DIRECTORY_SEPARATOR;
+        foreach ($args as $arg) {
+            $out .= rtrim(rtrim($arg, '/'), '\\') . DIRECTORY_SEPARATOR;
         }
         $out = realpath($out);
         return $out !== false ? $out . DIRECTORY_SEPARATOR : false;

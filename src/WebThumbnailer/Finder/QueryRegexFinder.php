@@ -75,8 +75,8 @@ class QueryRegexFinder extends FinderCommon
             : null;
         list($headers, $content) = $this->webAccess->getContent(
             $this->url,
-            ConfigManager::get('settings.default.timeout', 30),
-            ConfigManager::get('settings.default.max_img_dl', 16777216),
+            (int) ConfigManager::get('settings.default.timeout', 30),
+            (int) ConfigManager::get('settings.default.max_img_dl', 16777216),
             $callback,
             $content
         );

@@ -63,6 +63,10 @@ class ImageUtils
         );
 
         $targetImg = imagecreatetruecolor($finalWidth, $finalHeight);
+        if ($targetImg === false) {
+            throw new ImageConvertException('Could not generate the thumbnail from source image.');
+        }
+
         if (! imagecopyresized(
                 $targetImg, $sourceImg,
                 0, 0, 0, 0,

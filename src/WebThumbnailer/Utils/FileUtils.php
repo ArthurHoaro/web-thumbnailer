@@ -20,7 +20,7 @@ class FileUtils
      *
      * @param ...strings $_ Suite of path/folders.
      *
-     * @return string Real path with proper directory separators, false if it doesn't exist.
+     * @return string|bool Real path with proper directory separators, false if it doesn't exist.
      */
     public static function getPath()
     {
@@ -33,7 +33,7 @@ class FileUtils
             $out .= rtrim(rtrim(func_get_arg($i), '/'), '\\') . DIRECTORY_SEPARATOR;
         }
         $out = realpath($out);
-        return $out != false ? $out . DIRECTORY_SEPARATOR : false;
+        return $out !== false ? $out . DIRECTORY_SEPARATOR : false;
     }
 
     /**

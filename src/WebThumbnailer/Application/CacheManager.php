@@ -160,10 +160,20 @@ class CacheManager
     protected static function rebuildCacheFolders()
     {
         $mainFolder = ConfigManager::get('settings.path.cache', 'cache/');
-        @mkdir($mainFolder, 0755);
-        @mkdir($mainFolder.self::TYPE_THUMB, 0755);
-        @touch($mainFolder.self::TYPE_THUMB.DIRECTORY_SEPARATOR.'.gitkeep');
-        @mkdir($mainFolder.self::TYPE_FINDER, 0755);
-        @touch($mainFolder.self::TYPE_FINDER.DIRECTORY_SEPARATOR.'.gitkeep');
+        if (! is_dir($mainFolder)) {
+            mkdir($mainFolder, 0755);
+        }
+        if (! is_dir($mainFolder.self::TYPE_THUMB)) {
+            mkdir($mainFolder.self::TYPE_THUMB, 0755);
+        }
+        if (! is_readable($mainFolder . self::TYPE_THUMB . DIRECTORY_SEPARATOR . '.gitkeep')) {
+            touch($mainFolder . self::TYPE_THUMB . DIRECTORY_SEPARATOR . '.gitkeep');
+        }
+        if (! is_dir($mainFolder.self::TYPE_FINDER)) {
+            mkdir($mainFolder . self::TYPE_FINDER, 0755);
+        }
+        if (! is_readable($mainFolder . self::TYPE_THUMB . DIRECTORY_SEPARATOR . '.gitkeep')) {
+            touch($mainFolder.self::TYPE_FINDER.DIRECTORY_SEPARATOR.'.gitkeep');
+        }
     }
 }

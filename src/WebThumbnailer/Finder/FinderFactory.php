@@ -66,6 +66,8 @@ class FinderFactory
             $allRules = array_merge($allRules, DataUtils::loadJson(FileUtils::RESOURCES_PATH . $file));
         }
 
+        $domain = null;
+
         foreach ($allRules as $value) {
             self::checkMetaFormat($value);
 

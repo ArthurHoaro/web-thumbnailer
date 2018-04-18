@@ -22,9 +22,9 @@ abstract class FinderCommon implements Finder
     const SIZE_KEY = 'size';
 
     /**
-     * @var array List of domains used by this finder.
+     * @var string Current domain used by this finder.
      */
-    protected $domains;
+    protected $domain;
 
     /**
      * @var string URL provided by the user.
@@ -190,6 +190,6 @@ abstract class FinderCommon implements Finder
      */
     public function getDomain()
     {
-        return $this->domains;
+        return $this->domain;
     }
 }

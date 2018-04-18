@@ -5,6 +5,7 @@ namespace WebThumbnailer\Finder;
 use WebThumbnailer\Application\WebAccess\WebAccess;
 use WebThumbnailer\Application\WebAccess\WebAccessFactory;
 use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\Exception\NotImplementedException;
 use WebThumbnailer\Utils\FinderUtils;
 
 /**
@@ -55,9 +56,12 @@ class QueryXPathFinder extends FinderCommon
 
     /**
      * @inheritdoc
+     *
+     * @throws NotImplementedException
      */
     public function __construct($domain, $url, $rules, $options)
     {
+        throw new NotImplementedException();
         $this->webAccess = WebAccessFactory::getWebAccess($url);
         $this->url = $url;
         $this->domains = $domain;

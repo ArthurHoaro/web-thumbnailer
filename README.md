@@ -2,6 +2,7 @@
 
 ![](https://travis-ci.org/ArthurHoaro/web-thumbnailer.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/ArthurHoaro/web-thumbnailer/badge.svg?branch=master)](https://coveralls.io/github/ArthurHoaro/web-thumbnailer?branch=master)
+
 PHP library which will retrieve a thumbnail for any given URL, if available.
 
 ## Features
@@ -19,9 +20,9 @@ Mandatory:
   - PHP 5.6
   - PHP GD extension
   
-Recommended:
+(Highly) Recommended:
 
-  - PHP cURL extension
+  - PHP cURL extension: it let you retrieve thumbnails without downloading the whole remote page
   
 ## Installation
 

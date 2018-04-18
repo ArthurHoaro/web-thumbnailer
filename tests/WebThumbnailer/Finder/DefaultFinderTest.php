@@ -12,6 +12,11 @@ use WebThumbnailer\WebThumbnailer;
 class DefaultFinderTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * PHP builtin local server URL.
+     */
+    const LOCAL_SERVER = 'http://localhost:8081/';
+
+    /**
      * Test the default finder with URL which match an image (.png).
      */
     public function testDefaultFinderImage()
@@ -67,6 +72,38 @@ class DefaultFinderTest extends \PHPUnit_Framework_TestCase
         $expected = 'http://s1.lemde.fr/image/2016/10/24/644x322/5019472_3_91ef_cette-image-prise-par-la-sonde-americaine-mro_c27bb4fec19310d709347424f93addec.jpg';
         $finder = new DefaultFinder(null, $url, null, null);
         $this->assertEquals($expected, $finder->find());
+    }
+
+    /**
+     * Test the default finder trying to find an open graph link.
+     */
+    public function testDefaultFinderOpenGraphRemote()
+    {
+        $url = self::LOCAL_SERVER . 'default/le-monde.html';
+        $expected = 'http://s1.lemde.fr/image/2016/10/24/644x322/5019472_3_91ef_cette-image-prise-par-la-sonde-americaine-mro_c27bb4fec19310d709347424f93addec.jpg';
+        $finder = new DefaultFinder(null, $url, null, null);
+        $this->assertEquals($expected, $finder->find());
+    }
+
+    /**
+     * Test the default finder trying to find an image mime-type.
+     */
+    public function testDefaultFinderImageMimetype()
+    {
+        $url = self::LOCAL_SERVER . 'default/image-mimetype.php';
+        $expected = $url;
+        $finder = new DefaultFinder(null, $url, null, null);
+        $this->assertEquals($expected, $finder->find());
+    }
+
+    /**
+     * Test the default finder finding a non 200 status code.
+     */
+    public function testDefaultFinderStatusError()
+    {
+        $url = self::LOCAL_SERVER . 'default/status-ko.php';
+        $finder = new DefaultFinder(null, $url, null, null);
+        $this->assertFalse($finder->find());
     }
 
     /**

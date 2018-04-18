@@ -80,7 +80,7 @@ class CacheManager
         if ($type === self::TYPE_THUMB) {
             $suffix = $width . $height . ($crop ? '1' : '0') .'.png';
         } else {
-            $suffix = '';
+            $suffix = $width . $height;
         }
         return $domainFolder . self::getThumbFilename($url) . $suffix;
     }

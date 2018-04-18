@@ -2,7 +2,9 @@
 
 namespace WebThumbnailer\Finder;
 
+use WebThumbnailer\Application\ConfigManager;
 use WebThumbnailer\Application\WebAccess\WebAccess;
+use WebThumbnailer\Application\WebAccess\WebAccessCUrl;
 use WebThumbnailer\Application\WebAccess\WebAccessFactory;
 use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Utils\FinderUtils;
@@ -42,12 +44,9 @@ class QueryRegexFinder extends FinderCommon
     protected $urlRegex;
 
     /**
-     * @var string Remote page content.
-     */
-    protected $content;
-
-    /**
      * @inheritdoc
+     *
+     * @throws BadRulesException
      */
     public function __construct($domain, $url, $rules, $options)
     {
@@ -64,18 +63,95 @@ class QueryRegexFinder extends FinderCommon
      * The thumb URL must include ${number} to be replaced from the regex match.
      * Also replace eventual URL options.
      *
-     *
      * @inheritdoc
+     *
+     * @throws BadRulesException
      */
     public function find()
     {
-        list($headers, $this->content) = $this->webAccess->getContent($this->url);
-        if (empty($this->content) || strpos($headers[0], '200') === false) {
+        $thumbnail = $content = null;
+        $callback = $this->webAccess instanceof WebAccessCUrl
+            ? $this->getCurlCallback($content, $thumbnail)
+            : null;
+        list($headers, $content) = $this->webAccess->getContent(
+            $this->url,
+            ConfigManager::get('settings.default.timeout', 30),
+            ConfigManager::get('settings.default.max_img_dl', 16777216),
+            $callback,
+            $content
+        );
+        if (empty($content)
+            || empty($headers)
+            || (empty($thumbnail) && strpos($headers[0], '200') === false)
+        ) {
             return false;
         }
 
+        // With curl, the thumb is extracted during the download
+        if ($this->webAccess instanceof WebAccessCUrl && ! empty($thumbnail)) {
+            return $thumbnail;
+        }
+
+        return $this->extractThumbContent($content);
+    }
+
+    /**
+     * Get a callback for curl write function.
+     *
+     * @param string $content   A variable reference in which the downloaded content should be stored.
+     * @param string $thumbnail A variable reference in which extracted thumb URL should be stored.
+     *
+     * @return \Closure CURLOPT_WRITEFUNCTION callback
+     */
+    protected function getCurlCallback(&$content, &$thumbnail)
+    {
+        $url = $this->url;
+        /**
+         * cURL callback function for CURLOPT_WRITEFUNCTION (called during the download).
+         *
+         * While downloading the remote page, we check that the HTTP code is 200 and content type is 'html/text'
+         * Then we extract the title and the charset and stop the download when it's done.
+         *
+         * Note that when using CURLOPT_WRITEFUNCTION, we have to manually handle the content retrieved,
+         * hence the $content reference variable.
+         *
+         * @param resource $ch   cURL resource
+         * @param string   $data chunk of data being downloaded
+         *
+         * @return int|bool length of $data or false if we need to stop the download
+         */
+        return function(&$ch, $data) use ($url, &$content, &$thumbnail) {
+            $content .= $data;
+            $responseCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+
+            if (!empty($responseCode) && $responseCode != 200) {
+                return false;
+            }
+            $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+            if (!empty($contentType) && strpos($contentType, 'text/html') === false) {
+                return false;
+            }
+            if (empty($thumbnail)) {
+                $thumbnail = $this->extractThumbContent($data);
+            }
+            // We got everything we want, stop the download.
+            if (!empty($responseCode) && !empty($contentType) && !empty($thumbnail)) {
+                return false;
+            }
+
+            return strlen($data);
+        };
+    }
+
+    /**
+     * @param $content
+     * @return bool|mixed|string
+     * @throws BadRulesException
+     */
+    public function extractThumbContent($content)
+    {
         $thumbnailUrl = $this->thumbnailUrlFormat;
-        if (preg_match($this->urlRegex, $this->content, $matches) != false) {
+        if (preg_match($this->urlRegex, $content, $matches) != false) {
             for ($i = 1; $i < count($matches); $i++) {
                 $thumbnailUrl = str_replace('${'. $i . '}', $matches[$i], $thumbnailUrl);
             }
@@ -106,6 +182,8 @@ class QueryRegexFinder extends FinderCommon
 
     /**
      * @inheritdoc
+     *
+     * @throws BadRulesException
      */
     public function loadRules($rules)
     {
@@ -120,15 +198,5 @@ class QueryRegexFinder extends FinderCommon
     public function getName()
     {
         return 'Query Regex';
-    }
-
-    /**
-     * Set the web access.
-     *
-     * @param WebAccess $webAccess instance.
-     */
-    public function setWebAccess($webAccess)
-    {
-        $this->webAccess = $webAccess;
     }
 }

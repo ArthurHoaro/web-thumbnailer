@@ -49,7 +49,7 @@ class WebAccessCUrl implements WebAccess
      *
      * @inheritdoc
      */
-    public function getContent($url, $timeout = null, $maxBytes = null)
+    public function getContent($url, $timeout = null, $maxBytes = null, $downloadCallback = null, &$downloadedContent = null)
     {
         if (empty($timeout)) {
             $timeout = ConfigManager::get('settings.default.timeout', 30);
@@ -103,7 +103,14 @@ class WebAccessCUrl implements WebAccess
             }
         );
 
-        $response = curl_exec($ch);
+        if (is_callable($downloadCallback)) {
+            curl_setopt($ch, CURLOPT_WRITEFUNCTION, $downloadCallback);
+            curl_exec($ch);
+            $response = $downloadedContent;
+        } else {
+            $response = curl_exec($ch);
+        }
+
         $errorNo = curl_errno($ch);
         $errorStr = curl_error($ch);
         $headSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);

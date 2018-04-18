@@ -21,7 +21,7 @@ class WebAccessFactory
     public static function getWebAccess($url = null)
     {
         // Local file
-        if (! empty($url) && $url[0] == '/') {
+        if (! empty($url) && $url[0] === '/') {
             return new WebAccessLocal();
         }
 

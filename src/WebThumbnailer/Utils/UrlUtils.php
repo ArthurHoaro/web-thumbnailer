@@ -60,6 +60,6 @@ class UrlUtils
         if (preg_match('/\.(\w+)$/i', $path, $match) > 0) {
             return strtolower($match[1]);
         }
-        return false;
+        return '';
     }
 }

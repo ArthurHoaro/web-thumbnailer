@@ -72,7 +72,7 @@ class ConfigManager
      *   { "config": { "stuff": {"option": "mysetting" } } } }
      *
      * @param string $setting Asked setting, keys separated with dots.
-     * @param string $default Default value if not found.
+     * @param mixed  $default Default value if not found.
      *
      * @return mixed Found setting, or the default value.
      */

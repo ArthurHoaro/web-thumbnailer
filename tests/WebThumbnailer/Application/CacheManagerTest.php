@@ -83,7 +83,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
         $width = 512;
         $height = 0;
         $cacheFile = CacheManager::getCacheFilePath($url, $domain, $type, $width, $height, false);
-        $whateverDir = self::$cache . 'thumb/whatever.io/';
+        $whateverDir = self::$cache . 'thumb/'. md5($domain) .'/';
         $this->assertTrue(is_dir($whateverDir));
         $this->assertContains($whateverDir, $cacheFile);
         // sha1 sum + dimensions

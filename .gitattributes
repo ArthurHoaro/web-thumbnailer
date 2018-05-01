@@ -3,7 +3,7 @@
 
 # Ensure sources are processed
 *.json  text
-*.html  text diff=html
+*.html  text diff=html linguist-generated=true
 *.md    text
 *.php   text diff=php
 

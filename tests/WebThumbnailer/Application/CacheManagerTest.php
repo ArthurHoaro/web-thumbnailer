@@ -125,7 +125,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     {
         $domain = 'whatever.io';
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
-        $this->assertTrue(is_dir(self::$cache . '/thumb/' . $domain));
+        $this->assertTrue(is_dir(self::$cache . '/thumb/' . md5($domain)));
     }
 
     /**
@@ -136,7 +136,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
         $domain = 'whatever.io';
         ConfigManager::addFile('tests/WebThumbnailer/resources/settings-infinite-cache.json');
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
-        $this->assertTrue(is_dir(self::$cache . '/thumb/' . $domain));
+        $this->assertTrue(is_dir(self::$cache . '/thumb/' . md5($domain)));
     }
 
     /**

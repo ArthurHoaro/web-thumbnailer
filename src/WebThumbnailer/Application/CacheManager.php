@@ -107,7 +107,7 @@ class CacheManager
         ) {
             $out = true;
         } else {
-            self::createDomainThumbCacheFolder($domain, $type);
+            self::createDomainThumbCacheFolder(self::getDomainHash($domain), $type);
         }
 
         return $out;

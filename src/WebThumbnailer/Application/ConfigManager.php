@@ -31,10 +31,6 @@ class ConfigManager
      */
     protected static $loadedConfig;
 
-    private function __construct()
-    {
-    }
-
     /**
      * Rebuild the loaded config array from config files.
      */

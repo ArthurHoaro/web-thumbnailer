@@ -85,6 +85,8 @@ class DefaultFinder extends FinderCommon
     protected function getCurlCallback(&$content, &$thumbnail)
     {
         $url = $this->url;
+        $isRedirected = false;
+
         /**
          * cURL callback function for CURLOPT_WRITEFUNCTION (called during the download).
          *
@@ -99,13 +101,21 @@ class DefaultFinder extends FinderCommon
          *
          * @return int|bool length of $data or false if we need to stop the download
          */
-        return function (&$ch, $data) use ($url, &$content, &$thumbnail) {
+        return function (&$ch, $data) use ($url, &$content, &$thumbnail, &$isRedirected) {
             $content .= $data;
             $responseCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-            if (!empty($responseCode) && $responseCode != 200) {
+            if (!empty($responseCode) && in_array($responseCode, [301, 302])) {
+                $isRedirected = true;
+                return strlen($data);
+            }
+            if (!empty($responseCode) && $responseCode !== 200) {
                 return false;
             }
-            $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+            // After a redirection, the content type will keep the previous request value
+            // until it finds the next content-type header.
+            if (! $isRedirected || strpos(strtolower($data), 'content-type') !== false) {
+                $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+            }
             // we look for image, and ignore application/octet-stream,
             // which is a the default content type for any binary
             // @see https://developer.mozilla.org/fr/docs/Web/HTTP/Basics_of_HTTP/MIME_types

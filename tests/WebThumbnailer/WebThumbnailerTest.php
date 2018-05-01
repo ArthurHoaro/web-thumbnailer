@@ -330,7 +330,7 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
 
         $target = self::$regenerated . $image;
         imagedestroy($sourceImg);
-        imagepng($targetImg, $target);
+        imagejpeg($targetImg, $target);
         imagedestroy($targetImg);
     }
 }

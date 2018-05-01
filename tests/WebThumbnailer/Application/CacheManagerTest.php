@@ -87,7 +87,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_dir($whateverDir));
         $this->assertContains($whateverDir, $cacheFile);
         // sha1 sum + dimensions
-        $this->assertContains('0a35602901944a0c6d853da2a5364665c2bda069' . '51200' . '.png', $cacheFile);
+        $this->assertContains('0a35602901944a0c6d853da2a5364665c2bda069' . '51200' . '.jpg', $cacheFile);
     }
 
     /**
@@ -96,7 +96,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     public function testIsCacheValidExisting()
     {
         $domain = 'whatever.io';
-        $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.png';
+        $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.jpg';
         mkdir(self::$cache . '/thumb/' . $domain, 0755, true);
         $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
         touch($cacheFile);
@@ -110,7 +110,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     public function testIsCacheValidExpired()
     {
         $domain = 'whatever.io';
-        $filename = '0a35602901944a0c6d853da2a5364665c2bda0695120.png';
+        $filename = '0a35602901944a0c6d853da2a5364665c2bda0695120.jpg';
         mkdir(self::$cache . '/thumb/' . $domain, 0755, true);
         $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
         touch($cacheFile, time() - ConfigManager::get('settings.cache_duration') - 1);
@@ -145,7 +145,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     public function testIsCacheValidInfiniteExisting()
     {
         $domain = 'whatever.io';
-        $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.png';
+        $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.jpg';
         mkdir(self::$cache . '/thumb/' . $domain, 0755, true);
         $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
         touch($cacheFile);
@@ -160,7 +160,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     public function testIsCacheValidInfiniteExistingOneYear()
     {
         $domain = 'whatever.io';
-        $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.png';
+        $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.jpg';
         mkdir(self::$cache . '/thumb/' . $domain, 0755, true);
         $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
         touch($cacheFile, time() - 3600*24*31*12);

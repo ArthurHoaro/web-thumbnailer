@@ -77,7 +77,7 @@ class CacheManager
         self::createDomainThumbCacheFolder($domain, $type);
         $domainFolder = FileUtils::getPath(self::getCachePath($type), $domain);
         if ($type === self::TYPE_THUMB) {
-            $suffix = $width . $height . ($crop ? '1' : '0') .'.png';
+            $suffix = $width . $height . ($crop ? '1' : '0') .'.jpg';
         } else {
             $suffix = $width . $height;
         }

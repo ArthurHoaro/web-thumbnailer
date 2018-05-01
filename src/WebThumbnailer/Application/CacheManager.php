@@ -74,8 +74,9 @@ class CacheManager
      */
     public static function getCacheFilePath($url, $domain, $type, $width = 0, $height = 0, $crop = false)
     {
-        self::createDomainThumbCacheFolder($domain, $type);
-        $domainFolder = FileUtils::getPath(self::getCachePath($type), $domain);
+        $domainHash = self::getDomainHash($domain);
+        self::createDomainThumbCacheFolder($domainHash, $type);
+        $domainFolder = FileUtils::getPath(self::getCachePath($type), $domainHash);
         if ($type === self::TYPE_THUMB) {
             $suffix = $width . $height . ($crop ? '1' : '0') .'.jpg';
         } else {
@@ -175,5 +176,17 @@ class CacheManager
         if (! is_readable($mainFolder . self::TYPE_THUMB . DIRECTORY_SEPARATOR . '.gitkeep')) {
             touch($mainFolder.self::TYPE_FINDER.DIRECTORY_SEPARATOR.'.gitkeep');
         }
+    }
+
+    /**
+     * Return the hashed folder name for a given domain.
+     *
+     * @param string $domain name
+     *
+     * @return string hash
+     */
+    protected static function getDomainHash($domain)
+    {
+        return md5($domain);
     }
 }

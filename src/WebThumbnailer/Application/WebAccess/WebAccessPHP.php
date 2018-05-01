@@ -90,7 +90,7 @@ class WebAccessPHP implements WebAccess
      * @return array context.
      */
     protected function getContext($timeout, $fulluri = true) {
-        return $contextArray = [
+        return [
             'http' => [
                 'method' => 'GET',
                 'timeout' => $timeout,

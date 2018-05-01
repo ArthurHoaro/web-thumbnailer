@@ -95,7 +95,7 @@ class ImageUtils
         }
 
         imagedestroy($sourceImg);
-        imagepng($targetImg, $target);
+        imagejpeg($targetImg, $target);
         imagedestroy($targetImg);
     }
 

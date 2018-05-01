@@ -51,35 +51,35 @@ class ImageUtilsTest extends \PHPUnit_Framework_TestCase
         $path = self::$WORKDIR . 'file1.png';
         // Original size.
         ImageUtils::generateThumbnail(self::$imageSource, $path, 28, 18);
-        $im = imagecreatefrompng($path);
+        $im = imagecreatefromjpeg($path);
         $this->assertEquals(28, imagesx($im));
         $this->assertEquals(18, imagesy($im));
         unlink($path);
 
         // Reduce size.
         ImageUtils::generateThumbnail(self::$imageSource, $path, 14, 9);
-        $im = imagecreatefrompng($path);
+        $im = imagecreatefromjpeg($path);
         $this->assertEquals(14, imagesx($im));
         $this->assertEquals(9, imagesy($im));
         unlink($path);
 
         // Bigger size: must be changed to original size.
         ImageUtils::generateThumbnail(self::$imageSource, $path, 56, 36);
-        $im = imagecreatefrompng($path);
+        $im = imagecreatefromjpeg($path);
         $this->assertEquals(28, imagesx($im));
         $this->assertEquals(18, imagesy($im));
         unlink($path);
 
         // Only specify width.
         ImageUtils::generateThumbnail(self::$imageSource, $path, 14, 0);
-        $im = imagecreatefrompng($path);
+        $im = imagecreatefromjpeg($path);
         $this->assertEquals(14, imagesx($im));
         $this->assertEquals(9, imagesy($im));
         unlink($path);
 
         // Only specify heigth.
         ImageUtils::generateThumbnail(self::$imageSource, $path, 0, 9);
-        $im = imagecreatefrompng($path);
+        $im = imagecreatefromjpeg($path);
         $this->assertEquals(14, imagesx($im));
         $this->assertEquals(9, imagesy($im));
         unlink($path);

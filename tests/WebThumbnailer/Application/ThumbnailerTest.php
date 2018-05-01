@@ -93,7 +93,7 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
         $fileHash = hash('sha1', self::$gravatarThumb);
-        $this->assertContains('/cache/thumb/gravatar.com/'. $fileHash .'1601600.png', $thumburl);
+        $this->assertContains('/cache/thumb/gravatar.com/'. $fileHash .'1601600.jpg', $thumburl);
         unlink($thumburl);
     }
 
@@ -111,8 +111,8 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
 
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $this->assertContains('/cache/thumb/gravatar.com/' . $fileHash . '2052050.png', $thumburl);
-        $img = imagecreatefrompng($thumburl);
+        $this->assertContains('/cache/thumb/gravatar.com/' . $fileHash . '2052050.jpg', $thumburl);
+        $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(205, imagesx($img));
         $this->assertEquals(205, imagesy($img));
         imagedestroy($img);
@@ -132,8 +132,8 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
         $fileHash = hash('sha1', 'https://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f?s=160');
-        $this->assertContains('/cache/thumb/gravatar.com/'. $fileHash .'1601600.png', $thumburl);
-        $img = imagecreatefrompng($thumburl);
+        $this->assertContains('/cache/thumb/gravatar.com/'. $fileHash .'1601600.jpg', $thumburl);
+        $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(SizeUtils::getMetaSize(WebThumbnailer::SIZE_SMALL), imagesx($img));
         $this->assertEquals(SizeUtils::getMetaSize(WebThumbnailer::SIZE_SMALL), imagesy($img));
         imagedestroy($img);
@@ -153,8 +153,8 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
 
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $this->assertContains('/cache/thumb/gravatar.com/' . $fileHash . '02050.png', $thumburl);
-        $img = imagecreatefrompng($thumburl);
+        $this->assertContains('/cache/thumb/gravatar.com/' . $fileHash . '02050.jpg', $thumburl);
+        $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(205, imagesx($img));
         $this->assertEquals(205, imagesy($img));
         imagedestroy($img);
@@ -174,8 +174,8 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
 
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $this->assertContains('/cache/thumb/gravatar.com/' . $fileHash . '20500.png', $thumburl);
-        $img = imagecreatefrompng($thumburl);
+        $this->assertContains('/cache/thumb/gravatar.com/' . $fileHash . '20500.jpg', $thumburl);
+        $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(205, imagesx($img));
         $this->assertEquals(205, imagesy($img));
         imagedestroy($img);

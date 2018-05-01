@@ -99,7 +99,7 @@ class DefaultFinder extends FinderCommon
          *
          * @return int|bool length of $data or false if we need to stop the download
          */
-        return function(&$ch, $data) use ($url, &$content, &$thumbnail) {
+        return function (&$ch, $data) use ($url, &$content, &$thumbnail) {
             $content .= $data;
             $responseCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
             if (!empty($responseCode) && $responseCode != 200) {
@@ -115,7 +115,7 @@ class DefaultFinder extends FinderCommon
             ) {
                 $thumbnail = $url;
                 return false;
-            } else if (!empty($contentType)
+            } elseif (!empty($contentType)
                 && strpos($contentType, 'text/html') === false
                 && strpos($contentType, 'application/octet-stream') === false
             ) {
@@ -143,11 +143,12 @@ class DefaultFinder extends FinderCommon
     public static function extractMetaTag($content)
     {
         $propertiesKey = ['property', 'name', 'itemprop'];
+        $properties = implode('|', $propertiesKey);
         // Try to retrieve OpenGraph image.
-        $ogRegex = '#<meta[^>]+(?:'. implode('|', $propertiesKey) .')=["\']?og:image["\'\s][^>]*content=["\']?(.*?)["\'\s>]#';
+        $ogRegex = '#<meta[^>]+(?:'. $properties .')=["\']?og:image["\'\s][^>]*content=["\']?(.*?)["\'\s>]#';
         // If the attributes are not in the order property => content (e.g. Github)
         // New regex to keep this readable... more or less.
-        $ogRegexReverse = '#<meta[^>]+content=["\']?([^"\'\s]+)[^>]+(?:'. implode('|', $propertiesKey) .')=["\']?og:image["\'\s/>]#';
+        $ogRegexReverse = '#<meta[^>]+content=["\']?([^"\'\s]+)[^>]+(?:'. $properties .')=["\']?og:image["\'\s/>]#';
 
         if (preg_match($ogRegex, $content, $matches) > 0
             || preg_match($ogRegexReverse, $content, $matches) > 0

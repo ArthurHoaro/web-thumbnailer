@@ -2,7 +2,6 @@
 
 namespace WebThumbnailer\Application;
 
-
 use WebThumbnailer\Exception\CacheException;
 use WebThumbnailer\Exception\IOException;
 use WebThumbnailer\Utils\FileUtils;
@@ -55,7 +54,7 @@ class CacheManager
         if (!$path && !$rebuilt) {
             self::rebuildCacheFolders();
             return self::getCachePath($type, true);
-        } else if (!$path) {
+        } elseif (!$path) {
             throw new IOException('Cache folders are not writable: '. $cache);
         }
         return $path;
@@ -97,7 +96,8 @@ class CacheManager
      *
      * @return bool true if valid cache exists, false otherwise.
      */
-    public static function isCacheValid($cacheFile, $domain, $type) {
+    public static function isCacheValid($cacheFile, $domain, $type)
+    {
         $out = false;
         $cacheDuration = ConfigManager::get('settings.cache_duration', 3600*24*31);
 

@@ -83,7 +83,6 @@ abstract class FinderCommon implements Finder
             && isset($this->finderOptions[$option][$this->userOptions[$option]]['param'])
         ) {
             return $this->finderOptions[$option][$this->userOptions[$option]]['param'];
-
         }
 
         // If no user option has been found, and no default value is provided: error.
@@ -107,8 +106,7 @@ abstract class FinderCommon implements Finder
      */
     public function isHotlinkAllowed()
     {
-        if (
-            ! isset($this->finderOptions['hotlink_allowed'])
+        if (! isset($this->finderOptions['hotlink_allowed'])
             ||  $this->finderOptions['hotlink_allowed'] === true
         ) {
             return true;

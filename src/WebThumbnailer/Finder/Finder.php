@@ -19,13 +19,13 @@ interface Finder
 {
     /**
      * Finder constructor.
-     * 
+     *
      * @param string $domain  Standardized domains name: `imgur.com`, `youtu.be`, etc.
      * @param string $url     URL provided.
      * @param array  $rules   All existing rules loaded from JSON files.
      * @param array  $options Options provided by the user to retrieve a thumbnail.
      */
-    function __construct($domain, $url, $rules, $options);
+    public function __construct($domain, $url, $rules, $options);
 
     /**
      * Retrieve the thumbnail URL or the image from which a thumbnail will be created,
@@ -33,14 +33,14 @@ interface Finder
      *
      * @return string|bool Thumbnail URL or false if it couldn't be resolved.
      */
-    function find();
+    public function find();
 
     /**
      * Load provided rules, usually in specific class attributes.
      *
      * @param array $rules Finder rules loaded from JSON.
      */
-    function loadRules($rules);
+    public function loadRules($rules);
 
     /**
      * Validate provided rule for this Finder.
@@ -49,7 +49,7 @@ interface Finder
      *
      * @throws BadRulesException Rules aren't valid.
      */
-    function checkRules($rules);
+    public function checkRules($rules);
 
     /**
      * Indicate if hotlink is allowed or not.
@@ -57,7 +57,7 @@ interface Finder
      *
      * @return bool true if it's allowed, false otherwise.
      */
-    function isHotlinkAllowed();
+    public function isHotlinkAllowed();
 
     /**
      * Load options provided by the user into the object.
@@ -65,15 +65,15 @@ interface Finder
      *
      * @param array $userOptions List of user options.
      */
-    function setUserOptions($userOptions);
+    public function setUserOptions($userOptions);
 
     /**
      * @return string Domain associated with the Finder and the current URL.
      */
-    function getDomain();
+    public function getDomain();
 
     /**
      * @return string Return the Finder name.
      */
-    function getName();
+    public function getName();
 }

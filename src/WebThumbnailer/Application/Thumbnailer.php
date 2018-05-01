@@ -121,8 +121,7 @@ class Thumbnailer
         // Hotlink if available, download otherwise.
         if ($this->options[self::$DL_OPTION] === WebThumbnailer::HOTLINK) {
             return $this->thumbnailHotlink($thumburl);
-        }
-        // Download
+        } // Download
         else {
             return $this->thumbnailDownload($thumburl);
         }
@@ -304,13 +303,14 @@ class Thumbnailer
      *
      * @param array $options User options array.
      */
-    protected function setSizeOptions($options) {
+    protected function setSizeOptions($options)
+    {
         // Width
         $width = 0;
         if (! empty($options[WebThumbnailer::MAX_WIDTH])) {
             if (SizeUtils::isMetaSize($options[WebThumbnailer::MAX_WIDTH])) {
                 $width = SizeUtils::getMetaSize($options[WebThumbnailer::MAX_WIDTH]);
-            } else if (is_int($options[WebThumbnailer::MAX_WIDTH])
+            } elseif (is_int($options[WebThumbnailer::MAX_WIDTH])
                 || ctype_digit($options[WebThumbnailer::MAX_WIDTH])
             ) {
                 $width = $options[WebThumbnailer::MAX_WIDTH];
@@ -323,7 +323,7 @@ class Thumbnailer
         if (!empty($options[WebThumbnailer::MAX_HEIGHT])) {
             if (SizeUtils::isMetaSize($options[WebThumbnailer::MAX_HEIGHT])) {
                 $height = SizeUtils::getMetaSize($options[WebThumbnailer::MAX_HEIGHT]);
-            } else if (is_int($options[WebThumbnailer::MAX_HEIGHT])
+            } elseif (is_int($options[WebThumbnailer::MAX_HEIGHT])
                 || ctype_digit($options[WebThumbnailer::MAX_WIDTH])
             ) {
                 $height = $options[WebThumbnailer::MAX_HEIGHT];

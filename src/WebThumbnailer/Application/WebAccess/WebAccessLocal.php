@@ -14,7 +14,7 @@ class WebAccessLocal implements WebAccess
     /**
      * @inheritdoc
      */
-    public function getContent($url, $timeout = null, $maxBytes = null, $downloadCallback = null, &$downloadedContent = null)
+    public function getContent($url, $timeout = null, $maxBytes = null, $dlCallback = null, &$dlContent = null)
     {
         return [['200'], file_get_contents($url)];
     }

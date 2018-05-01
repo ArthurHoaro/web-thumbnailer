@@ -47,17 +47,14 @@ class FileUtils
             return false;
         }
 
-        foreach (
-            new \RecursiveIteratorIterator(
-                 new \RecursiveDirectoryIterator(
-                     $path,
-                     \FilesystemIterator::SKIP_DOTS |
+        foreach (new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator(
+                $path,
+                \FilesystemIterator::SKIP_DOTS |
                      \FilesystemIterator::UNIX_PATHS
-                 ),
-                 \RecursiveIteratorIterator::CHILD_FIRST
-            )
-            as $value
-        ) {
+            ),
+            \RecursiveIteratorIterator::CHILD_FIRST
+        ) as $value) {
             $value->isFile() ? unlink($value) : rmdir($value);
         }
 

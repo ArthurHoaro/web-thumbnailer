@@ -12,6 +12,7 @@ install:
   - composer self-update
   - composer install --prefer-dist
 script:
+  - ./vendor/bin/phpcs --standard=PSR2 src
   - ./vendor/bin/phpunit --bootstrap tests/bootstrap.php --configuration phpunit.xml.dist tests
 after_success:
   - travis_retry php vendor/bin/php-coveralls -v -x coverage/logs/clover.xml -o coverage/logs/coveralls-upload.json

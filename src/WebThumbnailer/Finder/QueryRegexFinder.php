@@ -119,7 +119,7 @@ class QueryRegexFinder extends FinderCommon
          *
          * @return int|bool length of $data or false if we need to stop the download
          */
-        return function(&$ch, $data) use (&$content, &$thumbnail) {
+        return function (&$ch, $data) use (&$content, &$thumbnail) {
             $content .= $data;
             $responseCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 

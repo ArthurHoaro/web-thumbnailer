@@ -31,7 +31,9 @@ class ConfigManager
      */
     protected static $loadedConfig;
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
     /**
      * Rebuild the loaded config array from config files.
@@ -47,7 +49,7 @@ class ConfigManager
     protected static function initialize()
     {
         self::$loadedConfig = [];
-        foreach(self::$configFiles as $configFile) {
+        foreach (self::$configFiles as $configFile) {
             self::$loadedConfig = array_replace_recursive(self::$loadedConfig, DataUtils::loadJson($configFile));
         }
     }

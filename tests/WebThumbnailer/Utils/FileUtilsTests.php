@@ -4,7 +4,7 @@ namespace WebThumbnailer\Utils;
 
 /**
  * Class FileUtilsTests
- * 
+ *
  * @package WebThumbnailer\Utils
  */
 class FileUtilsTests extends \PHPUnit_Framework_TestCase

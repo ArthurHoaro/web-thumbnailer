@@ -49,7 +49,7 @@ class WebAccessCUrl implements WebAccess
      *
      * @inheritdoc
      */
-    public function getContent($url, $timeout = null, $maxBytes = null, $downloadCallback = null, &$downloadedContent = null)
+    public function getContent($url, $timeout = null, $maxBytes = null, $dlCallback = null, &$dlContent = null)
     {
         if (empty($timeout)) {
             $timeout = ConfigManager::get('settings.default.timeout', 30);
@@ -73,39 +73,40 @@ class WebAccessCUrl implements WebAccess
         }
 
         // General cURL settings
-        curl_setopt($ch, CURLOPT_AUTOREFERER,       true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION,    true);
-        curl_setopt($ch, CURLOPT_HEADER,            true);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt(
             $ch,
             CURLOPT_HTTPHEADER,
             ['Accept-Language: ' . $acceptLanguage]
         );
-        curl_setopt($ch, CURLOPT_MAXREDIRS,         $maxRedirs);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,    true);
-        curl_setopt($ch, CURLOPT_TIMEOUT,           $timeout);
-        curl_setopt($ch, CURLOPT_USERAGENT,         $userAgent);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, $maxRedirs);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
 
         curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-        curl_setopt($ch, CURLOPT_COOKIEFILE,        $cookie);
-        curl_setopt($ch, CURLOPT_COOKIEJAR,         $cookie);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
 
         // Max download size management
-        curl_setopt($ch, CURLOPT_BUFFERSIZE,        1024*16);
-        curl_setopt($ch, CURLOPT_NOPROGRESS,        false);
-        curl_setopt($ch, CURLOPT_PROGRESSFUNCTION,
-            function($arg0, $arg1, $arg2, $arg3, $arg4 = 0) use ($maxBytes)
-            {
+        curl_setopt($ch, CURLOPT_BUFFERSIZE, 1024*16);
+        curl_setopt($ch, CURLOPT_NOPROGRESS, false);
+        curl_setopt(
+            $ch,
+            CURLOPT_PROGRESSFUNCTION,
+            function ($arg0, $arg1, $arg2, $arg3, $arg4 = 0) use ($maxBytes) {
                 $downloaded = $arg2;
                 // Non-zero return stops downloading
                 return ($downloaded > $maxBytes) ? 1 : 0;
             }
         );
 
-        if (is_callable($downloadCallback)) {
-            curl_setopt($ch, CURLOPT_WRITEFUNCTION, $downloadCallback);
+        if (is_callable($dlCallback)) {
+            curl_setopt($ch, CURLOPT_WRITEFUNCTION, $dlCallback);
             curl_exec($ch);
-            $response = $downloadedContent;
+            $response = $dlContent;
         } else {
             $response = curl_exec($ch);
         }

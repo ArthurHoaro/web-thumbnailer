@@ -106,6 +106,7 @@ class Thumbnailer
             $thumburl = file_get_contents($cache);
         } else {
             $thumburl = $this->finder->find();
+            $thumburl = html_entity_decode($thumburl);
             file_put_contents($cache, $thumburl);
         }
 

@@ -28,7 +28,8 @@ class SizeUtils
      *
      * @return int
      */
-    public static function getMetaSize($size) {
+    public static function getMetaSize($size)
+    {
         switch ($size) {
             case WebThumbnailer::SIZE_SMALL:
                 return (int) ConfigManager::get('settings.size_small', 160);

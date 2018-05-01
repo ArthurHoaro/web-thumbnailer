@@ -68,10 +68,17 @@ class ImageUtils
         }
 
         if (! imagecopyresized(
-                $targetImg, $sourceImg,
-                0, 0, 0, 0,
-                $finalWidth, $finalHeight, $originalWidth, $originalHeight
-            )
+            $targetImg,
+            $sourceImg,
+            0,
+            0,
+            0,
+            0,
+            $finalWidth,
+            $finalHeight,
+            $originalWidth,
+            $originalHeight
+        )
         ) {
             @imagedestroy($sourceImg);
             @imagedestroy($targetImg);

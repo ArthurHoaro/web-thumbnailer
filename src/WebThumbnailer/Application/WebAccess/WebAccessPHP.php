@@ -6,7 +6,7 @@ use WebThumbnailer\Application\ConfigManager;
 
 /**
  * Class WebAccessPHP
- * 
+ *
  * @package WebThumbnailer\Application
  */
 class WebAccessPHP implements WebAccess
@@ -17,7 +17,7 @@ class WebAccessPHP implements WebAccess
      *
      * @inheritdoc
      */
-    public function getContent($url, $timeout = null, $maxBytes = null, $downloadCallback = null, &$downloadedContent = null)
+    public function getContent($url, $timeout = null, $maxBytes = null, $dlCallback = null, &$dlContent = null)
     {
         if (empty($timeout)) {
             $timeout = ConfigManager::get('settings.default.timeout', 30);
@@ -56,7 +56,8 @@ class WebAccessPHP implements WebAccess
      *
      * @return array containing HTTP headers.
      */
-    protected function getRedirectedHeaders($url, $timeout, $redirectionLimit = 3) {
+    protected function getRedirectedHeaders($url, $timeout, $redirectionLimit = 3)
+    {
         stream_context_set_default($this->getContext($timeout));
 
         $headers = @get_headers($url, 1);
@@ -89,8 +90,9 @@ class WebAccessPHP implements WebAccess
      *
      * @return array context.
      */
-    protected function getContext($timeout, $fulluri = true) {
-        return $contextArray = [
+    protected function getContext($timeout, $fulluri = true)
+    {
+        return [
             'http' => [
                 'method' => 'GET',
                 'timeout' => $timeout,

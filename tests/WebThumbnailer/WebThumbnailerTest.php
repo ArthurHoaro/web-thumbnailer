@@ -302,9 +302,16 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
 
         $targetImg = imagecreatetruecolor($width, $height);
         if (! imagecopyresized(
-            $targetImg, $sourceImg,
-            0, 0, 0, 0,
-            $width, $height, $width, $height
+            $targetImg,
+            $sourceImg,
+            0,
+            0,
+            0,
+            0,
+            $width,
+            $height,
+            $width,
+            $height
         )
         ) {
             @imagedestroy($sourceImg);

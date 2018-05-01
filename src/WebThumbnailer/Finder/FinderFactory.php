@@ -37,7 +37,7 @@ class FinderFactory
             if (!class_exists($className)) {
                 throw new Exception\UnsupportedDomainException();
             }
-        } catch(Exception\UnsupportedDomainException $e) {
+        } catch (Exception\UnsupportedDomainException $e) {
             $className = '\\WebThumbnailer\\Finder\\DefaultFinder';
             $rules = [];
             $options = [];
@@ -83,16 +83,16 @@ class FinderFactory
                 continue;
             }
 
-            if(!empty($value['url_exclude'])) {
+            if (!empty($value['url_exclude'])) {
                 preg_match(FinderUtils::buildRegex($value['url_exclude'], 'i'), $url, $match);
-                if(!empty($match)) {
+                if (!empty($match)) {
                     continue;
                 }
             }
 
-            if(!empty($value['url_require'])) {
+            if (!empty($value['url_require'])) {
                 preg_match(FinderUtils::buildRegex($value['url_require'], 'i'), $url, $match);
-                if(empty($match)) {
+                if (empty($match)) {
                     continue;
                 }
             }

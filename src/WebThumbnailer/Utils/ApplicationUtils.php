@@ -3,7 +3,6 @@
 
 namespace WebThumbnailer\Utils;
 
-
 use WebThumbnailer\Exception\MissingRequirementException;
 
 class ApplicationUtils

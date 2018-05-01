@@ -104,7 +104,7 @@ class WebThumbnailer
         try {
             $downloader = new Thumbnailer($url, $options, $_SERVER);
             return $downloader->getThumbnail();
-        } catch(MissingRequirementException $e) {
+        } catch (MissingRequirementException $e) {
             throw $e;
         } catch (WebThumbnailerException $e) {
             if (isset($options[self::DEBUG]) && $options[self::DEBUG] === true) {

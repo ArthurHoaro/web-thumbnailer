@@ -1,5 +1,6 @@
 {
   "name": "arthurhoaro/web-thumbnailer",
+  "description": "PHP library which will retrieve a thumbnail for any given URL",
   "type": "library",
   "license": "MIT",
   "authors": [

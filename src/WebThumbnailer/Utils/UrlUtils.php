@@ -45,7 +45,7 @@ class UrlUtils
             $path = substr($path, strlen($root));
         }
 
-        if (isset($server['SCRIPT_NAME']) && preg_match('#(.*/)\w+\.php$#', $server['SCRIPT_NAME'], $matches) > 0) {
+        if (isset($server['SCRIPT_NAME']) && preg_match('#/?(.+/)\w+\.php$#', $server['SCRIPT_NAME'], $matches) > 0) {
             $path = substr($path, strlen($matches[1]));
         }
 

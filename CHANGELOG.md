@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v1.1.3 - 2018-06-13
+
+### Fixed
+
+  * Fix an issue with thumbs path with Apache alias where DOCUMENT_ROOT is not set properly
+
 ## v1.1.2 - 2018-05-05
 
 ### Added

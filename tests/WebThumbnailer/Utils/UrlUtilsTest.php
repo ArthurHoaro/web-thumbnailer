@@ -91,6 +91,23 @@ class UrlUtilsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test generateRelativeUrlFromPath() Apache alias specific.
+     */
+    public function testGenerateRelativeUrlFromPathApache()
+    {
+        $server = [
+            'CONTEXT_DOCUMENT_ROOT' => '/home/website/',
+            'DOCUMENT_ROOT' => '/bin/httpd/',
+            'SCRIPT_NAME' => '/index.php',
+        ];
+        $file   = '/home/website/resource/file.txt';
+        $file2   = '/home/website/file.txt';
+
+        $this->assertEquals('resource/file.txt', UrlUtils::generateRelativeUrlFromPath($server, $file));
+        $this->assertEquals('file.txt', UrlUtils::generateRelativeUrlFromPath($server, $file2));
+    }
+
+    /**
      * Test generateRelativeUrlFromPath().
      */
     public function testGenerateRelativeUrlFromPathWithSubdirInvalidScript()

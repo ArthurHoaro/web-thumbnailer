@@ -40,7 +40,10 @@ class UrlUtils
      */
     public static function generateRelativeUrlFromPath($server, $path)
     {
-        if (isset($server['DOCUMENT_ROOT'])) {
+        if (isset($server['CONTEXT_DOCUMENT_ROOT'])) {
+            $root = ! empty($server['CONTEXT_DOCUMENT_ROOT']) ? rtrim($server['CONTEXT_DOCUMENT_ROOT'], '/') .'/' : '';
+            $path = substr($path, strlen($root));
+        } elseif (isset($server['DOCUMENT_ROOT'])) {
             $root = ! empty($server['DOCUMENT_ROOT']) ? rtrim($server['DOCUMENT_ROOT'], '/') .'/' : '';
             $path = substr($path, strlen($root));
         }

@@ -56,6 +56,19 @@ class WebThumbnailer
      * OTHER
      */
     /**
+     * Either get a relative or absolute path to the cached image.
+     *
+     * With `relative`, WebThumbnailer will try to retrieve a proper relative path to cached thumbnails
+     * using SCRIPT_FILENAME server variable, but may fail in CLI or if the cache directory isn't
+     * in the same tree as your script file. In this case, you should use `absolute`.
+     */
+    const PATH_TYPE = 'PATH_TYPE';
+
+    const PATH_RELATIVE = 'relative';
+
+    const PATH_ABSOLUTE = 'absolute';
+
+    /**
      * Debug mode. Throw exceptions.
      */
     const DEBUG = 'DEBUG';
@@ -71,6 +84,8 @@ class WebThumbnailer
     protected $crop;
 
     protected $downloadMode = self::DOWNLOAD;
+
+    protected $pathType = self::PATH_RELATIVE;
 
     /**
      * Get the thumbnail for the given URL>
@@ -96,6 +111,7 @@ class WebThumbnailer
                 self::MAX_WIDTH => $this->maxWidth,
                 self::MAX_HEIGHT => $this->maxHeight,
                 self::CROP => $this->crop,
+                self::PATH_TYPE => $this->pathType,
                 $this->downloadMode
             ],
             $options
@@ -173,7 +189,9 @@ class WebThumbnailer
 
     /**
      * Enable download mode
-     * FIXME! details
+     * It will download thumbnail, resize it and save it in the cache folder.
+     *
+     * @return WebThumbnailer $this
      */
     public function modeDownload()
     {
@@ -183,7 +201,9 @@ class WebThumbnailer
 
     /**
      * Enable hotlink mode
-     * FIXME! details
+     * It will use image hotlinking if the domain authorize it, download it otherwise.
+     *
+     * @return WebThumbnailer $this
      */
     public function modeHotlink()
     {
@@ -193,11 +213,36 @@ class WebThumbnailer
 
     /**
      * Enable strict hotlink mode
-     * FIXME! details
+     * It will use image hotlinking if the domain authorize it, fail otherwise.
+     *
+     * @return WebThumbnailer $this
      */
     public function modeHotlinkStrict()
     {
         $this->downloadMode = self::HOTLINK_STRICT;
+        return $this;
+    }
+
+    /**
+     * WT will return a relative path from the calling script to the cached thumbnail,
+     * using provided $_SERVER variables.
+     *
+     * @return WebThumbnailer $this
+     */
+    public function pathRelative()
+    {
+        $this->pathType = self::PATH_RELATIVE;
+        return $this;
+    }
+
+    /**
+     * WT will return an absolute path to the cached thumbnail.
+     *
+     * @return WebThumbnailer $this
+     */
+    public function pathAbsolute()
+    {
+        $this->pathType = self::PATH_ABSOLUTE;
         return $this;
     }
 }

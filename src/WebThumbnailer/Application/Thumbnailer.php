@@ -6,6 +6,7 @@ use WebThumbnailer\Application\WebAccess\WebAccessFactory;
 use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Exception\DownloadException;
 use WebThumbnailer\Exception\ImageConvertException;
+use WebThumbnailer\Exception\IOException;
 use WebThumbnailer\Exception\NotAnImageException;
 use WebThumbnailer\Exception\ThumbnailNotFoundException;
 use WebThumbnailer\Finder\Finder;
@@ -89,6 +90,7 @@ class Thumbnailer
      * @throws ImageConvertException
      * @throws NotAnImageException
      * @throws ThumbnailNotFoundException
+     * @throws IOException
      */
     public function getThumbnail()
     {
@@ -156,6 +158,7 @@ class Thumbnailer
      * @throws DownloadException
      * @throws ImageConvertException
      * @throws NotAnImageException
+     * @throws IOException
      */
     protected function thumbnailHotlink($thumburl)
     {
@@ -175,6 +178,7 @@ class Thumbnailer
      * @throws DownloadException     Couldn't download the image
      * @throws ImageConvertException Thumbnail not generated
      * @throws NotAnImageException
+     * @throws IOException
      */
     protected function thumbnailDownload($thumburl)
     {
@@ -185,7 +189,8 @@ class Thumbnailer
             CacheManager::TYPE_THUMB,
             $this->options[WebThumbnailer::MAX_WIDTH],
             $this->options[WebThumbnailer::MAX_HEIGHT],
-            $this->options[WebThumbnailer::CROP]
+            $this->options[WebThumbnailer::CROP],
+            $this->options[WebThumbnailer::PATH_TYPE]
         );
 
         // If the cache is valid, serve it.
@@ -232,7 +237,10 @@ class Thumbnailer
             throw new ImageConvertException('Thumbnail was not generated.');
         }
 
-        return UrlUtils::generateRelativeUrlFromPath($this->server, $thumbPath);
+        if ($this->options[WebThumbnailer::PATH_TYPE] === WebThumbnailer::PATH_RELATIVE) {
+            return UrlUtils::generateRelativeUrlFromPath($this->server, $thumbPath);
+        }
+        return $thumbPath;
     }
 
     /**
@@ -295,6 +303,12 @@ class Thumbnailer
             $this->options[WebThumbnailer::DEBUG] = false;
         }
 
+        if (isset($options[WebThumbnailer::PATH_TYPE])) {
+            $this->options[WebThumbnailer::PATH_TYPE] = $options[WebThumbnailer::PATH_TYPE];
+        } else {
+            $this->options[WebThumbnailer::PATH_TYPE] = WebThumbnailer::PATH_RELATIVE;
+        }
+
         // Image size
         $this->setSizeOptions($options);
     }
@@ -343,6 +357,7 @@ class Thumbnailer
     /**
      * Make sure user options are coherent.
      *   - Only one thumb mode can be defined.
+     *   - PATH_TYPE is properly defined
      *
      * @param array $options User options array.
      *
@@ -362,6 +377,14 @@ class Thumbnailer
                 }
                 throw new BadRulesException($error);
             }
+        }
+
+        if (isset($options[WebThumbnailer::PATH_TYPE]) && ! in_array(
+            $options[WebThumbnailer::PATH_TYPE],
+            [WebThumbnailer::PATH_RELATIVE, WebThumbnailer::PATH_ABSOLUTE]
+        )) {
+            $error = 'The PATH_TYPE must be either relative or absolute';
+            throw new BadRulesException($error);
         }
     }
 }

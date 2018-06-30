@@ -1,0 +1,13 @@
+<IfModule version_module>
+  <IfVersion >= 2.4>
+     Require all {new_all}
+  </IfVersion>
+  <IfVersion < 2.4>
+     Allow from {old_allow}
+     Deny from {old_deny}
+  </IfVersion>
+</IfModule>
+
+<IfModule !version_module>
+    Require all {new_all}
+</IfModule>

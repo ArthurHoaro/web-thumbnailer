@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v1.2.0 - 2018-06-30
+
+### Added
+
+  * Path type parameter, to retrieve either a relative or an absolute path to the thumbnail cache file
+  * `.htaccess` files are now created in cache folders (denied for `finder` and granted for `thumb`)
+  
+### Changed
+
+  * The relative path to the thumbnail cache file is now retrieved using `SCRIPT_FILENAME`.
+
 ## v1.1.3 - 2018-06-13
 
 ### Fixed

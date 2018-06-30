@@ -168,4 +168,37 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
         ConfigManager::addFile('tests/WebThumbnailer/resources/settings-infinite-cache.json');
         $this->assertTrue(CacheManager::isCacheValid($cacheFile, $domain, CacheManager::TYPE_THUMB));
     }
+
+    /**
+     * Check that htaccess file is properly created (finder -> denied).
+     */
+    public function testHtaccessCreationDenied()
+    {
+        $domain = 'whatever.io';
+        $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_FINDER));
+        $this->assertFileEquals(__DIR__.'/../resources/htaccess_denied', self::$cache .'/finder/.htaccess');
+    }
+
+    /**
+     * Check that htaccess file is properly created (thumb -> granted).
+     */
+    public function testHtaccessCreationGranted()
+    {
+        $domain = 'whatever.io';
+        $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
+        $this->assertFileEquals(__DIR__.'/../resources/htaccess_granted', self::$cache .'/thumb/.htaccess');
+    }
+
+    /**
+     * Check that htaccess file is not overridden if it already exists
+     */
+    public function testHtaccessDontOverride()
+    {
+        $domain = 'whatever.io';
+        $htaccessFile =  self::$cache .'/thumb/.htaccess';
+        mkdir(self::$cache .'/thumb/', 0755, true);
+        file_put_contents($htaccessFile, $content = 'kek');
+        $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
+        $this->assertEquals($content, file_get_contents($htaccessFile));
+    }
 }

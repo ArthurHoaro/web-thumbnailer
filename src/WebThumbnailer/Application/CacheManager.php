@@ -137,11 +137,35 @@ class CacheManager
      */
     protected static function createDomainThumbCacheFolder($domain, $type)
     {
-        $domainFolder = self::getCachePath($type) . $domain;
+        $cachePath = self::getCachePath($type);
+        $domainFolder = $cachePath . $domain;
         if (!file_exists($domainFolder)) {
             mkdir($domainFolder, 0775, false);
             touch($domainFolder . '/' . self::$CLEAN_FILE);
         }
+        self::createHtaccessFile($cachePath, $type === self::TYPE_THUMB);
+    }
+
+    /**
+     * Create a .htaccess file for Apache webserver if it doesn't exists.
+     * The folder should be allowed for thumbs, and denied for finder's cache.
+     *
+     * @param string $path    Cache directory path
+     * @param bool   $allowed Weather the access is allowed or not
+     */
+    protected static function createHtaccessFile($path, $allowed = false)
+    {
+        $htaccessFile = $path . '.htaccess';
+        if (file_exists($htaccessFile)) {
+            return;
+        }
+        $template = new \Text_Template(FileUtils::RESOURCES_PATH . 'htaccess_template');
+        $template->setVar([
+            'new_all' => $allowed ? 'granted' : 'denied',
+            'old_allow' => $allowed ? 'all' : 'none',
+            'old_deny' => $allowed ? 'none' : 'all',
+        ]);
+        file_put_contents($htaccessFile, $template->render());
     }
 
     /**

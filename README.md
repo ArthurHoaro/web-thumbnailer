@@ -139,6 +139,28 @@ Usage:
 $wt = $wt->crop(true);
 $conf = [WebThumbnailer::CROP => true];
 ```
+
+### Path type
+
+By default, WT will try to return a relative path to the thumbnail from where it's called.  
+If it fails due to custom or CLI call, you should use the absolute path setting
+and deal with the thumbnail path manually.
+
+This setting has no effect in `HOTLINK` mode.
+
+Allowed values :
+
+  * **PATH_RELATIVE** (default): WT will return a relative path to the cached thumbnail 
+  * **PATH_ABSOLUTE**: WT will return an absolute path to the cached thumbnail 
+  
+Usage:
+
+```php
+$wt = $wt->pathAbsolute();
+$conf = [
+    WebThumbnailer::PATH_TYPE => WebThumbnailer::PATH_ABSOLUTE,
+];
+```
   
 ### Miscellaneous
 

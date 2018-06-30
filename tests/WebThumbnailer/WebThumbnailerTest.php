@@ -96,6 +96,22 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * URL which contains an opengraph image with absolute path explicitly set.
+     */
+    public function testOpenGraphImageAbsolute()
+    {
+        $image = 'default/le-monde.png';
+        $this->regenerate($image);
+        $expected = dirname(dirname(__DIR__)) .'/'. ConfigManager::get('settings.path.cache')
+            .'thumb/421aa90e079fa326b6494f812ad13e79/7cd2ca97d46d489d8044013ddf645a418246671416016001.jpg';
+        $url = self::LOCAL_SERVER . 'default/le-monde.html';
+        $wt = new WebThumbnailer();
+        $thumb = $wt->pathAbsolute()->thumbnail($url);
+        $this->assertEquals($expected, $thumb);
+        $this->assertFileEquals($expected, $thumb);
+    }
+
+    /**
      * Get a file URL which isn't an image.
      */
     public function testNotAnImage()

@@ -5,6 +5,7 @@ namespace WebThumbnailer\Application;
 use WebThumbnailer\Exception\CacheException;
 use WebThumbnailer\Exception\IOException;
 use WebThumbnailer\Utils\FileUtils;
+use WebThumbnailer\WebThumbnailer;
 
 /**
  * Class CacheManager
@@ -30,6 +31,11 @@ class CacheManager
      * Finder cache.
      */
     const TYPE_FINDER = 'finder';
+
+    const PATH_TYPE = [
+        WebThumbnailer::PATH_RELATIVE => 0,
+        WebThumbnailer::PATH_ABSOLUTE => 1,
+    ];
 
     /**
      * @var string Clean filename, used to clean directories periodically.
@@ -70,15 +76,25 @@ class CacheManager
      * @param int|string $height User setting for image height.
      * @param bool       $crop   Crop enabled or not.
      *
+     * @param string     $pathType
+     *
      * @return string Absolute file path.
+     * @throws IOException
      */
-    public static function getCacheFilePath($url, $domain, $type, $width = 0, $height = 0, $crop = false)
-    {
+    public static function getCacheFilePath(
+        $url,
+        $domain,
+        $type,
+        $width = 0,
+        $height = 0,
+        $crop = false,
+        $pathType = WebThumbnailer::PATH_RELATIVE
+    ) {
         $domainHash = self::getDomainHash($domain);
         self::createDomainThumbCacheFolder($domainHash, $type);
         $domainFolder = FileUtils::getPath(self::getCachePath($type), $domainHash);
         if ($type === self::TYPE_THUMB) {
-            $suffix = $width . $height . ($crop ? '1' : '0') .'.jpg';
+            $suffix = $width . $height . ($crop ? '1' : '0') . (self::PATH_TYPE[$pathType]) .'.jpg';
         } else {
             $suffix = $width . $height;
         }

@@ -83,7 +83,7 @@ class WebThumbnailer
     
     protected $crop;
 
-    protected $downloadMode = self::DOWNLOAD;
+    protected $downloadMode;
 
     protected $pathType = self::PATH_RELATIVE;
 

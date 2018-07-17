@@ -1,0 +1,11 @@
+{
+  "settings": {
+    "default": {
+      "cache_duration": 3600,
+      "download_mode": "HOTLINK"
+    },
+    "path": {
+      "cache": "tests/WebThumbnailer/workdir/cache/"
+    }
+  }
+}

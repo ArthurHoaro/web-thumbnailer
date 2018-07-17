@@ -293,6 +293,19 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Simple opengraph URL, in hotlink mode set by config file.
+     */
+    public function testHotlinkOpenGraphJsonConfig()
+    {
+        $expected = 'http://s1.lemde.fr/image/2016/10/24/644x322/5019472_3_91ef_cette-image-prise-par-la-sonde-americaine-mro_c27bb4fec19310d709347424f93addec.jpg';
+        $url = self::LOCAL_SERVER . 'default/le-monde.html';
+        $wt = new WebThumbnailer();
+        ConfigManager::addFile('tests/WebThumbnailer/resources/settings-hotlink.json');
+        $thumb = $wt->thumbnail($url);
+        $this->assertEquals($expected, $thumb);
+    }
+
+    /**
      * Duplicate expected thumbnails using the current GD version.
      *
      * Different versions of GD will result in slightly different images,

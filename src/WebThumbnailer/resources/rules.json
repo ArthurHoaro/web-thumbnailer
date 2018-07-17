@@ -113,8 +113,8 @@
       }
     },
     "rules": {
-      "url_regex": "\\.com/avatar/(\\w+)",
-      "thumbnail_url": "https://gravatar.com/avatar/${1}?s=${size}"
+      "url_regex": "(https?)://gravatar\\.com/avatar/(\\w+)",
+      "thumbnail_url": "${1}://gravatar.com/avatar/${2}?s=${size}"
     }
   },
   "imgur_single": {

@@ -165,8 +165,8 @@ class FinderFactoryTest extends \PHPUnit_Framework_TestCase
         $data = FinderFactory::getThumbnailMeta('gravatar.com', 'http://gravatar.com/avatar/bla/bla');
         $this->assertEquals('gravatar.com', $data[0]);
         $this->assertEquals('UrlRegex', $data[1]);
-        $this->assertEquals('\.com/avatar/(\w+)', $data[2]['url_regex']);
-        $this->assertEquals('https://gravatar.com/avatar/${1}?s=${size}', $data[2]['thumbnail_url']);
+        $this->assertEquals('(https?)://gravatar\\.com/avatar/(\\w+)', $data[2]['url_regex']);
+        $this->assertEquals('${1}://gravatar.com/avatar/${2}?s=${size}', $data[2]['thumbnail_url']);
         $this->assertTrue($data[3]['hotlink_allowed']);
         $this->assertEquals('medium', $data[3]['size']['default']);
         // random size value

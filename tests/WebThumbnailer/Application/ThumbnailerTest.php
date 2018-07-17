@@ -18,12 +18,12 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string Gravatar image link.
      */
-    public static $gravatarLink = 'https://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f';
+    public static $gravatarLink = 'http://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f';
 
     /**
      * @var string Associated Gravatar thumbnail.
      */
-    public static $gravatarThumb = 'https://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f?s=320';
+    public static $gravatarThumb = 'http://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f?s=320';
 
     public function setUp()
     {
@@ -131,7 +131,7 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
         ];
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $fileHash = hash('sha1', 'https://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f?s=160');
+        $fileHash = hash('sha1', 'http://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f?s=160');
         $this->assertContains('/cache/thumb/'. md5('gravatar.com') .'/'. $fileHash .'16016000.jpg', $thumburl);
         $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(SizeUtils::getMetaSize(WebThumbnailer::SIZE_SMALL), imagesx($img));

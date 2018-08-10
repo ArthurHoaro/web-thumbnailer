@@ -1,0 +1,2 @@
+Allow from {old_allow}
+Deny from {old_deny}

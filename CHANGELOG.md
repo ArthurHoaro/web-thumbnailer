@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v1.3.0 - 2018-08-11
+
+### Added
+
+  * Add a setting to force Apache version for htaccess syntax
+
+### Fixed
+
+  * PHPDocs improvements
+
+### Removed
+
+  * Parameter `PATH_TYPE` has been removed
+  * WebThumbnailer no longer try to resolve relative path to thumbnails, it now relies on provided `path.cache` setting
+
 ## v1.2.1 - 2018-07-17
 
 ### Fixed

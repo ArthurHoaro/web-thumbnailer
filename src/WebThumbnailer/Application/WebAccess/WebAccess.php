@@ -2,6 +2,9 @@
 
 namespace WebThumbnailer\Application\WebAccess;
 
+use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\Exception\IOException;
+
 /**
  * Interface WebAccess
  *
@@ -23,6 +26,9 @@ interface WebAccess
      *                             Used with $downloadCallback, it allows to store the actual response content.
      *
      * @return array HTTP response headers, downloaded content
+     *
+     * @throws BadRulesException
+     * @throws IOException
      *
      * Output format:
      *  [0] = associative array containing HTTP response headers

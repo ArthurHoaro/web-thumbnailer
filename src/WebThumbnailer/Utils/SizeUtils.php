@@ -26,7 +26,10 @@ class SizeUtils
      *
      * @param string $size Meta size to convert.
      *
-     * @return int
+     * @return int the size in pixels
+     *
+     * @throws \WebThumbnailer\Exception\BadRulesException
+     * @throws \WebThumbnailer\Exception\IOException
      */
     public static function getMetaSize($size)
     {

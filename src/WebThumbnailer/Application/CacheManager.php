@@ -2,10 +2,10 @@
 
 namespace WebThumbnailer\Application;
 
+use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Exception\CacheException;
 use WebThumbnailer\Exception\IOException;
 use WebThumbnailer\Utils\FileUtils;
-use WebThumbnailer\WebThumbnailer;
 
 /**
  * Class CacheManager
@@ -46,6 +46,8 @@ class CacheManager
      * @return string Cache path.
      *
      * @throws IOException Type not found.
+     * @throws CacheException
+     * @throws BadRulesException
      */
     public static function getCachePath($type, $rebuilt = false)
     {
@@ -73,6 +75,8 @@ class CacheManager
      *
      * @return string Absolute file path.
      * @throws IOException
+     * @throws CacheException
+     * @throws BadRulesException
      */
     public static function getCacheFilePath(
         $url,
@@ -100,10 +104,14 @@ class CacheManager
      * Support endless cache using a negative value.
      *
      * @param string $cacheFile Cache file path.
-     * @param string $domain Domain concerned.
-     * @param string $type   Type of cache.
+     * @param string $domain    Domain concerned.
+     * @param string $type      Type of cache.
      *
      * @return bool true if valid cache exists, false otherwise.
+     *
+     * @throws CacheException
+     * @throws IOException
+     * @throws BadRulesException
      */
     public static function isCacheValid($cacheFile, $domain, $type)
     {
@@ -126,6 +134,10 @@ class CacheManager
      *
      * @param string $domain Domain used.
      * @param string $type   Type of cache.
+     *
+     * @throws CacheException
+     * @throws IOException
+     * @throws BadRulesException
      */
     protected static function createDomainThumbCacheFolder($domain, $type)
     {
@@ -144,6 +156,9 @@ class CacheManager
      *
      * @param string $path    Cache directory path
      * @param bool   $allowed Weather the access is allowed or not
+     *
+     * @throws BadRulesException
+     * @throws IOException
      */
     protected static function createHtaccessFile($path, $allowed = false)
     {
@@ -193,6 +208,9 @@ class CacheManager
 
     /**
      * Recreates cache folders just in case the user delete them.
+     *
+     * @throws BadRulesException
+     * @throws IOException
      */
     protected static function rebuildCacheFolders()
     {

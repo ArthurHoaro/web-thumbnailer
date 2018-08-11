@@ -99,6 +99,20 @@ class ImageUtils
         imagedestroy($targetImg);
     }
 
+    /**
+     * Calculate image new size to keep proportions depending on actual image size
+     * and max width/height settings.
+     *
+     * @param int  $originalWidth  Image original width
+     * @param int  $originalHeight Image original height
+     * @param int  $maxWidth       Target image maximum width
+     * @param int  $maxHeight      Target image maximum height
+     * @param bool $crop           Is cropping enabled
+     *
+     * @return array [final width, final height]
+     *
+     * @throws ImageConvertException At least maxwidth or maxheight needs to be defined
+     */
     public static function calcNewSize($originalWidth, $originalHeight, $maxWidth, $maxHeight, $crop)
     {
         if (empty($maxHeight) && empty($maxWidth)) {

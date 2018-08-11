@@ -2,6 +2,8 @@
 
 namespace WebThumbnailer\Application;
 
+use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\Exception\IOException;
 use WebThumbnailer\Utils\DataUtils;
 use WebThumbnailer\Utils\FileUtils;
 
@@ -33,6 +35,9 @@ class ConfigManager
 
     /**
      * Rebuild the loaded config array from config files.
+     *
+     * @throws IOException
+     * @throws BadRulesException
      */
     public static function reload()
     {
@@ -41,6 +46,9 @@ class ConfigManager
 
     /**
      * Initialize loaded conf in ConfigManager.
+     *
+     * @throws IOException
+     * @throws BadRulesException
      */
     protected static function initialize()
     {
@@ -54,6 +62,9 @@ class ConfigManager
      * Add a configuration file.
      *
      * @param string $file path.
+     *
+     * @throws BadRulesException
+     * @throws IOException
      */
     public static function addFile($file)
     {
@@ -63,6 +74,9 @@ class ConfigManager
 
     /**
      * Clear the current config
+     *
+     * @throws BadRulesException
+     * @throws IOException
      */
     public static function clear()
     {
@@ -84,6 +98,9 @@ class ConfigManager
      * @param mixed  $default Default value if not found.
      *
      * @return mixed Found setting, or the default value.
+     *
+     * @throws BadRulesException
+     * @throws IOException
      */
     public static function get($setting, $default = '')
     {

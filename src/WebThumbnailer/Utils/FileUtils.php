@@ -39,7 +39,7 @@ class FileUtils
      *
      * @param string $path to delete.
      *
-     * @return null|bool Nothing or false if an invalid path is provided.
+     * @return bool Nothing or false if an invalid path is provided.
      */
     public static function rmdir($path)
     {
@@ -58,6 +58,6 @@ class FileUtils
             $value->isFile() ? unlink($value) : rmdir($value);
         }
 
-        rmdir($path);
+        return rmdir($path);
     }
 }

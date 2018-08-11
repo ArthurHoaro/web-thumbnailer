@@ -3,6 +3,7 @@
 namespace WebThumbnailer\Finder;
 
 use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\Exception\IOException;
 
 /**
  * Interface Finder
@@ -32,6 +33,9 @@ interface Finder
      * using provided rules and options.
      *
      * @return string|bool Thumbnail URL or false if it couldn't be resolved.
+     *
+     * @throws IOException
+     * @throws BadRulesException
      */
     public function find();
 

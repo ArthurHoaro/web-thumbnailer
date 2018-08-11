@@ -4,17 +4,19 @@ namespace WebThumbnailer\Application;
 
 use WebThumbnailer\Application\WebAccess\WebAccessFactory;
 use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\Exception\CacheException;
 use WebThumbnailer\Exception\DownloadException;
 use WebThumbnailer\Exception\ImageConvertException;
 use WebThumbnailer\Exception\IOException;
+use WebThumbnailer\Exception\MissingRequirementException;
 use WebThumbnailer\Exception\NotAnImageException;
 use WebThumbnailer\Exception\ThumbnailNotFoundException;
+use WebThumbnailer\Exception\UnsupportedDomainException;
 use WebThumbnailer\Finder\Finder;
 use WebThumbnailer\Finder\FinderFactory;
 use WebThumbnailer\Utils\ApplicationUtils;
 use WebThumbnailer\Utils\ImageUtils;
 use WebThumbnailer\Utils\SizeUtils;
-use WebThumbnailer\Utils\UrlUtils;
 use WebThumbnailer\WebThumbnailer;
 
 /**
@@ -57,12 +59,13 @@ class Thumbnailer
     /**
      * Thumbnailer constructor.
      *
-     * @param string $url User given URL, from where to generate a thumbnail.
-     * @param array $options Thumbnailer user options.
-     * @param array $server $_SERVER.
+     * @param string $url     User given URL, from where to generate a thumbnail.
+     * @param array  $options Thumbnailer user options.
+     * @param array  $server  $_SERVER.
      *
-     * @throws \WebThumbnailer\Exception\MissingRequirementException
-     * @throws \WebThumbnailer\Exception\UnsupportedDomainException
+     * @throws MissingRequirementException
+     * @throws BadRulesException
+     * @throws IOException
      */
     public function __construct($url, $options, $server)
     {
@@ -91,6 +94,8 @@ class Thumbnailer
      * @throws NotAnImageException
      * @throws ThumbnailNotFoundException
      * @throws IOException
+     * @throws CacheException
+     * @throws BadRulesException
      */
     public function getThumbnail()
     {
@@ -124,8 +129,7 @@ class Thumbnailer
         // Hotlink if available, download otherwise.
         if ($this->options[self::$DL_OPTION] === WebThumbnailer::HOTLINK) {
             return $this->thumbnailHotlink($thumburl);
-        } // Download
-        else {
+        } else { // Download
             return $this->thumbnailDownload($thumburl);
         }
     }
@@ -159,6 +163,8 @@ class Thumbnailer
      * @throws ImageConvertException
      * @throws NotAnImageException
      * @throws IOException
+     * @throws CacheException
+     * @throws BadRulesException
      */
     protected function thumbnailHotlink($thumburl)
     {
@@ -179,6 +185,8 @@ class Thumbnailer
      * @throws ImageConvertException Thumbnail not generated
      * @throws NotAnImageException
      * @throws IOException
+     * @throws CacheException
+     * @throws BadRulesException
      */
     protected function thumbnailDownload($thumburl)
     {
@@ -245,6 +253,7 @@ class Thumbnailer
      * @param array $options User options array.
      *
      * @throws BadRulesException
+     * @throws IOException
      */
     protected function setOptions($options)
     {
@@ -307,6 +316,9 @@ class Thumbnailer
      * Set specific size option, allowing 'meta' size SMALL, MEDIUM, etc.
      *
      * @param array $options User options array.
+     *
+     * @throws BadRulesException
+     * @throws IOException
      */
     protected function setSizeOptions($options)
     {

@@ -3,11 +3,13 @@
 namespace WebThumbnailer\Finder;
 
 use WebThumbnailer\Application\ConfigManager;
+use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\Exception\IOException;
+use WebThumbnailer\Exception\UnsupportedDomainException;
 use WebThumbnailer\Utils\DataUtils;
 use WebThumbnailer\Utils\FileUtils;
 use WebThumbnailer\Utils\FinderUtils;
 use WebThumbnailer\Utils\UrlUtils;
-use WebThumbnailer\Exception;
 
 /**
  * Class FinderFactory
@@ -25,7 +27,8 @@ class FinderFactory
      *
      * @return Finder object.
      *
-     * @throws Exception\UnsupportedDomainException
+     * @throws BadRulesException
+     * @throws IOException
      */
     public static function getFinder($url)
     {
@@ -35,9 +38,9 @@ class FinderFactory
 
             $className = '\\WebThumbnailer\\Finder\\' . $finder . 'Finder';
             if (!class_exists($className)) {
-                throw new Exception\UnsupportedDomainException();
+                throw new UnsupportedDomainException();
             }
-        } catch (Exception\UnsupportedDomainException $e) {
+        } catch (UnsupportedDomainException $e) {
             $className = '\\WebThumbnailer\\Finder\\DefaultFinder';
             $rules = [];
             $options = [];
@@ -54,8 +57,9 @@ class FinderFactory
      *
      * @return array [domains, finder name, rules, options].
      *
-     * @throws Exception\UnsupportedDomainException No rules found for the domains.
-     * @throws Exception\BadRulesException          Mandatory rules not found for the domains.
+     * @throws UnsupportedDomainException No rules found for the domains.
+     * @throws BadRulesException          Mandatory rules not found for the domains.
+     * @throws IOException
      */
     public static function getThumbnailMeta($inputDomain, $url)
     {
@@ -102,7 +106,7 @@ class FinderFactory
             return [$domain, $value['finder'], $value['rules'], $value['options']];
         }
 
-        throw new Exception\UnsupportedDomainException();
+        throw new UnsupportedDomainException();
     }
 
     /**
@@ -110,14 +114,14 @@ class FinderFactory
      *
      * @param array $rules JSON directives.
      *
-     * @throws Exception\BadRulesException Mandatory rules not found for the domains.
+     * @throws BadRulesException Mandatory rules not found for the domains.
      */
     public static function checkMetaFormat($rules)
     {
         $mandatoryDirectives = ['domains', 'finder'];
         foreach ($mandatoryDirectives as $mandatoryDirective) {
             if (empty($rules[$mandatoryDirective])) {
-                throw new Exception\BadRulesException();
+                throw new BadRulesException();
             }
         }
     }

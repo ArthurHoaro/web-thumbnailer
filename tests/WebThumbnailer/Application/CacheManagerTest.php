@@ -87,7 +87,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_dir($whateverDir));
         $this->assertContains($whateverDir, $cacheFile);
         // sha1 sum + dimensions
-        $this->assertContains('0a35602901944a0c6d853da2a5364665c2bda069' . '512000' . '.jpg', $cacheFile);
+        $this->assertContains('0a35602901944a0c6d853da2a5364665c2bda069' . '51200' . '.jpg', $cacheFile);
     }
 
     /**

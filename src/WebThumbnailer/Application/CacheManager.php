@@ -32,11 +32,6 @@ class CacheManager
      */
     const TYPE_FINDER = 'finder';
 
-    const PATH_TYPE = [
-        WebThumbnailer::PATH_RELATIVE => 0,
-        WebThumbnailer::PATH_ABSOLUTE => 1,
-    ];
-
     /**
      * @var string Clean filename, used to clean directories periodically.
      */
@@ -48,7 +43,7 @@ class CacheManager
      * @param string $type    Type of cache.
      * @param bool   $rebuilt Flag to tell if a rebuild tentative has been done.
      *
-     * @return string Cache absolute path.
+     * @return string Cache path.
      *
      * @throws IOException Type not found.
      */
@@ -76,8 +71,6 @@ class CacheManager
      * @param int|string $height User setting for image height.
      * @param bool       $crop   Crop enabled or not.
      *
-     * @param string     $pathType
-     *
      * @return string Absolute file path.
      * @throws IOException
      */
@@ -87,14 +80,13 @@ class CacheManager
         $type,
         $width = 0,
         $height = 0,
-        $crop = false,
-        $pathType = WebThumbnailer::PATH_RELATIVE
+        $crop = false
     ) {
         $domainHash = self::getDomainHash($domain);
         self::createDomainThumbCacheFolder($domainHash, $type);
         $domainFolder = FileUtils::getPath(self::getCachePath($type), $domainHash);
         if ($type === self::TYPE_THUMB) {
-            $suffix = $width . $height . ($crop ? '1' : '0') . (self::PATH_TYPE[$pathType]) .'.jpg';
+            $suffix = $width . $height . ($crop ? '1' : '0') .'.jpg';
         } else {
             $suffix = $width . $height;
         }

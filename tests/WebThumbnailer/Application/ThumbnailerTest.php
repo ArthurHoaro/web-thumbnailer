@@ -93,7 +93,7 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
         $fileHash = hash('sha1', self::$gravatarThumb);
-        $this->assertContains('/cache/thumb/'. md5('gravatar.com') .'/'. $fileHash .'16016000.jpg', $thumburl);
+        $this->assertEquals('cache/thumb/'. md5('gravatar.com') .'/'. $fileHash .'1601600.jpg', $thumburl);
         unlink($thumburl);
     }
 
@@ -111,7 +111,7 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
 
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $this->assertContains('/cache/thumb/'. md5('gravatar.com') .'/' . $fileHash . '20520500.jpg', $thumburl);
+        $this->assertEquals('cache/thumb/'. md5('gravatar.com') .'/' . $fileHash . '2052050.jpg', $thumburl);
         $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(205, imagesx($img));
         $this->assertEquals(205, imagesy($img));
@@ -132,7 +132,7 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
         $fileHash = hash('sha1', 'http://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f?s=160');
-        $this->assertContains('/cache/thumb/'. md5('gravatar.com') .'/'. $fileHash .'16016000.jpg', $thumburl);
+        $this->assertEquals('cache/thumb/'. md5('gravatar.com') .'/'. $fileHash .'1601600.jpg', $thumburl);
         $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(SizeUtils::getMetaSize(WebThumbnailer::SIZE_SMALL), imagesx($img));
         $this->assertEquals(SizeUtils::getMetaSize(WebThumbnailer::SIZE_SMALL), imagesy($img));
@@ -153,7 +153,7 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
 
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $this->assertContains('/cache/thumb/'. md5('gravatar.com') .'/' . $fileHash . '020500.jpg', $thumburl);
+        $this->assertEquals('cache/thumb/'. md5('gravatar.com') .'/' . $fileHash . '02050.jpg', $thumburl);
         $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(205, imagesx($img));
         $this->assertEquals(205, imagesy($img));
@@ -174,30 +174,13 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
 
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $this->assertContains('/cache/thumb/'. md5('gravatar.com') .'/' . $fileHash . '205000.jpg', $thumburl);
+        $this->assertEquals('cache/thumb/'. md5('gravatar.com') .'/' . $fileHash . '20500.jpg', $thumburl);
         $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(205, imagesx($img));
         $this->assertEquals(205, imagesy($img));
         imagedestroy($img);
         unlink($thumburl);
     }
-
-    /**
-     *Test downloadThumbnail() with absolute path.
-     */
-    public function testDownloadThumbnailAbsolute()
-    {
-        $options = [
-            WebThumbnailer::DOWNLOAD,
-            WebThumbnailer::PATH_TYPE => WebThumbnailer::PATH_ABSOLUTE,
-        ];
-        $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
-        $thumburl = $thumbnailer->getThumbnail();
-        $fileHash = hash('sha1', self::$gravatarThumb);
-        $this->assertContains('/cache/thumb/'. md5('gravatar.com') .'/'. $fileHash .'16016001.jpg', $thumburl);
-        unlink($thumburl);
-    }
-
 
     /**
      * Try to create an instance of Thumbnailer with incompatible settings.
@@ -210,20 +193,6 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
         $options = [
             WebThumbnailer::DOWNLOAD,
             WebThumbnailer::HOTLINK_STRICT,
-        ];
-        new Thumbnailer(self::$gravatarLink, $options, null);
-    }
-
-    /**
-     * Try to create an instance of Thumbnailer with incompatible settings.
-     *
-     * @expectedException WebThumbnailer\Exception\BadRulesException
-     * @expectedExceptionMessageRegExp /The PATH_TYPE must be either relative or absolute/
-     */
-    public function testDownloadBadConfigurationPathType()
-    {
-        $options = [
-            WebThumbnailer::PATH_TYPE => 'kek'
         ];
         new Thumbnailer(self::$gravatarLink, $options, null);
     }

@@ -51,22 +51,6 @@ class WebThumbnailer
      * Crop image to fixed size.
      */
     const CROP = 'CROP';
-    
-    /*
-     * OTHER
-     */
-    /**
-     * Either get a relative or absolute path to the cached image.
-     *
-     * With `relative`, WebThumbnailer will try to retrieve a proper relative path to cached thumbnails
-     * using SCRIPT_FILENAME server variable, but may fail in CLI or if the cache directory isn't
-     * in the same tree as your script file. In this case, you should use `absolute`.
-     */
-    const PATH_TYPE = 'PATH_TYPE';
-
-    const PATH_RELATIVE = 'relative';
-
-    const PATH_ABSOLUTE = 'absolute';
 
     /**
      * Debug mode. Throw exceptions.
@@ -84,8 +68,6 @@ class WebThumbnailer
     protected $crop;
 
     protected $downloadMode;
-
-    protected $pathType = self::PATH_RELATIVE;
 
     /**
      * Get the thumbnail for the given URL>
@@ -111,7 +93,6 @@ class WebThumbnailer
                 self::MAX_WIDTH => $this->maxWidth,
                 self::MAX_HEIGHT => $this->maxHeight,
                 self::CROP => $this->crop,
-                self::PATH_TYPE => $this->pathType,
                 $this->downloadMode
             ],
             $options
@@ -220,29 +201,6 @@ class WebThumbnailer
     public function modeHotlinkStrict()
     {
         $this->downloadMode = self::HOTLINK_STRICT;
-        return $this;
-    }
-
-    /**
-     * WT will return a relative path from the calling script to the cached thumbnail,
-     * using provided $_SERVER variables.
-     *
-     * @return WebThumbnailer $this
-     */
-    public function pathRelative()
-    {
-        $this->pathType = self::PATH_RELATIVE;
-        return $this;
-    }
-
-    /**
-     * WT will return an absolute path to the cached thumbnail.
-     *
-     * @return WebThumbnailer $this
-     */
-    public function pathAbsolute()
-    {
-        $this->pathType = self::PATH_ABSOLUTE;
         return $this;
     }
 }

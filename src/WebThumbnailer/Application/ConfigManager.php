@@ -62,6 +62,17 @@ class ConfigManager
     }
 
     /**
+     * Clear the current config
+     */
+    public static function clear()
+    {
+        self::$configFiles = [
+            FileUtils::RESOURCES_PATH . 'settings.json',
+        ];
+        self::reload();
+    }
+
+    /**
      * Get a setting.
      *
      * Supports nested settings with dot separated keys.

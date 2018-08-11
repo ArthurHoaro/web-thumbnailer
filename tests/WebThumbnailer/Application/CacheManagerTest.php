@@ -190,6 +190,72 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check that htaccess file is properly created with Apache 2.2 forced (finder -> granted).
+     */
+    public function testHtaccess22CreationDenied()
+    {
+        $domain = 'whatever.io';
+        ConfigManager::addFile(__DIR__.'/../resources/settings-apache22.json');
+        $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_FINDER));
+        $this->assertFileEquals(__DIR__.'/../resources/htaccess22_denied', self::$cache .'/finder/.htaccess');
+    }
+
+    /**
+     * Check that htaccess file is properly created with Apache 2.2 forced (finder -> denied).
+     */
+    public function testHtaccess22CreationGranted()
+    {
+        $domain = 'whatever.io';
+        ConfigManager::addFile(__DIR__.'/../resources/settings-apache22.json');
+        $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
+        $this->assertFileEquals(__DIR__.'/../resources/htaccess22_granted', self::$cache .'/thumb/.htaccess');
+    }
+
+    /**
+     * Check that htaccess file is properly created with Apache 2.4 forced (finder -> granted).
+     */
+    public function testHtaccess24CreationDenied()
+    {
+        $domain = 'whatever.io';
+        ConfigManager::addFile(__DIR__.'/../resources/settings-apache24.json');
+        $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_FINDER));
+        $this->assertFileEquals(__DIR__.'/../resources/htaccess24_denied', self::$cache .'/finder/.htaccess');
+    }
+
+    /**
+     * Check that htaccess file is properly created with Apache 2.4 forced (finder -> denied).
+     */
+    public function testHtaccess24CreationGranted()
+    {
+        $domain = 'whatever.io';
+        ConfigManager::addFile(__DIR__.'/../resources/settings-apache24.json');
+        $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
+        $this->assertFileEquals(__DIR__.'/../resources/htaccess24_granted', self::$cache .'/thumb/.htaccess');
+    }
+
+    /**
+     * Check that htaccess file is properly created with Apache invalid version forced (finder -> granted).
+     */
+    public function testHtaccessInvalidCreationDenied()
+    {
+        $domain = 'whatever.io';
+        ConfigManager::addFile(__DIR__.'/../resources/settings-apache-ko.json');
+        $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_FINDER));
+        $this->assertFileEquals(__DIR__.'/../resources/htaccess_denied', self::$cache .'/finder/.htaccess');
+    }
+
+    /**
+     * Check that htaccess file is properly created with Apache invalid version forced (finder -> denied).
+     */
+    public function testHtaccessInvalidCreationGranted()
+    {
+        $domain = 'whatever.io';
+        ConfigManager::addFile(__DIR__.'/../resources/settings-apache-ko.json');
+        $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
+        $this->assertFileEquals(__DIR__.'/../resources/htaccess_granted', self::$cache .'/thumb/.htaccess');
+    }
+
+    /**
      * Check that htaccess file is not overridden if it already exists
      */
     public function testHtaccessDontOverride()

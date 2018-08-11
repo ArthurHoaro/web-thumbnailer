@@ -155,11 +155,15 @@ class CacheManager
      */
     protected static function createHtaccessFile($path, $allowed = false)
     {
+        $apacheVersion = ConfigManager::get('settings.apache_version', '');
         $htaccessFile = $path . '.htaccess';
         if (file_exists($htaccessFile)) {
             return;
         }
-        $template = new \Text_Template(FileUtils::RESOURCES_PATH . 'htaccess_template');
+        $templateFile = file_exists(FileUtils::RESOURCES_PATH .'htaccess'. $apacheVersion .'_template')
+            ? FileUtils::RESOURCES_PATH .'htaccess'. $apacheVersion .'_template'
+            : FileUtils::RESOURCES_PATH .'htaccess_template';
+        $template = new \Text_Template($templateFile);
         $template->setVar([
             'new_all' => $allowed ? 'granted' : 'denied',
             'old_allow' => $allowed ? 'all' : 'none',

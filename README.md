@@ -203,6 +203,8 @@ Available settings:
     * `cache_duration`: cache validity duration, in seconds (use a negative value for infinite cache).
   * `path`:
     * `cache`: cache path.
+  * `apache_version`: force `.htaccess` syntax depending on Apache's version, otherwise it uses `mod_version`
+  (allowed values: `2.2` or `2.4`).
     
 ## Contributing
 

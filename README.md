@@ -139,28 +139,6 @@ Usage:
 $wt = $wt->crop(true);
 $conf = [WebThumbnailer::CROP => true];
 ```
-
-### Path type
-
-By default, WT will try to return a relative path to the thumbnail from where it's called.  
-If it fails due to custom or CLI call, you should use the absolute path setting
-and deal with the thumbnail path manually.
-
-This setting has no effect in `HOTLINK` mode.
-
-Allowed values :
-
-  * **PATH_RELATIVE** (default): WT will return a relative path to the cached thumbnail 
-  * **PATH_ABSOLUTE**: WT will return an absolute path to the cached thumbnail 
-  
-Usage:
-
-```php
-$wt = $wt->pathAbsolute();
-$conf = [
-    WebThumbnailer::PATH_TYPE => WebThumbnailer::PATH_ABSOLUTE,
-];
-```
   
 ### Miscellaneous
 
@@ -205,6 +183,20 @@ Available settings:
     * `cache`: cache path.
   * `apache_version`: force `.htaccess` syntax depending on Apache's version, otherwise it uses `mod_version`
   (allowed values: `2.2` or `2.4`).
+    
+## Thumbnails path
+
+In download mode, the path to the thumbnail returned by WebThumbnailer library will depend on what's provided 
+to the `path.cache` setting. If an absolute path is set, thumbnails will be attached to an absolute path,
+same for relative.
+
+Relative path will depend on the entry point of the execution. For example, if your entry point for all request
+is an `index.php` file in your project root directory, the default `cache/` setting will create a `cache/` folder
+in the root directory. Another example, for Symfony, the cache folder will be relative to the `web/` directory, 
+which is the entry point with `app.php`.
+
+If you don't have a single entry point in your project folder structure, you should provide an absolute path
+and process the path yourself.
     
 ## Contributing
 

@@ -15,11 +15,12 @@ class FileUtils
     const RESOURCES_PATH = __DIR__ . DIRECTORY_SEPARATOR .'..'. DIRECTORY_SEPARATOR .'resources'. DIRECTORY_SEPARATOR;
 
     /**
-     * Build the real path from all given folders, with a trailing /.
+     * Build the path from all given folders, with a trailing /.
+     * It will stay a relative or absolute path depending on what's provided.
      *
      * @param string[] $args Suite of path/folders.
      *
-     * @return string|bool Real path with proper directory separators, false if it doesn't exist.
+     * @return string|bool Path with proper directory separators, false if it doesn't exist.
      */
     public static function getPath(...$args)
     {
@@ -30,8 +31,7 @@ class FileUtils
         foreach ($args as $arg) {
             $out .= rtrim(rtrim($arg, '/'), '\\') . DIRECTORY_SEPARATOR;
         }
-        $out = realpath($out);
-        return $out !== false ? $out . DIRECTORY_SEPARATOR : false;
+        return is_dir($out) ? $out : false;
     }
 
     /**

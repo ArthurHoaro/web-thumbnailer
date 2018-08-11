@@ -27,51 +27,6 @@ class UrlUtilsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test generateRelativeUrlFromPath().
-     */
-    public function testGenerateRelativeUrlFromPath()
-    {
-        $server = [
-            'SCRIPT_FILENAME' => '/home/website/index.php',
-        ];
-        $file   = '/home/website/resource/file.txt';
-        $file2   = '/home/website/file.txt';
-
-        $this->assertEquals('resource/file.txt', UrlUtils::generateRelativeUrlFromPath($server, $file));
-        $this->assertEquals('file.txt', UrlUtils::generateRelativeUrlFromPath($server, $file2));
-    }
-
-    /**
-     * Test generateRelativeUrlFromPath().
-     */
-    public function testGenerateRelativeUrlFromPathWithSubdir()
-    {
-        $server = [
-            'SCRIPT_FILENAME' => '/home/website/subdir/file.php',
-        ];
-        $file   = '/home/website/subdir/resource/file.txt';
-        $file2   = '/home/website/subdir/file.txt';
-
-        $this->assertEquals('resource/file.txt', UrlUtils::generateRelativeUrlFromPath($server, $file));
-        $this->assertEquals('file.txt', UrlUtils::generateRelativeUrlFromPath($server, $file2));
-    }
-
-    /**
-     * Test generateRelativeUrlFromPath().
-     */
-    public function testGenerateRelativeUrlFromPathWithSubdirInvalidScript()
-    {
-        $server = [
-            'SCRIPT_FILENAME' => '/home/website/subdir/not-a-script',
-        ];
-        $file   = '/home/website/subdir/resource/file.txt';
-        $file2   = '/home/website/subdir/file.txt';
-
-        $this->assertEquals($file, UrlUtils::generateRelativeUrlFromPath($server, $file));
-        $this->assertEquals($file2, UrlUtils::generateRelativeUrlFromPath($server, $file2));
-    }
-
-    /**
      * Test getUrlFileExtension from various URL/file type.
      */
     public function testGetUrlFileExtension()

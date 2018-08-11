@@ -27,6 +27,11 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string $cache relative path.
      */
+    protected static $tmp = 'tests/WebThumbnailer/workdir/tmp/';
+
+    /**
+     * @var string $cache relative path.
+     */
     protected static $expected = 'tests/WebThumbnailer/resources/expected-thumbs/';
 
     /**
@@ -40,6 +45,7 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $resource = 'tests/WebThumbnailer/resources/';
+        ConfigManager::clear();
         ConfigManager::addFile($resource . 'settings-useful.json');
     }
 
@@ -49,6 +55,7 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         FileUtils::rmdir(self::$cache);
+        FileUtils::rmdir(self::$tmp);
         FileUtils::rmdir(self::$regenerated);
     }
 
@@ -102,11 +109,23 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     {
         $image = 'default/le-monde.png';
         $this->regenerate($image);
-        $expected = dirname(dirname(__DIR__)) .'/'. ConfigManager::get('settings.path.cache')
-            .'thumb/421aa90e079fa326b6494f812ad13e79/7cd2ca97d46d489d8044013ddf645a418246671416016001.jpg';
+        mkdir(self::$tmp);
+        file_put_contents(
+            $conf = self::$tmp .'tmp.json',
+            json_encode([
+                'settings' => [
+                    'path' => [
+                        'cache' => self::$cache,
+                    ],
+                ],
+            ])
+        );
+        ConfigManager::addFile($conf);
+        $expected =  self::$cache
+            .'thumb/421aa90e079fa326b6494f812ad13e79/7cd2ca97d46d489d8044013ddf645a41824667141601600.jpg';
         $url = self::LOCAL_SERVER . 'default/le-monde.html';
         $wt = new WebThumbnailer();
-        $thumb = $wt->pathAbsolute()->thumbnail($url);
+        $thumb = $wt->thumbnail($url);
         $this->assertEquals($expected, $thumb);
         $this->assertFileEquals($expected, $thumb);
     }

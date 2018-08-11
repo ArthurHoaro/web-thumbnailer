@@ -27,29 +27,6 @@ class UrlUtils
     }
 
     /**
-     * Generate a relative URL from absolute local path.
-     * Example:
-     *    - /home/website/resources/file.txt
-     *    ====>
-     *    - resources/file.txt
-     *
-     * @param array  $server $_SERVER array.
-     * @param string $path   Absolute path to transform.
-     *
-     * @return string Relative path.
-     */
-    public static function generateRelativeUrlFromPath($server, $path)
-    {
-        if (isset($server['SCRIPT_FILENAME'])
-            && preg_match('#^(.+/)\w+\.php$#', $server['SCRIPT_FILENAME'], $matches) > 0
-        ) {
-            $path = substr($path, strlen($matches[1]));
-        }
-
-        return $path;
-    }
-
-    /**
      * Retrieve the file extension from a URL.
      *
      * @param string $url given URL.

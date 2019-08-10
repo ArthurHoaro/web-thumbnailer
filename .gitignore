@@ -3,3 +3,4 @@ workdir/*
 !.gitkeep
 coverage
 vendor
+composer.lock

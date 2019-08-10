@@ -2,6 +2,7 @@
 
 namespace WebThumbnailer\Application;
 
+use PHPUnit\Framework\TestCase;
 use WebThumbnailer\Utils\DataUtils;
 use WebThumbnailer\Utils\FileUtils;
 
@@ -12,12 +13,12 @@ use WebThumbnailer\Utils\FileUtils;
  *
  * @package WebThumbnailer\Application
  */
-class ConfigManagerTest extends \PHPUnit_Framework_TestCase
+class ConfigManagerTest extends TestCase
 {
     /**
      * Before each test method.
      */
-    public function setUp()
+    public function setUp(): void
     {
         ConfigManager::$configFiles = [];
         ConfigManager::reload();

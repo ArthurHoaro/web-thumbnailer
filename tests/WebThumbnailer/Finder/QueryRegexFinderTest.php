@@ -2,6 +2,8 @@
 
 namespace WebThumbnailer\Finder;
 
+use PHPUnit\Framework\TestCase;
+use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Utils\DataUtils;
 use WebThumbnailer\Utils\FileUtils;
 
@@ -10,7 +12,7 @@ use WebThumbnailer\Utils\FileUtils;
  *
  * @package WebThumbnailer\Finder
  */
-class QueryRegexFinderTest extends \PHPUnit_Framework_TestCase
+class QueryRegexFinderTest extends TestCase
 {
     /**
      * @var array Finder rules.
@@ -25,7 +27,7 @@ class QueryRegexFinderTest extends \PHPUnit_Framework_TestCase
     /**
      * Before every tests, reset rules and params.
      */
-    public function setUp()
+    public function setUp(): void
     {
         self::$rules  = [
             'image_regex' => '<img class="thumb" src="(.*?)" alt="(.*?)">',
@@ -164,22 +166,20 @@ class QueryRegexFinderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test loading the finder with bad rules (`thumbnail_url`).
-     *
-     * @expectedException \WebThumbnailer\Exception\BadRulesException
      */
     public function testQueryRegexFinderBadRulesThumbUrl()
     {
+        $this->expectException(BadRulesException::class);
         unset(self::$rules['thumbnail_url']);
         new QueryRegexFinder('domain.tld', '', self::$rules, null);
     }
 
     /**
      * Test loading the finder with bad rules (`image_regex`).
-     *
-     * @expectedException \WebThumbnailer\Exception\BadRulesException
      */
     public function testQueryRegexFinderBadRulesImageRegex()
     {
+        $this->expectException(BadRulesException::class);
         unset(self::$rules['image_regex']);
         new QueryRegexFinder('domain.tld', '', self::$rules, null);
     }
@@ -217,12 +217,12 @@ class QueryRegexFinderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Use an unknown option in the URL.
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessage Unknown option "option" for the finder "Query Regex"
      */
     public function testQueryRegexUnknownOption()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Unknown option "option" for the finder "Query Regex"');
+
         $url = __DIR__ . '/../resources/queryregex/one-thumb.html';
         self::$rules['thumbnail_url'] = '${option}';
         $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, null);

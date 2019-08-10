@@ -2,12 +2,14 @@
 
 namespace WebThumbnailer\Utils;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class FinderUtilsTest
  *
  * @package WebThumbnailer\utils
  */
-class FinderUtilsTest extends \PHPUnit_Framework_TestCase
+class FinderUtilsTest extends TestCase
 {
     /**
      * Test buildRegex() function.

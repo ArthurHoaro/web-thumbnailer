@@ -2,12 +2,14 @@
 
 namespace WebThumbnailer\Utils;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class FileUtilsTests
  *
  * @package WebThumbnailer\Utils
  */
-class FileUtilsTests extends \PHPUnit_Framework_TestCase
+class FileUtilsTests extends TestCase
 {
     /**
      * Test getPath() with a valid path.

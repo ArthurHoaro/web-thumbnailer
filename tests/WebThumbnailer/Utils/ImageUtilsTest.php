@@ -2,6 +2,9 @@
 
 namespace WebThumbnailer\Utils;
 
+use PHPUnit\Framework\TestCase;
+use WebThumbnailer\Exception\NotAnImageException;
+
 /**
  * Class ImageUtilsTest
  *
@@ -9,7 +12,7 @@ namespace WebThumbnailer\Utils;
  *
  * @package WebThumbnailer\utils
  */
-class ImageUtilsTest extends \PHPUnit_Framework_TestCase
+class ImageUtilsTest extends TestCase
 {
     /**
      * @var string Image as string.
@@ -24,7 +27,7 @@ class ImageUtilsTest extends \PHPUnit_Framework_TestCase
     /**
      * Regenerate the image before every tests.
      */
-    public function setUp()
+    public function setUp(): void
     {
         // From http://php.net/imagecreatefromstring
         $data = 'iVBORw0KGgoAAAANSUhEUgAAABwAAAASCAMAAAB/2U7WAAAABl'
@@ -38,7 +41,7 @@ class ImageUtilsTest extends \PHPUnit_Framework_TestCase
      * Remove the test image in workdir after every test.
      * Ignore errors.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         @unlink(self::$WORKDIR . 'file1.png');
     }
@@ -87,47 +90,47 @@ class ImageUtilsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Generate a thumbnail into a non existent folder => Exception.
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessage Target file is not writable.
      */
     public function testGenerateThumbnailUnwritable()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Target file is not writable.');
+
         $path = self::$WORKDIR . 'nope' . DIRECTORY_SEPARATOR . 'file';
         @ImageUtils::generateThumbnail(self::$imageSource, $path, 28, 18);
     }
 
     /**
      * Generate a thumbnail from a string which is not an image => NotAnImageException.
-     *
-     * @expectedException \WebThumbnailer\Exception\NotAnImageException
      */
     public function testGenerateThumbnailNotAnImage()
     {
+        $this->expectException(NotAnImageException::class);
+
         $path = self::$WORKDIR . 'file1.png';
         ImageUtils::generateThumbnail('virus.exe', $path, 28, 18);
     }
 
     /**
      * Generate a thumbnail with bad sizes => Exception.
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessage Could not generate the thumbnail from source image.
      */
     public function testGenerateThumbnailBadSize()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Could not generate the thumbnail from source image.');
+
         $path = self::$WORKDIR . 'file1.png';
         @ImageUtils::generateThumbnail(self::$imageSource, $path, -1, -1);
     }
 
     /**
      * Generate a thumbnail with bad sizes (Double 0) => Exception.
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessage At least maxwidth or maxheight needs to be defined.
      */
     public function testGenerateThumbnailBadSizeDoubleZero()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('At least maxwidth or maxheight needs to be defined.');
+
         $path = self::$WORKDIR . 'file1.png';
         @ImageUtils::generateThumbnail(self::$imageSource, $path, 0, 0);
     }

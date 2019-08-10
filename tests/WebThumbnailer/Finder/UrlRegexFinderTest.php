@@ -2,6 +2,8 @@
 
 namespace WebThumbnailer\Finder;
 
+use PHPUnit\Framework\TestCase;
+use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Utils\DataUtils;
 use WebThumbnailer\Utils\FileUtils;
 use WebThumbnailer\WebThumbnailer;
@@ -11,13 +13,15 @@ use WebThumbnailer\WebThumbnailer;
  *
  * @package WebThumbnailer\Finder
  */
-class UrlRegexFinderTest extends \PHPUnit_Framework_TestCase
+class UrlRegexFinderTest extends TestCase
 {
     /**
      * Test checkRules() with valid data.
      */
     public function testCheckRulesValid()
     {
+        $this->addToAssertionCount(1);
+
         $rules = array(
             'url_regex' => 'str',
             'thumbnail_url' => 'str',
@@ -28,11 +32,11 @@ class UrlRegexFinderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test checkRules() with invalid data.
-     *
-     * @expectedException \WebThumbnailer\Exception\BadRulesException
      */
     public function testCheckRulesMissingThumbUrl()
     {
+        $this->expectException(BadRulesException::class);
+
         $rules = [
             'url_regex' => 'str',
         ];
@@ -42,11 +46,11 @@ class UrlRegexFinderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test checkRules() with invalid data.
-     *
-     * @expectedException \WebThumbnailer\Exception\BadRulesException
      */
     public function testCheckRulesMissingUrlRegex()
     {
+        $this->expectException(BadRulesException::class);
+
         $rules = [
             'thumbnail_url' => 'str',
         ];
@@ -241,12 +245,12 @@ class UrlRegexFinderTest extends \PHPUnit_Framework_TestCase
     /**
      * Test find() with basic replacements, and default options
      * but without defining default values.
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessageRegExp /No default set for option/
      */
     public function testFindWithDefaultOptionsNoDefault()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageRegExp('/No default set for option/');
+
         $url = 'http://test.io/?123';
         $rules = array(
             'url_regex' => '/\\?([^&]+)',
@@ -264,12 +268,12 @@ class UrlRegexFinderTest extends \PHPUnit_Framework_TestCase
     /**
      * Test find() with basic replacements, and default options
      * with an invalid default option.
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessageRegExp /No default parameter set for option/
      */
     public function testFindWithDefaultOptionsNoDefaultParam()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageRegExp('/No default parameter set for option/');
+
         $url = 'http://test.io/?123';
         $rules = array(
             'url_regex' => '/\\?([^&]+)',
@@ -288,12 +292,12 @@ class UrlRegexFinderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test find() with basic replacements, and options not matching anything.
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessageRegExp /Unknown option/
      */
     public function testFindWithDefaultOptionsUnknownOption()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageRegExp('/Unknown option/');
+
         $url = 'http://test.io/?123';
         $rules = array(
             'url_regex' => '/\\?([^&]+)',

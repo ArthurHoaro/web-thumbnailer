@@ -2,6 +2,8 @@
 
 namespace WebThumbnailer\Application;
 
+use PHPUnit\Framework\TestCase;
+use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Utils\FileUtils;
 use WebThumbnailer\Utils\SizeUtils;
 use WebThumbnailer\WebThumbnailer;
@@ -13,7 +15,7 @@ use WebThumbnailer\WebThumbnailer;
  *
  * @package WebThumbnailer\Application
  */
-class ThumbnailerTest extends \PHPUnit_Framework_TestCase
+class ThumbnailerTest extends TestCase
 {
     /**
      * @var string Gravatar image link.
@@ -25,7 +27,7 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
      */
     public static $gravatarThumb = 'http://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f?s=320';
 
-    public function setUp()
+    public function setUp(): void
     {
         FileUtils::rmdir(__DIR__ .'/../../../cache/finder');
         FileUtils::rmdir(__DIR__ .'/../../../cache/thumb');
@@ -184,12 +186,11 @@ class ThumbnailerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Try to create an instance of Thumbnailer with incompatible settings.
-     *
-     * @expectedException WebThumbnailer\Exception\BadRulesException
-     * @expectedExceptionMessageRegExp /Only one of these flags can be set between: DOWNLOAD HOTLINK HOTLINK_STRICT/
      */
     public function testDownloadBadConfigurationDownload()
     {
+        $this->expectException(BadRulesException::class);
+        $this->expectExceptionMessageRegExp('/Only one of these flags can be set between: DOWNLOAD HOTLINK HOTLINK_STRICT/');
         $options = [
             WebThumbnailer::DOWNLOAD,
             WebThumbnailer::HOTLINK_STRICT,

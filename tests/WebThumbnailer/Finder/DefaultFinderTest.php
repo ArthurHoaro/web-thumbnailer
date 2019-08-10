@@ -2,6 +2,7 @@
 
 namespace WebThumbnailer\Finder;
 
+use PHPUnit\Framework\TestCase;
 use WebThumbnailer\WebThumbnailer;
 
 /**
@@ -9,7 +10,7 @@ use WebThumbnailer\WebThumbnailer;
  *
  * @package WebThumbnailer\Finder
  */
-class DefaultFinderTest extends \PHPUnit_Framework_TestCase
+class DefaultFinderTest extends TestCase
 {
     /**
      * PHP builtin local server URL.

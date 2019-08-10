@@ -2,12 +2,15 @@
 
 namespace WebThumbnailer\Finder;
 
+use PHPUnit\Framework\TestCase;
+use WebThumbnailer\Exception\BadRulesException;
+
 /**
  * Class FinderFactoryTest
  *
  * @package WebThumbnailer\Finder
  */
-class FinderFactoryTest extends \PHPUnit_Framework_TestCase
+class FinderFactoryTest extends TestCase
 {
     /**
      * Test getFinder() with a supported domain.
@@ -178,6 +181,7 @@ class FinderFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckMetaFormatValid()
     {
+        $this->addToAssertionCount(1);
         $meta = [
             'finder' => 'foo',
             'domains' => ['bar']
@@ -189,11 +193,10 @@ class FinderFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test checkMetaFormat() with invalid info.
-     *
-     * @expectedException \WebThumbnailer\Exception\BadRulesException
      */
     public function testCheckMetaFormatBadRules()
     {
+        $this->expectException(BadRulesException::class);
         $meta = array('finder' => 'test');
         FinderFactory::checkMetaFormat($meta);
     }

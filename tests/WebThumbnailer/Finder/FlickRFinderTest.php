@@ -2,12 +2,14 @@
 
 namespace WebThumbnailer\Finder;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class FlickRFinderTest
  *
  * @package WebThumbnailer\Finder
  */
-class FlickRFinderTest extends \PHPUnit_Framework_TestCase
+class FlickRFinderTest extends TestCase
 {
     /**
      * @var array Finder rules.
@@ -22,7 +24,7 @@ class FlickRFinderTest extends \PHPUnit_Framework_TestCase
     /**
      * Before every tests, reset rules and params.
      */
-    public function setUp()
+    public function setUp(): void
     {
         self::$rules  = [
             'image_regex' => '<meta property=\"og:image\" content=\"(.*?)\"',

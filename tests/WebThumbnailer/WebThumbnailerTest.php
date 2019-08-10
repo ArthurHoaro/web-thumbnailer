@@ -2,6 +2,7 @@
 
 namespace WebThumbnailer;
 
+use PHPUnit\Framework\TestCase;
 use WebThumbnailer\Application\ConfigManager;
 use WebThumbnailer\Utils\FileUtils;
 
@@ -12,7 +13,7 @@ use WebThumbnailer\Utils\FileUtils;
  *
  * @package WebThumbnailer
  */
-class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
+class WebThumbnailerTest extends TestCase
 {
     /**
      * PHP builtin local server URL.
@@ -42,7 +43,7 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     /**
      * Load test config before running tests.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $resource = 'tests/WebThumbnailer/resources/';
         ConfigManager::clear();
@@ -52,7 +53,7 @@ class WebThumbnailerTest extends \PHPUnit_Framework_TestCase
     /**
      * Remove cache folder after every tests.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         FileUtils::rmdir(self::$cache);
         FileUtils::rmdir(self::$tmp);

@@ -2,6 +2,7 @@
 
 namespace WebThumbnailer\Application;
 
+use PHPUnit\Framework\TestCase;
 use WebThumbnailer\Utils\FileUtils;
 
 /**
@@ -11,7 +12,7 @@ use WebThumbnailer\Utils\FileUtils;
  *
  * @package WebThumbnailer\Application
  */
-class CacheManagerTest extends \PHPUnit_Framework_TestCase
+class CacheManagerTest extends TestCase
 {
     /**
      * @var string $cache relative path.
@@ -21,7 +22,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * Load test config before running tests.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $resource = 'tests/WebThumbnailer/resources/';
         ConfigManager::$configFiles = [$resource . 'settings-useful.json'];
@@ -31,7 +32,7 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * Remove cache folder after every tests.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         FileUtils::rmdir(ConfigManager::get('settings.path.cache'));
     }
@@ -43,32 +44,29 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
     {
         $path = CacheManager::getCachePath(CacheManager::TYPE_THUMB);
         $this->assertTrue(is_dir($path));
-        $this->assertContains(self::$cache . CacheManager::TYPE_THUMB .'/', $path);
+        $this->assertStringContainsString(self::$cache . CacheManager::TYPE_THUMB .'/', $path);
         $path = CacheManager::getCachePath(CacheManager::TYPE_FINDER);
         $this->assertTrue(is_dir($path));
-        $this->assertContains(self::$cache . CacheManager::TYPE_FINDER .'/', $path);
+        $this->assertStringContainsString(self::$cache . CacheManager::TYPE_FINDER .'/', $path);
     }
 
     /**
      * Test getCachePath() with an invalid type.
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessageRegExp /Unknown cache type/
      */
     public function testGetCachePathInvalidType()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageRegExp('/Unknown cache type/');
         CacheManager::getCachePath('nope');
     }
 
     /**
      * Test getCachePath() without cache folder.
-     *
-     * @expectedException \Exception
-     * @expectedExceptionMessageRegExp /Cache folders are not writable/
-     *
      */
     public function testGetCachePathNoFolder()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageRegExp('/Cache folders are not writable/');
         CacheManager::getCachePath(CacheManager::TYPE_THUMB, true);
     }
 
@@ -85,9 +83,9 @@ class CacheManagerTest extends \PHPUnit_Framework_TestCase
         $cacheFile = CacheManager::getCacheFilePath($url, $domain, $type, $width, $height, false);
         $whateverDir = self::$cache . 'thumb/'. md5($domain) .'/';
         $this->assertTrue(is_dir($whateverDir));
-        $this->assertContains($whateverDir, $cacheFile);
+        $this->assertStringContainsString($whateverDir, $cacheFile);
         // sha1 sum + dimensions
-        $this->assertContains('0a35602901944a0c6d853da2a5364665c2bda069' . '51200' . '.jpg', $cacheFile);
+        $this->assertStringContainsString('0a35602901944a0c6d853da2a5364665c2bda069' . '51200' . '.jpg', $cacheFile);
     }
 
     /**

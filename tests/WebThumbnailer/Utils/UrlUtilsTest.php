@@ -2,6 +2,8 @@
 
 namespace WebThumbnailer\Utils;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class UrlUtilsTest
  *
@@ -9,7 +11,7 @@ namespace WebThumbnailer\Utils;
  *
  * @package WebThumbnailer\Utils
  */
-class UrlUtilsTest extends \PHPUnit_Framework_TestCase
+class UrlUtilsTest extends TestCase
 {
     /**
      * Test getDomain() from various URL.

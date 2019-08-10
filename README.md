@@ -18,7 +18,7 @@ PHP library which will retrieve a thumbnail for any given URL, if available.
 
 Mandatory:
 
-  - PHP 5.6
+  - PHP 7.1 (`v2.0.0`+) - PHP 5.6 (`v1.x.x`)
   - PHP GD extension
   
 (Highly) Recommended:

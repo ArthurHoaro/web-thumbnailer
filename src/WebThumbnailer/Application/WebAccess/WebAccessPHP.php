@@ -42,7 +42,7 @@ class WebAccessPHP implements WebAccess
         }
 
         $context = stream_context_create($context);
-        $content = file_get_contents($finalUrl, false, $context, -1, $maxBytes);
+        $content = file_get_contents($finalUrl, false, $context, 0, $maxBytes);
 
         return array($headers, $content);
     }

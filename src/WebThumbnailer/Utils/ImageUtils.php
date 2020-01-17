@@ -171,7 +171,8 @@ class ImageUtils
     {
         try {
             return @imagecreatefromstring($content);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
 
         return false;
     }
@@ -187,7 +188,8 @@ class ImageUtils
     {
         try {
             return @imagedestroy($image);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
 
         return false;
     }

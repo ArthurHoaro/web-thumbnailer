@@ -40,7 +40,7 @@ class ImageUtils
             throw new ImageConvertException('Both width and height must be provided for cropping');
         }
 
-        $sourceImg = @imagecreatefromstring($imageStr);
+        $sourceImg = static::imageCreateFromString($imageStr);
         if ($sourceImg === false) {
             throw new NotAnImageException();
         }
@@ -80,8 +80,8 @@ class ImageUtils
             $originalHeight
         )
         ) {
-            @imagedestroy($sourceImg);
-            @imagedestroy($targetImg);
+            static::imageDestroy($sourceImg);
+            static::imageDestroy($targetImg);
             throw new ImageConvertException('Could not generate the thumbnail from source image.');
         }
 
@@ -157,6 +157,38 @@ class ImageUtils
      */
     public static function isImageString($content)
     {
-        return @imagecreatefromstring($content) !== false;
+        return static::imageCreateFromString($content) !== false;
+    }
+
+    /**
+     * With custom error handlers, @ does not stop the warning to being thrown.
+     *
+     * @param string $content
+     *
+     * @return resource|false
+     */
+    protected static function imageCreateFromString($content)
+    {
+        try {
+            return @imagecreatefromstring($content);
+        } catch (\Exception $e) {}
+
+        return false;
+    }
+
+    /**
+     * With custom error handlers, @ does not stop the warning to being thrown.
+     *
+     * @param resource $image
+     *
+     * @return bool
+     */
+    protected static function imageDestroy($image)
+    {
+        try {
+            return @imagedestroy($image);
+        } catch (\Exception $e) {}
+
+        return false;
     }
 }

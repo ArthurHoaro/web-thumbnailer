@@ -70,7 +70,7 @@ class DefaultFinderTest extends TestCase
     public function testDefaultFinderOpenGraph()
     {
         $url = __DIR__ . '/../resources/default/le-monde.html';
-        $expected = 'http://s1.lemde.fr/image/2016/10/24/644x322/5019472_3_91ef_cette-image-prise-par-la-sonde-americaine-mro_c27bb4fec19310d709347424f93addec.jpg';
+        $expected = 'https://img.lemde.fr/2016/10/21/107/0/1132/566/1440/720/60/0/fe3b107_3522-d2olbw.y93o25u3di.jpg';
         $finder = new DefaultFinder(null, $url, null, null);
         $this->assertEquals($expected, $finder->find());
     }
@@ -81,7 +81,7 @@ class DefaultFinderTest extends TestCase
     public function testDefaultFinderOpenGraphRemote()
     {
         $url = self::LOCAL_SERVER . 'default/le-monde.html';
-        $expected = 'http://s1.lemde.fr/image/2016/10/24/644x322/5019472_3_91ef_cette-image-prise-par-la-sonde-americaine-mro_c27bb4fec19310d709347424f93addec.jpg';
+        $expected = 'https://img.lemde.fr/2016/10/21/107/0/1132/566/1440/720/60/0/fe3b107_3522-d2olbw.y93o25u3di.jpg';
         $finder = new DefaultFinder(null, $url, null, null);
         $this->assertEquals($expected, $finder->find());
     }

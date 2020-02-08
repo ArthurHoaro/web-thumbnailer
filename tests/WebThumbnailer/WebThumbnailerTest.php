@@ -112,7 +112,7 @@ class WebThumbnailerTest extends TestCase
         $this->regenerate($image);
         mkdir(self::$tmp);
         file_put_contents(
-            $conf = self::$tmp .'tmp.json',
+            $conf = self::$tmp . 'tmp.json',
             json_encode([
                 'settings' => [
                     'path' => [
@@ -123,7 +123,7 @@ class WebThumbnailerTest extends TestCase
         );
         ConfigManager::addFile($conf);
         $expected =  self::$cache
-            .'thumb/421aa90e079fa326b6494f812ad13e79/8f72b887d2e3f64c3a1c719d8058823047d3ec031601600.jpg';
+            . 'thumb/421aa90e079fa326b6494f812ad13e79/8f72b887d2e3f64c3a1c719d8058823047d3ec031601600.jpg';
         $url = self::LOCAL_SERVER . 'default/le-monde.html';
         $wt = new WebThumbnailer();
         $thumb = $wt->thumbnail($url);
@@ -332,12 +332,13 @@ class WebThumbnailerTest extends TestCase
      * which would make the comparaison test fail. By regenerating expected thumbs,
      * the expected and actual result should be the same.
      *
-     * @param string $image relative path of the expected thumb inside the expected thumb directory.
-     * @param bool   $crop  Set to true to apply the crop function.
+     * @param string $image          relative path of the expected thumb inside the expected thumb directory.
+     * @param bool   $crop           Set to true to apply the crop function.
+     * @param int[]  $cropParameters Crop parameters: x, y, width and height
      *
      * @throws \Exception couldn't create the image.
      */
-    public function regenerate($image, $crop = false)
+    public function regenerate($image, $crop = false, $cropParameters = [])
     {
         $targetFolder = dirname(self::$regenerated . $image);
         if (! is_dir($targetFolder)) {
@@ -350,18 +351,19 @@ class WebThumbnailerTest extends TestCase
         $height = imagesy($sourceImg);
 
         $targetImg = imagecreatetruecolor($width, $height);
-        if (! imagecopyresized(
-            $targetImg,
-            $sourceImg,
-            0,
-            0,
-            0,
-            0,
-            $width,
-            $height,
-            $width,
-            $height
-        )
+        if (
+            !imagecopyresized(
+                $targetImg,
+                $sourceImg,
+                0,
+                0,
+                0,
+                0,
+                $width,
+                $height,
+                $width,
+                $height
+            )
         ) {
             @imagedestroy($sourceImg);
             @imagedestroy($targetImg);
@@ -369,11 +371,15 @@ class WebThumbnailerTest extends TestCase
         }
 
         if ($crop) {
+            if (!empty($cropParameters)) {
+                [$x, $y, $cropWidth, $croptHeight] = $cropParameters;
+            }
+
             $targetImg = imagecrop($targetImg, [
-                'x' => 0,
-                'y' => 0,
-                'width' => $width,
-                'height' => $height
+                'x' => $x ?? 0,
+                'y' => $y ?? 0,
+                'width' => $cropWidth ?? $width,
+                'height' => $croptHeight ?? $height
             ]);
         }
 

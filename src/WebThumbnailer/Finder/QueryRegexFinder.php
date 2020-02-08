@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Finder;
 
 use WebThumbnailer\Application\ConfigManager;
@@ -10,8 +12,6 @@ use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Utils\FinderUtils;
 
 /**
- * Class QueryRegexFinder
- *
  * Generic Finder using regex rules on remote web content.
  * It will use regex rules to resolve a thumbnail in web a page.
  *
@@ -23,32 +23,26 @@ use WebThumbnailer\Utils\FinderUtils;
  *   1. `http://domain.tld/page` content will be downloaded.
  *   2. `image_regex` will be apply on the content
  *   3. Matches will be use to generate `thumbnail_url`.
- *
- * @package WebThumbnailer\Finder
  */
 class QueryRegexFinder extends FinderCommon
 {
-    /**
-     * @var WebAccess instance.
-     */
+    /** @var WebAccess instance. */
     protected $webAccess;
 
-    /**
-    * @var string thumbnail_url rule.
-    */
+    /** @var string thumbnail_url rule. */
     protected $thumbnailUrlFormat;
 
-    /**
-     * @var string Regex to apply on provided URL.
-     */
+    /** @var string Regex to apply on provided URL. */
     protected $urlRegex;
 
     /**
      * @inheritdoc
+     * @param mixed[]|null $rules   All existing rules loaded from JSON files.
+     * @param mixed[]|null $options Options provided by the user to retrieve a thumbnail.
      *
      * @throws BadRulesException
      */
-    public function __construct($domain, $url, $rules, $options)
+    public function __construct(string $domain, string $url, ?array $rules, ?array $options)
     {
         $this->webAccess = WebAccessFactory::getWebAccess($url);
         $this->url = $url;
@@ -80,7 +74,8 @@ class QueryRegexFinder extends FinderCommon
             $callback,
             $content
         );
-        if (empty($content)
+        if (
+            empty($content)
             || empty($headers)
             || (empty($thumbnail) && strpos($headers[0], '200') === false)
         ) {
@@ -98,12 +93,12 @@ class QueryRegexFinder extends FinderCommon
     /**
      * Get a callback for curl write function.
      *
-     * @param string $content   A variable reference in which the downloaded content should be stored.
-     * @param string $thumbnail A variable reference in which extracted thumb URL should be stored.
+     * @param string|null $content   A variable reference in which the downloaded content should be stored.
+     * @param string|null $thumbnail A variable reference in which extracted thumb URL should be stored.
      *
-     * @return \Closure CURLOPT_WRITEFUNCTION callback
+     * @return callable CURLOPT_WRITEFUNCTION callback
      */
-    protected function getCurlCallback(&$content, &$thumbnail)
+    protected function getCurlCallback(?string &$content, ?string &$thumbnail): callable
     {
         $isRedirected = false;
 
@@ -153,17 +148,19 @@ class QueryRegexFinder extends FinderCommon
     }
 
     /**
-     * @param $content
-     * @return bool|mixed|string
+     * @param string $content to extract thumb from
+     *
+     * @return string|false Thumbnail URL or false if not found
+     *
      * @throws BadRulesException
      */
-    public function extractThumbContent($content)
+    public function extractThumbContent(string $content)
     {
         $thumbnailUrl = $this->thumbnailUrlFormat;
         if (preg_match($this->urlRegex, $content, $matches) !== 0) {
             $total = count($matches);
             for ($i = 1; $i < $total; $i++) {
-                $thumbnailUrl = str_replace('${'. $i . '}', $matches[$i], $thumbnailUrl);
+                $thumbnailUrl = str_replace('${' . $i . '}', $matches[$i], $thumbnailUrl);
             }
 
             // Match only options (not ${number})
@@ -174,20 +171,18 @@ class QueryRegexFinder extends FinderCommon
             }
             return $thumbnailUrl;
         }
+
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function checkRules($rules)
+    /** @inheritdoc */
+    public function checkRules(?array $rules): bool
     {
-        if (! FinderUtils::checkMandatoryRules($rules, [
-            'image_regex',
-            'thumbnail_url'
-        ])) {
+        if (!FinderUtils::checkMandatoryRules($rules, ['image_regex', 'thumbnail_url'])) {
             throw new BadRulesException();
         }
+
+        return false;
     }
 
     /**
@@ -195,17 +190,15 @@ class QueryRegexFinder extends FinderCommon
      *
      * @throws BadRulesException
      */
-    public function loadRules($rules)
+    public function loadRules(?array $rules): void
     {
         $this->checkRules($rules);
         $this->urlRegex = FinderUtils::buildRegex($rules['image_regex'], 'im');
         $this->thumbnailUrlFormat = $rules['thumbnail_url'];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getName()
+    /** @inheritdoc */
+    public function getName(): string
     {
         return 'Query Regex';
     }

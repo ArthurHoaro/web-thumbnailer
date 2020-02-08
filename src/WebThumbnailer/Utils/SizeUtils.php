@@ -1,21 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Utils;
 
 use WebThumbnailer\Application\ConfigManager;
+use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\Exception\IOException;
 use WebThumbnailer\WebThumbnailer;
 
 /**
- * Class SizeUtils
- *
  * Handles 'meta' size operation.
  *
  * Fixed sizes:
  *   - SMALL=160px
  *   - MEDIUM=320px
  *   - LARGE=640px
- *
- * @package WebThumbnailer\Utils
  */
 class SizeUtils
 {
@@ -28,18 +28,17 @@ class SizeUtils
      *
      * @return int the size in pixels
      *
-     * @throws \WebThumbnailer\Exception\BadRulesException
-     * @throws \WebThumbnailer\Exception\IOException
+     * @throws BadRulesException
+     * @throws IOException
      */
-    public static function getMetaSize($size)
+    public static function getMetaSize(string $size): int
     {
         switch ($size) {
-            case WebThumbnailer::SIZE_SMALL:
-                return (int) ConfigManager::get('settings.size_small', 160);
-            case WebThumbnailer::SIZE_MEDIUM:
-                return (int) ConfigManager::get('settings.size_medium', 320);
             case WebThumbnailer::SIZE_LARGE:
                 return (int) ConfigManager::get('settings.size_large', 640);
+            case WebThumbnailer::SIZE_MEDIUM:
+                return (int) ConfigManager::get('settings.size_medium', 320);
+            case WebThumbnailer::SIZE_SMALL:
             default:
                 return (int) ConfigManager::get('settings.size_small', 160);
         }
@@ -52,13 +51,14 @@ class SizeUtils
      *
      * @return boolean true|false.
      */
-    public static function isMetaSize($size)
+    public static function isMetaSize(string $size): bool
     {
         $metaSize = array (
             WebThumbnailer::SIZE_SMALL,
             WebThumbnailer::SIZE_MEDIUM,
             WebThumbnailer::SIZE_LARGE
         );
-        return in_array($size, $metaSize);
+
+        return in_array($size, $metaSize, true);
     }
 }

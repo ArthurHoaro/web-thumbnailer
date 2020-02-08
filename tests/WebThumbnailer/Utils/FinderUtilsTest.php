@@ -24,7 +24,7 @@ class FinderUtilsTest extends TestCase
         $res = FinderUtils::buildRegex($regex, false);
         $this->assertEquals($formatted, $res);
         $res = FinderUtils::buildRegex(false, $flags);
-        $this->assertEquals('{}'. $flags, $res);
+        $this->assertEquals('{}' . $flags, $res);
     }
 
     /**
@@ -33,7 +33,6 @@ class FinderUtilsTest extends TestCase
     public function testCheckMandatoryRulesSimple()
     {
         $this->assertTrue(FinderUtils::checkMandatoryRules([], []));
-        $this->assertTrue(FinderUtils::checkMandatoryRules(null, []));
         $this->assertTrue(FinderUtils::checkMandatoryRules(['data'], []));
         $this->assertTrue(FinderUtils::checkMandatoryRules(['data' => 'value'], ['data']));
         $this->assertTrue(FinderUtils::checkMandatoryRules(['data' => false], ['data']));
@@ -64,7 +63,6 @@ class FinderUtilsTest extends TestCase
     public function testCheckMandatoryRulesInvalidSimple()
     {
         $this->assertFalse(FinderUtils::checkMandatoryRules([], ['rule']));
-        $this->assertFalse(FinderUtils::checkMandatoryRules(null, ['rule']));
         $this->assertFalse(FinderUtils::checkMandatoryRules(['rule' => ''], ['rule', 'other']));
         $this->assertFalse(FinderUtils::checkMandatoryRules(['other' => 'value'], ['rule']));
     }

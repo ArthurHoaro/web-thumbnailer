@@ -44,10 +44,10 @@ class CacheManagerTest extends TestCase
     {
         $path = CacheManager::getCachePath(CacheManager::TYPE_THUMB);
         $this->assertTrue(is_dir($path));
-        $this->assertStringContainsString(self::$cache . CacheManager::TYPE_THUMB .'/', $path);
+        $this->assertStringContainsString(self::$cache . CacheManager::TYPE_THUMB . '/', $path);
         $path = CacheManager::getCachePath(CacheManager::TYPE_FINDER);
         $this->assertTrue(is_dir($path));
-        $this->assertStringContainsString(self::$cache . CacheManager::TYPE_FINDER .'/', $path);
+        $this->assertStringContainsString(self::$cache . CacheManager::TYPE_FINDER . '/', $path);
     }
 
     /**
@@ -81,7 +81,7 @@ class CacheManagerTest extends TestCase
         $width = 512;
         $height = 0;
         $cacheFile = CacheManager::getCacheFilePath($url, $domain, $type, $width, $height, false);
-        $whateverDir = self::$cache . 'thumb/'. md5($domain) .'/';
+        $whateverDir = self::$cache . 'thumb/' . md5($domain) . '/';
         $this->assertTrue(is_dir($whateverDir));
         $this->assertStringContainsString($whateverDir, $cacheFile);
         // sha1 sum + dimensions
@@ -161,7 +161,7 @@ class CacheManagerTest extends TestCase
         $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.jpg';
         mkdir(self::$cache . '/thumb/' . $domain, 0755, true);
         $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
-        touch($cacheFile, time() - 3600*24*31*12);
+        touch($cacheFile, time() - 3600 * 24 * 31 * 12);
 
         ConfigManager::addFile('tests/WebThumbnailer/resources/settings-infinite-cache.json');
         $this->assertTrue(CacheManager::isCacheValid($cacheFile, $domain, CacheManager::TYPE_THUMB));
@@ -174,7 +174,7 @@ class CacheManagerTest extends TestCase
     {
         $domain = 'whatever.io';
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_FINDER));
-        $this->assertFileEquals(__DIR__.'/../resources/htaccess_denied', self::$cache .'/finder/.htaccess');
+        $this->assertFileEquals(__DIR__ . '/../resources/htaccess_denied', self::$cache . '/finder/.htaccess');
     }
 
     /**
@@ -184,7 +184,7 @@ class CacheManagerTest extends TestCase
     {
         $domain = 'whatever.io';
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
-        $this->assertFileEquals(__DIR__.'/../resources/htaccess_granted', self::$cache .'/thumb/.htaccess');
+        $this->assertFileEquals(__DIR__ . '/../resources/htaccess_granted', self::$cache . '/thumb/.htaccess');
     }
 
     /**
@@ -193,9 +193,9 @@ class CacheManagerTest extends TestCase
     public function testHtaccess22CreationDenied()
     {
         $domain = 'whatever.io';
-        ConfigManager::addFile(__DIR__.'/../resources/settings-apache22.json');
+        ConfigManager::addFile(__DIR__ . '/../resources/settings-apache22.json');
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_FINDER));
-        $this->assertFileEquals(__DIR__.'/../resources/htaccess22_denied', self::$cache .'/finder/.htaccess');
+        $this->assertFileEquals(__DIR__ . '/../resources/htaccess22_denied', self::$cache . '/finder/.htaccess');
     }
 
     /**
@@ -204,9 +204,9 @@ class CacheManagerTest extends TestCase
     public function testHtaccess22CreationGranted()
     {
         $domain = 'whatever.io';
-        ConfigManager::addFile(__DIR__.'/../resources/settings-apache22.json');
+        ConfigManager::addFile(__DIR__ . '/../resources/settings-apache22.json');
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
-        $this->assertFileEquals(__DIR__.'/../resources/htaccess22_granted', self::$cache .'/thumb/.htaccess');
+        $this->assertFileEquals(__DIR__ . '/../resources/htaccess22_granted', self::$cache . '/thumb/.htaccess');
     }
 
     /**
@@ -215,9 +215,9 @@ class CacheManagerTest extends TestCase
     public function testHtaccess24CreationDenied()
     {
         $domain = 'whatever.io';
-        ConfigManager::addFile(__DIR__.'/../resources/settings-apache24.json');
+        ConfigManager::addFile(__DIR__ . '/../resources/settings-apache24.json');
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_FINDER));
-        $this->assertFileEquals(__DIR__.'/../resources/htaccess24_denied', self::$cache .'/finder/.htaccess');
+        $this->assertFileEquals(__DIR__ . '/../resources/htaccess24_denied', self::$cache . '/finder/.htaccess');
     }
 
     /**
@@ -226,9 +226,9 @@ class CacheManagerTest extends TestCase
     public function testHtaccess24CreationGranted()
     {
         $domain = 'whatever.io';
-        ConfigManager::addFile(__DIR__.'/../resources/settings-apache24.json');
+        ConfigManager::addFile(__DIR__ . '/../resources/settings-apache24.json');
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
-        $this->assertFileEquals(__DIR__.'/../resources/htaccess24_granted', self::$cache .'/thumb/.htaccess');
+        $this->assertFileEquals(__DIR__ . '/../resources/htaccess24_granted', self::$cache . '/thumb/.htaccess');
     }
 
     /**
@@ -237,9 +237,9 @@ class CacheManagerTest extends TestCase
     public function testHtaccessInvalidCreationDenied()
     {
         $domain = 'whatever.io';
-        ConfigManager::addFile(__DIR__.'/../resources/settings-apache-ko.json');
+        ConfigManager::addFile(__DIR__ . '/../resources/settings-apache-ko.json');
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_FINDER));
-        $this->assertFileEquals(__DIR__.'/../resources/htaccess_denied', self::$cache .'/finder/.htaccess');
+        $this->assertFileEquals(__DIR__ . '/../resources/htaccess_denied', self::$cache . '/finder/.htaccess');
     }
 
     /**
@@ -248,9 +248,9 @@ class CacheManagerTest extends TestCase
     public function testHtaccessInvalidCreationGranted()
     {
         $domain = 'whatever.io';
-        ConfigManager::addFile(__DIR__.'/../resources/settings-apache-ko.json');
+        ConfigManager::addFile(__DIR__ . '/../resources/settings-apache-ko.json');
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
-        $this->assertFileEquals(__DIR__.'/../resources/htaccess_granted', self::$cache .'/thumb/.htaccess');
+        $this->assertFileEquals(__DIR__ . '/../resources/htaccess_granted', self::$cache . '/thumb/.htaccess');
     }
 
     /**
@@ -259,8 +259,8 @@ class CacheManagerTest extends TestCase
     public function testHtaccessDontOverride()
     {
         $domain = 'whatever.io';
-        $htaccessFile =  self::$cache .'/thumb/.htaccess';
-        mkdir(self::$cache .'/thumb/', 0755, true);
+        $htaccessFile =  self::$cache . '/thumb/.htaccess';
+        mkdir(self::$cache . '/thumb/', 0755, true);
         file_put_contents($htaccessFile, $content = 'kek');
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
         $this->assertEquals($content, file_get_contents($htaccessFile));

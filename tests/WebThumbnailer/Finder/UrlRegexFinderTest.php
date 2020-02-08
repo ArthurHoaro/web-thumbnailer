@@ -26,7 +26,7 @@ class UrlRegexFinderTest extends TestCase
             'url_regex' => 'str',
             'thumbnail_url' => 'str',
         );
-        $finder = new UrlRegexFinder(null, null, $rules, null);
+        $finder = new UrlRegexFinder('', '', $rules, null);
         $finder->checkRules($rules);
     }
 
@@ -40,7 +40,7 @@ class UrlRegexFinderTest extends TestCase
         $rules = [
             'url_regex' => 'str',
         ];
-        $finder = new UrlRegexFinder(null, null, $rules, null);
+        $finder = new UrlRegexFinder('', '', $rules, null);
         $finder->checkRules($rules);
     }
 
@@ -54,7 +54,7 @@ class UrlRegexFinderTest extends TestCase
         $rules = [
             'thumbnail_url' => 'str',
         ];
-        $finder = new UrlRegexFinder(null, null, $rules, null);
+        $finder = new UrlRegexFinder('', '', $rules, null);
         $finder->checkRules($rules);
     }
 
@@ -69,7 +69,7 @@ class UrlRegexFinderTest extends TestCase
             'url_regex' => 'q=([^&]+)&([^&]+)',
             'thumbnail_url' => 'http://test.io/img/${1}/${2}.png',
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, null);
+        $finder = new UrlRegexFinder('', $url, $rules, null);
         $this->assertEquals($thumburl, $finder->find());
     }
 
@@ -108,7 +108,7 @@ class UrlRegexFinderTest extends TestCase
             WebThumbnailer::MAX_HEIGHT => 200,
             WebThumbnailer::MAX_WIDTH => 200,
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions($userOptions);
         $thumburl = 'http://test.io/123/a.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -117,7 +117,7 @@ class UrlRegexFinderTest extends TestCase
             WebThumbnailer::MAX_HEIGHT => 200,
             WebThumbnailer::MAX_WIDTH => 201,
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions($userOptions);
         $thumburl = 'http://test.io/123/b.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -125,7 +125,7 @@ class UrlRegexFinderTest extends TestCase
         $userOptions = array(
             WebThumbnailer::MAX_HEIGHT => WebThumbnailer::SIZE_MEDIUM,
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions($userOptions);
         $thumburl = 'http://test.io/123/b.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -133,7 +133,7 @@ class UrlRegexFinderTest extends TestCase
         $userOptions = array(
             WebThumbnailer::MAX_HEIGHT => 199,
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions($userOptions);
         $thumburl = 'http://test.io/123/a.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -142,7 +142,7 @@ class UrlRegexFinderTest extends TestCase
             WebThumbnailer::MAX_HEIGHT => WebThumbnailer::SIZE_MEDIUM,
             WebThumbnailer::MAX_WIDTH => WebThumbnailer::SIZE_MEDIUM,
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions($userOptions);
         $thumburl = 'http://test.io/123/b.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -173,7 +173,7 @@ class UrlRegexFinderTest extends TestCase
             )
         );
 
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions(array());
         $thumburl = 'http://test.io/123/a.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -181,7 +181,7 @@ class UrlRegexFinderTest extends TestCase
         $userOptions = array(
             'setting' => 'second'
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions($userOptions);
         $thumburl = 'http://test.io/123/b.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -189,7 +189,7 @@ class UrlRegexFinderTest extends TestCase
         $userOptions = array(
             'setting' => 'third'
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions($userOptions);
         $thumburl = 'http://test.io/123/c.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -220,7 +220,7 @@ class UrlRegexFinderTest extends TestCase
         $userOptions = array(
             'setting' => 'nope'
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions($userOptions);
         $thumburl = 'http://test.io/123/a.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -228,7 +228,7 @@ class UrlRegexFinderTest extends TestCase
         $userOptions = array(
             'setting' => ''
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions($userOptions);
         $thumburl = 'http://test.io/123/a.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -236,7 +236,7 @@ class UrlRegexFinderTest extends TestCase
         $userOptions = array(
             'setting' => array('other' => 'stuff')
         );
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions($userOptions);
         $thumburl = 'http://test.io/123/a.png';
         $this->assertEquals($thumburl, $finder->find());
@@ -260,7 +260,7 @@ class UrlRegexFinderTest extends TestCase
             'setting' => array()
         );
 
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions(array());
         $finder->find();
     }
@@ -285,7 +285,7 @@ class UrlRegexFinderTest extends TestCase
             )
         );
 
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions(array());
         $finder->find();
     }
@@ -307,7 +307,7 @@ class UrlRegexFinderTest extends TestCase
             'setting' => array()
         );
 
-        $finder = new UrlRegexFinder(null, $url, $rules, $options);
+        $finder = new UrlRegexFinder('', $url, $rules, $options);
         $finder->setUserOptions(array());
         $finder->find();
     }
@@ -321,7 +321,7 @@ class UrlRegexFinderTest extends TestCase
             'url_regex' => 'foo',
             'thumbnail_url' => 'bar',
         ];
-        $finder = new UrlRegexFinder(null, null, $rules, []);
+        $finder = new UrlRegexFinder('', '', $rules, []);
         $this->assertEquals('URL regex', $finder->getName());
     }
 

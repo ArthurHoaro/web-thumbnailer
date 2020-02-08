@@ -24,7 +24,7 @@ class UrlUtilsTest extends TestCase
         $this->assertEquals($expectedDomain, UrlUtils::getDomain('https://domain.tld:443/file.php?foo=bar#foobar'));
         $this->assertEquals($expectedDomain, UrlUtils::getDomain('ftp://DOMAIN.TLD/blabla/file.php?foo=bar#foobar'));
 
-        $this->assertEquals('sub.'. $expectedDomain, UrlUtils::getDomain('sub.domain.tld'));
+        $this->assertEquals('sub.' . $expectedDomain, UrlUtils::getDomain('sub.domain.tld'));
         $this->assertEquals('localhost', UrlUtils::getDomain('localhost'));
     }
 

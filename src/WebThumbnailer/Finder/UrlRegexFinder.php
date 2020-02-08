@@ -1,43 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Finder;
 
-use WebThumbnailer\Exception;
+use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Utils\FinderUtils;
 
 /**
- * Class UrlRegexFinder
- *
  * Generic Finder using regex rules. It will use regex rules to resolve a thumbnail from the provided URL.
  * Example:
  *   - url_regex: \.com/image/([\w\d]+),
  *   - thumbnail_url: "https://domain.com/thumb/${1}"
  *   URL: https://domain.com/image/abcdef
  *   Will be resolved in  https://domain.com/thumb/abcdef
- *
- * @package WebThumbnailer\Finder
  */
 class UrlRegexFinder extends FinderCommon
 {
-    /**
-     * @var string thumbnail_url rule.
-     */
+    /** @var string thumbnail_url rule. */
     protected $thumbnailUrlFormat;
 
-    /**
-     * @var string Final thumbnail.
-     */
+    /** @var string Final thumbnail. */
     protected $thumbnailUrl;
 
-    /**
-     * @var string Regex to apply on provided URL.
-     */
+    /** @var string Regex to apply on provided URL. */
     protected $urlRegex;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
+     * @param mixed[]|null $rules   All existing rules loaded from JSON files.
+     * @param mixed[]|null $options Options provided by the user to retrieve a thumbnail.
      */
-    public function __construct($domain, $url, $rules, $options)
+    public function __construct(string $domain, string $url, ?array $rules, ?array $options)
     {
         $this->url = $url;
         $this->domain = $domain;
@@ -52,7 +46,7 @@ class UrlRegexFinder extends FinderCommon
      *
      * {@inheritdoc}
      *
-     * @throws Exception\BadRulesException
+     * @throws BadRulesException
      */
     public function find()
     {
@@ -60,7 +54,7 @@ class UrlRegexFinder extends FinderCommon
         if (preg_match($this->urlRegex, $this->url, $matches) !== 0) {
             $total = count($matches);
             for ($i = 1; $i < $total; $i++) {
-                $this->thumbnailUrl = str_replace('${'. $i . '}', $matches[$i], $this->thumbnailUrl);
+                $this->thumbnailUrl = str_replace('${' . $i . '}', $matches[$i], $this->thumbnailUrl);
             }
 
             // Match only options (not ${number})
@@ -82,7 +76,7 @@ class UrlRegexFinder extends FinderCommon
      *
      * {@inheritdoc}
      */
-    public function checkRules($rules)
+    public function checkRules(?array $rules): bool
     {
         $mandatoryRules = [
             'url_regex',
@@ -90,25 +84,23 @@ class UrlRegexFinder extends FinderCommon
         ];
         foreach ($mandatoryRules as $mandatoryRule) {
             if (empty($rules[$mandatoryRule])) {
-                throw new Exception\BadRulesException();
+                throw new BadRulesException();
             }
         }
+
+        return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function loadRules($rules)
+    /** @inheritdoc */
+    public function loadRules(?array $rules): void
     {
         $this->checkRules($rules);
         $this->urlRegex = FinderUtils::buildRegex($rules['url_regex'], 'i');
         $this->thumbnailUrlFormat = $rules['thumbnail_url'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    /** @inheritdoc */
+    public function getName(): string
     {
         return 'URL regex';
     }

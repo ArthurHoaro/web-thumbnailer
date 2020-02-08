@@ -3,7 +3,6 @@
 namespace WebThumbnailer\Finder;
 
 use PHPUnit\Framework\TestCase;
-use WebThumbnailer\WebThumbnailer;
 
 /**
  * Class DefaultFinderTest
@@ -23,15 +22,15 @@ class DefaultFinderTest extends TestCase
     public function testDefaultFinderImage()
     {
         $url = 'http://domains.tld/image.png';
-        $finder = new DefaultFinder(null, $url, [], []);
+        $finder = new DefaultFinder('', $url, [], []);
         $this->assertEquals($url, $finder->find());
 
         $url = 'http://domains.tld/image.JPG';
-        $finder = new DefaultFinder(null, $url, [], []);
+        $finder = new DefaultFinder('', $url, [], []);
         $this->assertEquals($url, $finder->find());
 
         $url = 'http://domains.tld/image.svg';
-        $finder = new DefaultFinder(null, $url, [], []);
+        $finder = new DefaultFinder('', $url, [], []);
         $this->assertEquals($url, $finder->find());
     }
 
@@ -42,7 +41,7 @@ class DefaultFinderTest extends TestCase
     {
         $file = __DIR__ . '/../workdir/nope';
         touch($file);
-        $finder = new DefaultFinder(null, $file, [], []);
+        $finder = new DefaultFinder('', $file, [], []);
         $this->assertFalse($finder->find());
         @unlink($file);
     }
@@ -59,7 +58,7 @@ class DefaultFinderTest extends TestCase
             . 'EX4IJTRkb7lobNUStXsB0jIXIAMSsQnWlsV+wULF4Avk9fLq2r'
             . '8a5HSE35Q3eO2XP1A1wQkZSgETvDtKdQAAAABJRU5ErkJggg==';
         file_put_contents($file, base64_decode($data));
-        $finder = new DefaultFinder(null, $file, null, null);
+        $finder = new DefaultFinder('', $file, null, null);
         $this->assertEquals($file, $finder->find());
         @unlink($file);
     }
@@ -71,7 +70,7 @@ class DefaultFinderTest extends TestCase
     {
         $url = __DIR__ . '/../resources/default/le-monde.html';
         $expected = 'https://img.lemde.fr/2016/10/21/107/0/1132/566/1440/720/60/0/fe3b107_3522-d2olbw.y93o25u3di.jpg';
-        $finder = new DefaultFinder(null, $url, null, null);
+        $finder = new DefaultFinder('', $url, null, null);
         $this->assertEquals($expected, $finder->find());
     }
 
@@ -82,7 +81,7 @@ class DefaultFinderTest extends TestCase
     {
         $url = self::LOCAL_SERVER . 'default/le-monde.html';
         $expected = 'https://img.lemde.fr/2016/10/21/107/0/1132/566/1440/720/60/0/fe3b107_3522-d2olbw.y93o25u3di.jpg';
-        $finder = new DefaultFinder(null, $url, null, null);
+        $finder = new DefaultFinder('', $url, null, null);
         $this->assertEquals($expected, $finder->find());
     }
 
@@ -93,7 +92,7 @@ class DefaultFinderTest extends TestCase
     {
         $url = self::LOCAL_SERVER . 'default/image-mimetype.php';
         $expected = $url;
-        $finder = new DefaultFinder(null, $url, null, null);
+        $finder = new DefaultFinder('', $url, null, null);
         $this->assertEquals($expected, $finder->find());
     }
 
@@ -103,7 +102,7 @@ class DefaultFinderTest extends TestCase
     public function testDefaultFinderStatusError()
     {
         $url = self::LOCAL_SERVER . 'default/status-ko.php';
-        $finder = new DefaultFinder(null, $url, null, null);
+        $finder = new DefaultFinder('', $url, null, null);
         $this->assertFalse($finder->find());
     }
 
@@ -112,7 +111,7 @@ class DefaultFinderTest extends TestCase
      */
     public function testGetName()
     {
-        $finder = new DefaultFinder(null, null, [], []);
+        $finder = new DefaultFinder('', '', [], []);
         $this->assertEquals('default', $finder->getName());
     }
 }

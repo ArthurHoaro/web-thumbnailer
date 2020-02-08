@@ -29,8 +29,8 @@ class ThumbnailerTest extends TestCase
 
     public function setUp(): void
     {
-        FileUtils::rmdir(__DIR__ .'/../../../cache/finder');
-        FileUtils::rmdir(__DIR__ .'/../../../cache/thumb');
+        FileUtils::rmdir(__DIR__ . '/../../../cache/finder');
+        FileUtils::rmdir(__DIR__ . '/../../../cache/thumb');
     }
 
     /**
@@ -95,7 +95,7 @@ class ThumbnailerTest extends TestCase
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
         $fileHash = hash('sha1', self::$gravatarThumb);
-        $this->assertEquals('cache/thumb/'. md5('gravatar.com') .'/'. $fileHash .'1601600.jpg', $thumburl);
+        $this->assertEquals('cache/thumb/' . md5('gravatar.com') . '/' . $fileHash . '1601600.jpg', $thumburl);
         unlink($thumburl);
     }
 
@@ -113,7 +113,7 @@ class ThumbnailerTest extends TestCase
 
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $this->assertEquals('cache/thumb/'. md5('gravatar.com') .'/' . $fileHash . '2052050.jpg', $thumburl);
+        $this->assertEquals('cache/thumb/' . md5('gravatar.com') . '/' . $fileHash . '2052050.jpg', $thumburl);
         $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(205, imagesx($img));
         $this->assertEquals(205, imagesy($img));
@@ -134,7 +134,7 @@ class ThumbnailerTest extends TestCase
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
         $fileHash = hash('sha1', 'http://gravatar.com/avatar/69ae657aa40c6c777aa2f391a63f327f?s=160');
-        $this->assertEquals('cache/thumb/'. md5('gravatar.com') .'/'. $fileHash .'1601600.jpg', $thumburl);
+        $this->assertEquals('cache/thumb/' . md5('gravatar.com') . '/' . $fileHash . '1601600.jpg', $thumburl);
         $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(SizeUtils::getMetaSize(WebThumbnailer::SIZE_SMALL), imagesx($img));
         $this->assertEquals(SizeUtils::getMetaSize(WebThumbnailer::SIZE_SMALL), imagesy($img));
@@ -155,7 +155,7 @@ class ThumbnailerTest extends TestCase
 
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $this->assertEquals('cache/thumb/'. md5('gravatar.com') .'/' . $fileHash . '02050.jpg', $thumburl);
+        $this->assertEquals('cache/thumb/' . md5('gravatar.com') . '/' . $fileHash . '02050.jpg', $thumburl);
         $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(205, imagesx($img));
         $this->assertEquals(205, imagesy($img));
@@ -176,7 +176,7 @@ class ThumbnailerTest extends TestCase
 
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
         $thumburl = $thumbnailer->getThumbnail();
-        $this->assertEquals('cache/thumb/'. md5('gravatar.com') .'/' . $fileHash . '20500.jpg', $thumburl);
+        $this->assertEquals('cache/thumb/' . md5('gravatar.com') . '/' . $fileHash . '20500.jpg', $thumburl);
         $img = imagecreatefromjpeg($thumburl);
         $this->assertEquals(205, imagesx($img));
         $this->assertEquals(205, imagesy($img));
@@ -190,7 +190,9 @@ class ThumbnailerTest extends TestCase
     public function testDownloadBadConfigurationDownload()
     {
         $this->expectException(BadRulesException::class);
-        $this->expectExceptionMessageRegExp('/Only one of these flags can be set between: DOWNLOAD HOTLINK HOTLINK_STRICT/');
+        $this->expectExceptionMessageRegExp(
+            '/Only one of these flags can be set between: DOWNLOAD HOTLINK HOTLINK_STRICT/'
+        );
         $options = [
             WebThumbnailer::DOWNLOAD,
             WebThumbnailer::HOTLINK_STRICT,

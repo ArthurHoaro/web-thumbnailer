@@ -1,13 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Utils;
 
 /**
- * Class FinderUtils
- *
  * Utility class used by Finders.
- *
- * @package WebThumbnailer\Utils
  */
 class FinderUtils
 {
@@ -22,7 +20,7 @@ class FinderUtils
      *
      * @return string Formatted regex.
      */
-    public static function buildRegex($regex, $flags)
+    public static function buildRegex(string $regex, string $flags): string
     {
         return '{' . $regex . '}' . $flags;
     }
@@ -31,17 +29,17 @@ class FinderUtils
      * Make sure that given rules contain all mandatory fields.
      * Support nested arrays.
      *
-     * @param array $rules         List of loaded rules.
-     * @param array $mandatoryKeys List of mandatory rules expected.
+     * @param mixed[] $rules         List of loaded rules.
+     * @param mixed[] $mandatoryKeys List of mandatory rules expected.
      *
      * @return bool if all mandatory rules are provided, false otherwise.
      */
-    public static function checkMandatoryRules($rules, $mandatoryKeys)
+    public static function checkMandatoryRules(array $rules, array $mandatoryKeys): bool
     {
         foreach ($mandatoryKeys as $key => $value) {
             if (is_array($value)) {
                 if (isset($rules[$key])) {
-                    return self::checkMandatoryRules($rules[$key], $value);
+                    return static::checkMandatoryRules($rules[$key], $value);
                 } else {
                     return false;
                 }

@@ -1,16 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Utils;
 
 use WebThumbnailer\Exception\ImageConvertException;
 use WebThumbnailer\Exception\NotAnImageException;
 
 /**
- * Class ImageUtils
- *
  * Util class to manipulate GD images.
- *
- * @package WebThumbnailer\Utils
  */
 class ImageUtils
 {
@@ -30,13 +28,18 @@ class ImageUtils
      * @throws NotAnImageException   The given resource isn't an image.
      * @throws ImageConvertException Another error occured.
      */
-    public static function generateThumbnail($imageStr, $target, $maxWidth, $maxHeight, $crop = false)
-    {
-        if (! touch($target)) {
+    public static function generateThumbnail(
+        string $imageStr,
+        string $target,
+        int $maxWidth,
+        int $maxHeight,
+        bool $crop = false
+    ): void {
+        if (!touch($target)) {
             throw new ImageConvertException('Target file is not writable.');
         }
 
-        if ($crop && ($maxWidth == 0  || $maxHeight == 0)) {
+        if ($crop && ($maxWidth == 0 || $maxHeight == 0)) {
             throw new ImageConvertException('Both width and height must be provided for cropping');
         }
 
@@ -54,7 +57,7 @@ class ImageUtils
             $maxHeight = $originalHeight;
         }
 
-        list($finalWidth, $finalHeight) = self::calcNewSize(
+        list($finalWidth, $finalHeight) = static::calcNewSize(
             $originalWidth,
             $originalHeight,
             $maxWidth,
@@ -67,28 +70,30 @@ class ImageUtils
             throw new ImageConvertException('Could not generate the thumbnail from source image.');
         }
 
-        if (! imagecopyresized(
-            $targetImg,
-            $sourceImg,
-            0,
-            0,
-            0,
-            0,
-            $finalWidth,
-            $finalHeight,
-            $originalWidth,
-            $originalHeight
-        )
+        if (
+            !imagecopyresized(
+                $targetImg,
+                $sourceImg,
+                0,
+                0,
+                0,
+                0,
+                $finalWidth,
+                $finalHeight,
+                $originalWidth,
+                $originalHeight
+            )
         ) {
             static::imageDestroy($sourceImg);
             static::imageDestroy($targetImg);
+
             throw new ImageConvertException('Could not generate the thumbnail from source image.');
         }
 
         if ($crop) {
             $targetImg = imagecrop($targetImg, [
-                'x' => $finalWidth >= $finalHeight ? ($finalWidth - $maxWidth) / 2 : 0,
-                'y' => $finalHeight <= $finalWidth ? ($finalHeight - $maxHeight) / 2 : 0,
+                'x' => $finalWidth >= $finalHeight ? (int) floor(($finalWidth - $maxWidth) / 2) : 0,
+                'y' => $finalHeight <= $finalWidth ? (int) floor(($finalHeight - $maxHeight) / 2) : 0,
                 'width' => $maxWidth,
                 'height' => $maxHeight
             ]);
@@ -109,20 +114,26 @@ class ImageUtils
      * @param int  $maxHeight      Target image maximum height
      * @param bool $crop           Is cropping enabled
      *
-     * @return array [final width, final height]
+     * @return int[] [final width, final height]
      *
      * @throws ImageConvertException At least maxwidth or maxheight needs to be defined
      */
-    public static function calcNewSize($originalWidth, $originalHeight, $maxWidth, $maxHeight, $crop)
-    {
+    public static function calcNewSize(
+        int $originalWidth,
+        int $originalHeight,
+        int $maxWidth,
+        int $maxHeight,
+        bool $crop
+    ): array {
         if (empty($maxHeight) && empty($maxWidth)) {
             throw new ImageConvertException('At least maxwidth or maxheight needs to be defined.');
         }
         $diffWidth = !empty($maxWidth) ? $originalWidth - $maxWidth : false;
         $diffHeight = !empty($maxHeight) ? $originalHeight - $maxHeight : false;
 
-        if (($diffHeight === false && $diffWidth !== false)
-            || ($diffWidth > $diffHeight && ! $crop)
+        if (
+            ($diffHeight === false && $diffWidth !== false)
+            || ($diffWidth > $diffHeight && !$crop)
             || ($diffWidth < $diffHeight && $crop)
         ) {
             $finalWidth = $maxWidth;
@@ -132,7 +143,7 @@ class ImageUtils
             $finalWidth = $originalWidth * ($finalHeight / $originalHeight);
         }
 
-        return [$finalWidth, $finalHeight];
+        return [(int) floor($finalWidth), (int) floor($finalHeight)];
     }
 
     /**
@@ -142,7 +153,7 @@ class ImageUtils
      *
      * @return bool true if it's an image extension, false otherwise.
      */
-    public static function isImageExtension($ext)
+    public static function isImageExtension(string $ext): bool
     {
         $supportedImageFormats = ['png', 'jpg', 'jpeg', 'svg'];
         return in_array($ext, $supportedImageFormats);
@@ -155,7 +166,7 @@ class ImageUtils
      *
      * @return bool True if the content is image, false otherwise.
      */
-    public static function isImageString($content)
+    public static function isImageString(string $content): bool
     {
         return static::imageCreateFromString($content) !== false;
     }
@@ -167,11 +178,12 @@ class ImageUtils
      *
      * @return resource|false
      */
-    protected static function imageCreateFromString($content)
+    protected static function imageCreateFromString(string $content)
     {
         try {
             return @imagecreatefromstring($content);
         } catch (\Exception $e) {
+            // Avoid raising PHP exceptions here with custom error handler, we want to raise our own.
         }
 
         return false;
@@ -184,11 +196,14 @@ class ImageUtils
      *
      * @return bool
      */
-    protected static function imageDestroy($image)
+    // resource can't be type hinted:
+    // phpcs:ignore Gskema.Sniffs.CompositeCodeElement.FqcnMethodSniff
+    protected static function imageDestroy($image): bool
     {
         try {
             return @imagedestroy($image);
         } catch (\Exception $e) {
+            // Avoid raising PHP exceptions here with custom error handler, we want to raise our own.
         }
 
         return false;

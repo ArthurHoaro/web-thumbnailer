@@ -1,24 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Application\WebAccess;
 
 /**
- * Class WebAccessFactory
- *
  * Create WebAccess instances depending on PHP extensions and given URL/path.
- *
- * @package WebThumbnailer\Application
  */
 class WebAccessFactory
 {
     /**
      * Return a new WebAccess instance, can be used for local files using a path as $url.
      *
-     * @param string $url URL on which the WebAccess will be used (optional)
+     * @param string|null $url URL on which the WebAccess will be used (optional)
      *
      * @return WebAccess instance.
      */
-    public static function getWebAccess($url = null)
+    public static function getWebAccess(?string $url = null): WebAccess
     {
         // Local file
         if (! empty($url) && $url[0] === '/') {

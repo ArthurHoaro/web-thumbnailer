@@ -144,19 +144,26 @@ $conf = [WebThumbnailer::CROP => true];
 
   * **NOCACHE**: Force the thumbnail to be resolved and downloaded instead of using cache files.
   * **DEBUG**: Will throw an exception if an error occurred or if no thumbnail is found, instead of returning `false`.
+  * **VERBOSE**: Will log an entry in error log if a thumbnail could not be retrieved.
   * **DOWNLOAD_TIMEOUT**: Override download timeout setting (in seconds).
   * **DOWNLOAD_MAX_SIZE**: Override download max size setting (in bytes).
   
 Usage:
 
 ```php
-$wt = $wt->noCache(true)
-         ->debug(true);
+$wt = $wt
+    ->noCache(true)
+    ->debug(true)
+    ->verbose(true)
+    ->downloadTimeout(30)
+    ->downloadMaxSize(4194304)
+;
 $conf = [
-    WebThumbnailer::NOCACHE,
-    WebThumbnailer::DEBUG,
-    WebThumbnailer::DOWNLOAD_TIMEOUT,
-    WebThumbnailer::DOWNLOAD_MAX_SIZE,
+    WebThumbnailer::NOCACHE => true,
+    WebThumbnailer::DEBUG => true,
+    WebThumbnailer::VERBOSE => true,
+    WebThumbnailer::DOWNLOAD_TIMEOUT => 30,
+    WebThumbnailer::DOWNLOAD_MAX_SIZE => 4194304,
 ];
 ```
 

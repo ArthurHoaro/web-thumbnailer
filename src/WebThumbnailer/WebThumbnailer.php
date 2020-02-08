@@ -57,11 +57,22 @@ class WebThumbnailer
      */
     const DEBUG = 'DEBUG';
 
+    /**
+     * Enable verbose mode: log errors with error_log
+     */
+    const VERBOSE = 'VERBOSE';
+
     protected $maxWidth;
 
     protected $maxHeight;
 
+    protected $downloadTimeout;
+
+    protected $downloadMaxSize;
+
     protected $debug;
+
+    protected $verbose;
 
     protected $nocache;
     
@@ -88,11 +99,14 @@ class WebThumbnailer
 
         $options = array_merge(
             [
-                self::DEBUG => $this->debug,
-                self::NOCACHE => $this->nocache,
-                self::MAX_WIDTH => $this->maxWidth,
-                self::MAX_HEIGHT => $this->maxHeight,
-                self::CROP => $this->crop,
+                static::DEBUG => $this->debug,
+                static::VERBOSE => $this->verbose,
+                static::NOCACHE => $this->nocache,
+                static::MAX_WIDTH => $this->maxWidth,
+                static::MAX_HEIGHT => $this->maxHeight,
+                static::DOWNLOAD_TIMEOUT => $this->downloadTimeout,
+                static::DOWNLOAD_MAX_SIZE => $this->downloadMaxSize,
+                static::CROP => $this->crop,
                 $this->downloadMode
             ],
             $options
@@ -104,10 +118,13 @@ class WebThumbnailer
         } catch (MissingRequirementException $e) {
             throw $e;
         } catch (WebThumbnailerException $e) {
-            if (isset($options[self::DEBUG]) && $options[self::DEBUG] === true) {
+            if (isset($options[static::VERBOSE]) && $options[static::VERBOSE] === true) {
+                error_log($e->getMessage());
+            }
+
+            if (isset($options[static::DEBUG]) && $options[static::DEBUG] === true) {
                 throw $e;
             }
-            error_log($e->getMessage());
 
             return false;
         }
@@ -147,6 +164,17 @@ class WebThumbnailer
     }
 
     /**
+     * @param bool $verbose
+     *
+     * @return WebThumbnailer self instance.
+     */
+    public function verbose($verbose)
+    {
+        $this->verbose = $verbose;
+        return $this;
+    }
+
+    /**
      * @param mixed $nocache
      *
      * @return WebThumbnailer self instance.
@@ -169,6 +197,28 @@ class WebThumbnailer
     }
 
     /**
+     * @param int $downloadTimeout in seconds
+     *
+     * @return WebThumbnailer $this
+     */
+    public function downloadTimeout($downloadTimeout)
+    {
+        $this->downloadTimeout = $downloadTimeout;
+        return $this;
+    }
+
+    /**
+     * @param int $downloadMaxSize in bytes
+     *
+     * @return WebThumbnailer $this
+     */
+    public function downloadMaxSize($downloadMaxSize)
+    {
+        $this->downloadMaxSize = $downloadMaxSize;
+        return $this;
+    }
+
+    /**
      * Enable download mode
      * It will download thumbnail, resize it and save it in the cache folder.
      *
@@ -176,7 +226,7 @@ class WebThumbnailer
      */
     public function modeDownload()
     {
-        $this->downloadMode = self::DOWNLOAD;
+        $this->downloadMode = static::DOWNLOAD;
         return $this;
     }
 
@@ -188,7 +238,7 @@ class WebThumbnailer
      */
     public function modeHotlink()
     {
-        $this->downloadMode = self::HOTLINK;
+        $this->downloadMode = static::HOTLINK;
         return $this;
     }
 
@@ -200,7 +250,7 @@ class WebThumbnailer
      */
     public function modeHotlinkStrict()
     {
-        $this->downloadMode = self::HOTLINK_STRICT;
+        $this->downloadMode = static::HOTLINK_STRICT;
         return $this;
     }
 }

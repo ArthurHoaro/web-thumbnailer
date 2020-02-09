@@ -118,7 +118,7 @@ class ConfigManager
      */
     protected static function getConfig(array $settings, array $config)
     {
-        if (!is_array($settings) || count($settings) == 0) {
+        if (count($settings) === 0) {
             return static::NOT_FOUND;
         }
 

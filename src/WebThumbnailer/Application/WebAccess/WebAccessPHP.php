@@ -22,11 +22,11 @@ class WebAccessPHP implements WebAccess
         ?string &$dlContent = null
     ): array {
         if (empty($timeout)) {
-            $timeout = ConfigManager::get('settings.default.timeout', 30);
+            $timeout = (int) ConfigManager::get('settings.default.timeout', 30);
         }
 
         if (empty($maxBytes)) {
-            $maxBytes = ConfigManager::get('settings.default.max_img_dl', 4194304);
+            $maxBytes = (int) ConfigManager::get('settings.default.max_img_dl', 4194304);
         }
 
         $maxRedr = 3;

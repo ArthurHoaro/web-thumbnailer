@@ -52,32 +52,32 @@ class WebThumbnailer
     /** Debug mode. Throw exceptions. */
     public const DEBUG = 'DEBUG';
 
-    /** @var int */
-    protected $maxWidth;
+    /** @var int|null */
+    protected $maxWidth = null;
 
-    /** @var int */
-    protected $maxHeight;
+    /** @var int|null */
+    protected $maxHeight = null;
 
-    /** @var int */
-    protected $downloadTimeout;
+    /** @var int|null */
+    protected $downloadTimeout = null;
 
-    /** @var int */
-    protected $downloadMaxSize;
+    /** @var int|null */
+    protected $downloadMaxSize = null;
 
-    /** @var bool */
-    protected $debug;
+    /** @var bool|null */
+    protected $debug = null;
 
-    /** @var bool */
-    protected $verbose;
+    /** @var bool|null */
+    protected $verbose = null;
 
-    /** @var bool */
-    protected $nocache;
+    /** @var bool|null */
+    protected $nocache = null;
 
-    /** @var bool */
-    protected $crop;
+    /** @var bool|null */
+    protected $crop = null;
 
-    /** @var string */
-    protected $downloadMode;
+    /** @var string|null */
+    protected $downloadMode = null;
 
     /**
      * Get the thumbnail for the given URL>
@@ -136,7 +136,7 @@ class WebThumbnailer
      */
     public function maxWidth($maxWidth): self
     {
-        $this->maxWidth = $maxWidth;
+        $this->maxWidth = (int) $maxWidth;
 
         return $this;
     }
@@ -148,7 +148,7 @@ class WebThumbnailer
      */
     public function maxHeight($maxHeight): self
     {
-        $this->maxHeight = $maxHeight;
+        $this->maxHeight = (int) $maxHeight;
 
         return $this;
     }

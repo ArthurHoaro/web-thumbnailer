@@ -31,6 +31,6 @@ class FlickRFinder extends QueryRegexFinder
         $size = ! empty($size) ? '_' . $size : '';
         $thumb = preg_replace('#(.*)_\w(\.\w+)$#i', '$1' . $size . '$2', $thumb);
 
-        return $thumb;
+        return $thumb ?? false;
     }
 }

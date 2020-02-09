@@ -178,11 +178,11 @@ class QueryRegexFinder extends FinderCommon
     /** @inheritdoc */
     public function checkRules(?array $rules): bool
     {
-        if (!FinderUtils::checkMandatoryRules($rules, ['image_regex', 'thumbnail_url'])) {
+        if (count($rules ?? []) > 0 && !FinderUtils::checkMandatoryRules($rules, ['image_regex', 'thumbnail_url'])) {
             throw new BadRulesException();
         }
 
-        return false;
+        return true;
     }
 
     /**

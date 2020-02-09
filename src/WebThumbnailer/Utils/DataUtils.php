@@ -24,11 +24,11 @@ class DataUtils
      */
     public static function loadJson(string $jsonFile): array
     {
-        if (! file_exists($jsonFile) || ! is_readable($jsonFile)) {
+        if (!file_exists($jsonFile) || !is_readable($jsonFile)) {
             throw new IOException('JSON resource file not found or not readable.');
         }
 
-        $data = json_decode(file_get_contents($jsonFile), true);
+        $data = json_decode(file_get_contents($jsonFile) ?: '', true);
         if ($data === null) {
             $error = json_last_error();
             $msg = json_last_error_msg();

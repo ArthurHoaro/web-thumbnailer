@@ -21,7 +21,7 @@ class UrlUtils
         if (!parse_url($url, PHP_URL_SCHEME)) {
             $url = 'http://' . $url;
         }
-        return strtolower(parse_url($url, PHP_URL_HOST));
+        return strtolower(parse_url($url, PHP_URL_HOST) ?: '');
     }
 
     /**
@@ -29,11 +29,11 @@ class UrlUtils
      *
      * @param string $url given URL.
      *
-     * @return string|false File extension or false if not found.
+     * @return string File extension or false if not found.
      */
-    public static function getUrlFileExtension(string $url)
+    public static function getUrlFileExtension(string $url): string
     {
-        $path = parse_url($url, PHP_URL_PATH);
+        $path = parse_url($url, PHP_URL_PATH) ?: '';
         if (preg_match('/\.(\w+)$/i', $path, $match) > 0) {
             return strtolower($match[1]);
         }

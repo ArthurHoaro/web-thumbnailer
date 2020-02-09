@@ -63,12 +63,13 @@ class WebAccessCUrl implements WebAccess
             $maxBytes = ConfigManager::get('settings.default.max_img_dl', 16777216);
         }
 
+        $locale = setlocale(LC_COLLATE, '0');
         $cookie = ConfigManager::get('settings.path.cache') . '/cookie.txt';
         $userAgent =
             'Mozilla/5.0 (X11; Linux x86_64; rv:45.0; WebThumbnailer)'
             . ' Gecko/20100101 Firefox/45.0';
         $acceptLanguage =
-            substr(setlocale(LC_COLLATE, 0), 0, 2) . ',en-US;q=0.7,en;q=0.3';
+            substr($locale ?: 'en', 0, 2) . ',en-US;q=0.7,en;q=0.3';
         $maxRedirs = 6;
 
         $ch = curl_init($url);
@@ -133,7 +134,7 @@ class WebAccessCUrl implements WebAccess
 
         $content = substr($response, $headSize);
         $headers = [];
-        foreach (preg_split('~[\r\n]+~', $rawHeadersLastRedir) as $line) {
+        foreach (preg_split('~[\r\n]+~', $rawHeadersLastRedir ?: '') ?: [] as $line) {
             if (empty($line) or ctype_space($line)) {
                 continue;
             }

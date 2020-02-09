@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright Shaarli Community under zlib license https://github.com/shaarli/Shaarli
  *
@@ -23,16 +24,14 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Application\WebAccess;
 
 use WebThumbnailer\Application\ConfigManager;
 
 /**
- * Class WebAccessCUrl
- *
  * Require php-curl
- *
- * @package WebThumbnailer\Application
  */
 class WebAccessCUrl implements WebAccess
 {
@@ -49,8 +48,13 @@ class WebAccessCUrl implements WebAccess
      *
      * @inheritdoc
      */
-    public function getContent($url, $timeout = null, $maxBytes = null, $dlCallback = null, &$dlContent = null)
-    {
+    public function getContent(
+        string $url,
+        ?int $timeout = null,
+        ?int $maxBytes = null,
+        ?callable $dlCallback = null,
+        ?string &$dlContent = null
+    ): array {
         if (empty($timeout)) {
             $timeout = ConfigManager::get('settings.default.timeout', 30);
         }
@@ -91,7 +95,7 @@ class WebAccessCUrl implements WebAccess
         curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
 
         // Max download size management
-        curl_setopt($ch, CURLOPT_BUFFERSIZE, 1024*16);
+        curl_setopt($ch, CURLOPT_BUFFERSIZE, 1024 * 16);
         curl_setopt($ch, CURLOPT_NOPROGRESS, false);
         curl_setopt(
             $ch,
@@ -116,8 +120,8 @@ class WebAccessCUrl implements WebAccess
         $headSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         curl_close($ch);
 
-        if ($response === false) {
-            return [[0 => 'curl_exec() error #'. $errorNo .': ' . $errorStr], false];
+        if ($response === false || $response === null) {
+            return [[0 => 'curl_exec() error #' . $errorNo . ': ' . $errorStr], false];
         }
 
         // Formatting output like the fallback method

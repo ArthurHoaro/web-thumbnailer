@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer;
 
 use WebThumbnailer\Application\Thumbnailer;
@@ -12,85 +14,82 @@ use WebThumbnailer\Exception\WebThumbnailerException;
 class WebThumbnailer
 {
     /*
-     * SIZE
+     * SIZES
      */
-    const MAX_WIDTH = 'MAX_WIDTH';
-    const MAX_HEIGHT = 'MAX_HEIGHT';
-    const SIZE_SMALL = 'small';
-    const SIZE_MEDIUM = 'medium';
-    const SIZE_LARGE = 'large';
+    public const MAX_WIDTH = 'MAX_WIDTH';
+    public const MAX_HEIGHT = 'MAX_HEIGHT';
+    public const SIZE_SMALL = 'small';
+    public const SIZE_MEDIUM = 'medium';
+    public const SIZE_LARGE = 'large';
 
     /*
      * DOWNLOAD & CACHE
      */
-    /**
-     * Flag to download and serve locally all image.
-     */
-    const DOWNLOAD = 'DOWNLOAD';
-    /**
-     * Flag to use hotlink if available.
-     */
-    const HOTLINK = 'HOTLINK';
-    /**
-     * Use only hotlink, no thumbnail if not available.
-     */
-    const HOTLINK_STRICT = 'HOTLINK_STRICT';
-    /**
-     * Network timeout, in seconds.
-     */
-    const DOWNLOAD_TIMEOUT = 'DOWNLOAD_TIMEOUT';
-    /**
-     * Number of bytes to download for a thumbnail. Default 4194304 (4MB).
-     */
-    const DOWNLOAD_MAX_SIZE = 'DOWNLOAD_MAX_SIZE';
-    /**
-     * Disable the cache system.
-     */
-    const NOCACHE = 'NOCACHE';
-    /**
-     * Crop image to fixed size.
-     */
-    const CROP = 'CROP';
+    /** Flag to download and serve locally all image. */
+    public const DOWNLOAD = 'DOWNLOAD';
 
-    /**
-     * Debug mode. Throw exceptions.
-     */
-    const DEBUG = 'DEBUG';
+    /** Flag to use hotlink if available. */
+    public const HOTLINK = 'HOTLINK';
 
-    /**
-     * Enable verbose mode: log errors with error_log
-     */
-    const VERBOSE = 'VERBOSE';
+    /** Use only hotlink, no thumbnail if not available. */
+    public const HOTLINK_STRICT = 'HOTLINK_STRICT';
 
+    /** Network timeout, in seconds. */
+    public const DOWNLOAD_TIMEOUT = 'DOWNLOAD_TIMEOUT';
+
+    /** Number of bytes to download for a thumbnail. Default 4194304 (4MB). */
+    public const DOWNLOAD_MAX_SIZE = 'DOWNLOAD_MAX_SIZE';
+
+    /** Enable verbose mode: log errors with error_log */
+    public const VERBOSE = 'VERBOSE';
+
+    /** Disable the cache system. */
+    public const NOCACHE = 'NOCACHE';
+
+    /** Crop image to fixed size. */
+    public const CROP = 'CROP';
+
+    /** Debug mode. Throw exceptions. */
+    public const DEBUG = 'DEBUG';
+
+    /** @var int */
     protected $maxWidth;
 
+    /** @var int */
     protected $maxHeight;
 
+    /** @var int */
     protected $downloadTimeout;
 
+    /** @var int */
     protected $downloadMaxSize;
 
+    /** @var bool */
     protected $debug;
 
+    /** @var bool */
     protected $verbose;
 
+    /** @var bool */
     protected $nocache;
-    
+
+    /** @var bool */
     protected $crop;
 
+    /** @var string */
     protected $downloadMode;
 
     /**
      * Get the thumbnail for the given URL>
      *
-     * @param string $url     User URL.
-     * @param array  $options Options array. See the documentation for more infos.
+     * @param string  $url     User URL.
+     * @param mixed[] $options Options array. See the documentation for more infos.
      *
-     * @return bool|string Thumbnail URL, false if not found.
+     * @return string|false Thumbnail URL, false if not found.
      *
      * @throws WebThumbnailerException Only throw exception in debug mode.
      */
-    public function thumbnail($url, $options = [])
+    public function thumbnail(string $url, array $options = [])
     {
         $url = trim($url);
         if (empty($url)) {
@@ -135,9 +134,10 @@ class WebThumbnailer
      *
      * @return WebThumbnailer self instance.
      */
-    public function maxWidth($maxWidth)
+    public function maxWidth($maxWidth): self
     {
         $this->maxWidth = $maxWidth;
+
         return $this;
     }
 
@@ -146,9 +146,10 @@ class WebThumbnailer
      *
      * @return WebThumbnailer self instance.
      */
-    public function maxHeight($maxHeight)
+    public function maxHeight($maxHeight): self
     {
         $this->maxHeight = $maxHeight;
+
         return $this;
     }
 
@@ -157,9 +158,10 @@ class WebThumbnailer
      *
      * @return WebThumbnailer self instance.
      */
-    public function debug($debug)
+    public function debug(bool $debug): self
     {
         $this->debug = $debug;
+
         return $this;
     }
 
@@ -168,20 +170,21 @@ class WebThumbnailer
      *
      * @return WebThumbnailer self instance.
      */
-    public function verbose($verbose)
+    public function verbose(bool $verbose): self
     {
         $this->verbose = $verbose;
         return $this;
     }
 
     /**
-     * @param mixed $nocache
+     * @param bool $nocache
      *
      * @return WebThumbnailer self instance.
      */
-    public function noCache($nocache)
+    public function noCache(bool $nocache): self
     {
         $this->nocache = $nocache;
+
         return $this;
     }
 
@@ -190,9 +193,10 @@ class WebThumbnailer
      *
      * @return WebThumbnailer $this
      */
-    public function crop($crop)
+    public function crop(bool $crop): self
     {
         $this->crop = $crop;
+
         return $this;
     }
 
@@ -201,9 +205,10 @@ class WebThumbnailer
      *
      * @return WebThumbnailer $this
      */
-    public function downloadTimeout($downloadTimeout)
+    public function downloadTimeout(int $downloadTimeout): self
     {
         $this->downloadTimeout = $downloadTimeout;
+
         return $this;
     }
 
@@ -212,9 +217,10 @@ class WebThumbnailer
      *
      * @return WebThumbnailer $this
      */
-    public function downloadMaxSize($downloadMaxSize)
+    public function downloadMaxSize(int $downloadMaxSize): self
     {
         $this->downloadMaxSize = $downloadMaxSize;
+
         return $this;
     }
 
@@ -224,9 +230,10 @@ class WebThumbnailer
      *
      * @return WebThumbnailer $this
      */
-    public function modeDownload()
+    public function modeDownload(): self
     {
         $this->downloadMode = static::DOWNLOAD;
+
         return $this;
     }
 
@@ -236,9 +243,10 @@ class WebThumbnailer
      *
      * @return WebThumbnailer $this
      */
-    public function modeHotlink()
+    public function modeHotlink(): self
     {
         $this->downloadMode = static::HOTLINK;
+
         return $this;
     }
 
@@ -248,9 +256,10 @@ class WebThumbnailer
      *
      * @return WebThumbnailer $this
      */
-    public function modeHotlinkStrict()
+    public function modeHotlinkStrict(): self
     {
         $this->downloadMode = static::HOTLINK_STRICT;
+
         return $this;
     }
 }

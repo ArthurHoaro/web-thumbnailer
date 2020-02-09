@@ -1,17 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Finder;
 
 /**
- * Class FlickRFinder
- *
  * Finder for flickr.com. Works with the homepage, profiles and picture page.
  *
  * Apply size parameter on thumb URL.
  *
  * @see QueryRegexFinder for more info.
- *
- * @package WebThumbnailer\Finder
  */
 class FlickRFinder extends QueryRegexFinder
 {
@@ -30,8 +28,9 @@ class FlickRFinder extends QueryRegexFinder
 
         $size = $this->getOptionValue('size');
         // One size is actually no suffix...
-        $size = ! empty($size) ? '_'. $size : '';
-        $thumb = preg_replace('#(.*)_\w(\.\w+)$#i', '$1'. $size .'$2', $thumb);
+        $size = ! empty($size) ? '_' . $size : '';
+        $thumb = preg_replace('#(.*)_\w(\.\w+)$#i', '$1' . $size . '$2', $thumb);
+
         return $thumb;
     }
 }

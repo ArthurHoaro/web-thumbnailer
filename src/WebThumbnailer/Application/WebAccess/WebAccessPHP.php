@@ -1,14 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Application\WebAccess;
 
 use WebThumbnailer\Application\ConfigManager;
 
-/**
- * Class WebAccessPHP
- *
- * @package WebThumbnailer\Application
- */
 class WebAccessPHP implements WebAccess
 {
     /**
@@ -17,8 +14,13 @@ class WebAccessPHP implements WebAccess
      *
      * @inheritdoc
      */
-    public function getContent($url, $timeout = null, $maxBytes = null, $dlCallback = null, &$dlContent = null)
-    {
+    public function getContent(
+        string $url,
+        ?int $timeout = null,
+        ?int $maxBytes = null,
+        ?callable $dlCallback = null,
+        ?string &$dlContent = null
+    ): array {
         if (empty($timeout)) {
             $timeout = ConfigManager::get('settings.default.timeout', 30);
         }
@@ -54,9 +56,9 @@ class WebAccessPHP implements WebAccess
      * @param int  $timeout network timeout (in seconds)
      * @param int    $redirectionLimit Stop trying to follow redrection if this number is reached.
      *
-     * @return array containing HTTP headers.
+     * @return mixed[] containing HTTP headers.
      */
-    protected function getRedirectedHeaders($url, $timeout, $redirectionLimit = 3)
+    protected function getRedirectedHeaders(string $url, int $timeout, int $redirectionLimit = 3): array
     {
         stream_context_set_default($this->getContext($timeout));
 
@@ -68,7 +70,8 @@ class WebAccessPHP implements WebAccess
         }
 
         // Headers found, redirection found, and limit not reached.
-        if ($redirectionLimit-- > 0
+        if (
+            $redirectionLimit-- > 0
             && !empty($headers)
             && (strpos($headers[0], '301') !== false || strpos($headers[0], '302') !== false)
             && !empty($headers['Location'])
@@ -88,9 +91,9 @@ class WebAccessPHP implements WebAccess
      * @param int  $timeout network timeout (in seconds)
      * @param bool $fulluri this is required by some hosts, rejected by others, so option.
      *
-     * @return array context.
+     * @return mixed[] context.
      */
-    protected function getContext($timeout, $fulluri = true)
+    protected function getContext(int $timeout, bool $fulluri = true): array
     {
         return [
             'http' => [

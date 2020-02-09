@@ -22,7 +22,8 @@ class ImageUtilsTest extends TestCase
     /**
      * @var string Working directory path.
      */
-    public static $WORKDIR = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'workdir'.DIRECTORY_SEPARATOR;
+    public static $WORKDIR =
+        __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'workdir' . DIRECTORY_SEPARATOR;
 
     /**
      * Regenerate the image before every tests.

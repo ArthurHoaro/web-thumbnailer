@@ -3,7 +3,6 @@
 namespace WebThumbnailer\Application;
 
 use PHPUnit\Framework\TestCase;
-use WebThumbnailer\Utils\DataUtils;
 use WebThumbnailer\Utils\FileUtils;
 
 /**
@@ -45,7 +44,7 @@ class ConfigManagerTest extends TestCase
     {
         ConfigManager::$configFiles = [FileUtils::getPath(__DIR__, '..', 'resources') . 'empty.json'];
 
-        $value = ConfigManager::get(null);
+        $value = ConfigManager::get('');
         $this->assertEmpty($value);
 
         $value = ConfigManager::get('nope');

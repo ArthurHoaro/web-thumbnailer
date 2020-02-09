@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace WebThumbnailer\Utils;
 
@@ -8,11 +9,13 @@ use WebThumbnailer\Exception\MissingRequirementException;
 class ApplicationUtils
 {
     /**
-     * @param array $required list of required extension names
+     * @param string[] $required list of required extension names
+     *
+     * @return bool True if the check is successful.
      *
      * @throws MissingRequirementException
      */
-    public static function checkExtensionRequirements($required)
+    public static function checkExtensionRequirements(array $required): bool
     {
         foreach ($required as $extension) {
             if (! extension_loaded($extension)) {
@@ -22,6 +25,8 @@ class ApplicationUtils
                 ));
             }
         }
+
+        return true;
     }
 
     /**
@@ -30,9 +35,11 @@ class ApplicationUtils
      * @param string $minVersion minimum PHP required version
      * @param string $curVersion current PHP version (use PHP_VERSION)
      *
+     * @return bool True if the check is successful.
+     *
      * @throws MissingRequirementException
      */
-    public static function checkPHPVersion($minVersion, $curVersion)
+    public static function checkPHPVersion(string $minVersion, string $curVersion): bool
     {
         if (version_compare($curVersion, $minVersion) < 0) {
             throw new MissingRequirementException(sprintf(
@@ -41,5 +48,7 @@ class ApplicationUtils
                 $curVersion
             ));
         }
+
+        return true;
     }
 }

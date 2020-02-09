@@ -88,7 +88,7 @@ class QueryRegexFinderTest extends TestCase
      */
     public function testQueryRegexFinderCurlValid()
     {
-        $url = self::LOCAL_SERVER .'queryregex/one-thumb.html';
+        $url = self::LOCAL_SERVER . 'queryregex/one-thumb.html';
         $expected = 'https://domain.tld/pics/thumb.png?name=text';
         $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, null);
         $this->assertEquals($expected, $finder->find());
@@ -99,7 +99,7 @@ class QueryRegexFinderTest extends TestCase
      */
     public function testQueryRegexFinderCurlTwoThumbs()
     {
-        $url = self::LOCAL_SERVER .'queryregex/two-thumb.html';
+        $url = self::LOCAL_SERVER . 'queryregex/two-thumb.html';
         $expected = 'https://domain.tld/pics/thumb.png?name=text';
         $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, null);
         $this->assertEquals($expected, $finder->find());
@@ -110,7 +110,7 @@ class QueryRegexFinderTest extends TestCase
      */
     public function testQueryRegexFinderCurlWithParameter()
     {
-        $url = self::LOCAL_SERVER .'queryregex/one-thumb.html';
+        $url = self::LOCAL_SERVER . 'queryregex/one-thumb.html';
         $expected = 'https://domain.tld/pics/thumb.png?param=foobar-other';
         self::$rules['thumbnail_url'] = 'https://domain.tld/pics/${1}?param=${option1}-${option2}';
         $params = [
@@ -160,7 +160,7 @@ class QueryRegexFinderTest extends TestCase
             'image_regex' => 'foo',
             'thumbnail_url' => 'bar',
         ];
-        $finder = new QueryRegexFinder(null, null, $rules, []);
+        $finder = new QueryRegexFinder('', '', $rules, []);
         $this->assertEquals('Query Regex', $finder->getName());
     }
 
@@ -170,6 +170,7 @@ class QueryRegexFinderTest extends TestCase
     public function testQueryRegexFinderBadRulesThumbUrl()
     {
         $this->expectException(BadRulesException::class);
+
         unset(self::$rules['thumbnail_url']);
         new QueryRegexFinder('domain.tld', '', self::$rules, null);
     }
@@ -180,6 +181,7 @@ class QueryRegexFinderTest extends TestCase
     public function testQueryRegexFinderBadRulesImageRegex()
     {
         $this->expectException(BadRulesException::class);
+
         unset(self::$rules['image_regex']);
         new QueryRegexFinder('domain.tld', '', self::$rules, null);
     }
@@ -278,7 +280,8 @@ class QueryRegexFinderTest extends TestCase
      */
     public function testQueryRegexInstagramPicture()
     {
-        $expected = 'https://scontent-cdg2-1.cdninstagram.com/t51.2885-15/sh0.08/e35/p750x750/14719286_1129421600429160_916728922148700160_n.jpg';
+        $expected = 'https://scontent-cdg2-1.cdninstagram.com/t51.2885-15/sh0.08/e35/p750x750/'
+            . '14719286_1129421600429160_916728922148700160_n.jpg';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
         $rules = $allRules['instagram']['rules'];
         $options = $allRules['instagram']['options'];
@@ -292,7 +295,8 @@ class QueryRegexFinderTest extends TestCase
      */
     public function testQueryRegexInstagramProfile()
     {
-        $expected = 'https://scontent-cdg2-1.cdninstagram.com/t51.2885-19/s150x150/11351823_506089142881765_717664936_a.jpg';
+        $expected = 'https://scontent-cdg2-1.cdninstagram.com/t51.2885-19/s150x150/'
+            . '11351823_506089142881765_717664936_a.jpg';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
         $rules = $allRules['instagram']['rules'];
         $options = $allRules['instagram']['options'];
@@ -390,7 +394,8 @@ class QueryRegexFinderTest extends TestCase
      */
     public function testQueryRegexYoutubeProfile()
     {
-        $expected = 'https://yt3.ggpht.com/-KLL2Lp8Zqso/AAAAAAAAAAI/AAAAAAAAAAA/Y0qd6h5C_jQ/s900-c-k-no-mo-rj-c0xffffff/photo.jpg';
+        $expected = 'https://yt3.ggpht.com/-KLL2Lp8Zqso/AAAAAAAAAAI/AAAAAAAAAAA/Y0qd6h5C_jQ/'
+            . 's900-c-k-no-mo-rj-c0xffffff/photo.jpg';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
         $rules = $allRules['youtube_profile']['rules'];
         $options = $allRules['youtube_profile']['options'];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Finder;
 
 use WebThumbnailer\Application\ConfigManager;
@@ -10,25 +12,21 @@ use WebThumbnailer\Utils\ImageUtils;
 use WebThumbnailer\Utils\UrlUtils;
 
 /**
- * Class DefaultFinder
- *
  * This finder isn't linked to any domain.
  * It will return the resource if it is an image (by extension, or by content).
  * Otherwise, it'll try to retrieve an OpenGraph resource.
- *
- * @package WebThumbnailer\Finder
  */
 class DefaultFinder extends FinderCommon
 {
-    /**
-     * @var WebAccess instance.
-     */
+    /** @var WebAccess instance. */
     protected $webAccess;
 
     /**
      * @inheritdoc
+     * @param mixed[]|null $rules   All existing rules loaded from JSON files.
+     * @param mixed[]|null $options Options provided by the user to retrieve a thumbnail.
      */
-    public function __construct($domain, $url, $rules, $options)
+    public function __construct(string $domain, string $url, ?array $rules, ?array $options)
     {
         $this->webAccess = WebAccessFactory::getWebAccess($url);
         $this->url = $url;
@@ -71,18 +69,18 @@ class DefaultFinder extends FinderCommon
             return $thumbnail;
         }
 
-        return ! empty($content) ? self::extractMetaTag($content) : false;
+        return ! empty($content) ? static::extractMetaTag($content) : false;
     }
 
     /**
      * Get a callback for curl write function.
      *
-     * @param string $content   A variable reference in which the downloaded content should be stored.
-     * @param string $thumbnail A variable reference in which extracted thumb URL should be stored.
+     * @param string|null $content   A variable reference in which the downloaded content should be stored.
+     * @param string|null $thumbnail A variable reference in which extracted thumb URL should be stored.
      *
-     * @return \Closure CURLOPT_WRITEFUNCTION callback
+     * @return callable CURLOPT_WRITEFUNCTION callback
      */
-    protected function getCurlCallback(&$content, &$thumbnail)
+    protected function getCurlCallback(?string &$content, ?string &$thumbnail): callable
     {
         $url = $this->url;
         $isRedirected = false;
@@ -119,13 +117,15 @@ class DefaultFinder extends FinderCommon
             // we look for image, and ignore application/octet-stream,
             // which is a the default content type for any binary
             // @see https://developer.mozilla.org/fr/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-            if (!empty($contentType)
+            if (
+                !empty($contentType)
                 && strpos($contentType, 'image/') !== false
                 && strpos($contentType, 'application/octet-stream') === false
             ) {
                 $thumbnail = $url;
                 return false;
-            } elseif (!empty($contentType)
+            } elseif (
+                !empty($contentType)
                 && strpos($contentType, 'text/html') === false
                 && strpos($contentType, 'application/octet-stream') === false
             ) {
@@ -148,19 +148,20 @@ class DefaultFinder extends FinderCommon
      *
      * @param string $content Downloaded HTML content
      *
-     * @return string|bool Extracted thumb URL or false if not found.
+     * @return string|false Extracted thumb URL or false if not found.
      */
-    public static function extractMetaTag($content)
+    public static function extractMetaTag(string $content)
     {
         $propertiesKey = ['property', 'name', 'itemprop'];
         $properties = implode('|', $propertiesKey);
         // Try to retrieve OpenGraph image.
-        $ogRegex = '#<meta[^>]+(?:'. $properties .')=["\']?og:image["\'\s][^>]*content=["\']?(.*?)["\'\s>]#';
+        $ogRegex = '#<meta[^>]+(?:' . $properties . ')=["\']?og:image["\'\s][^>]*content=["\']?(.*?)["\'\s>]#';
         // If the attributes are not in the order property => content (e.g. Github)
         // New regex to keep this readable... more or less.
-        $ogRegexReverse = '#<meta[^>]+content=["\']?([^"\'\s]+)[^>]+(?:'. $properties .')=["\']?og:image["\'\s/>]#';
+        $ogRegexReverse = '#<meta[^>]+content=["\']?([^"\'\s]+)[^>]+(?:' . $properties . ')=["\']?og:image["\'\s/>]#';
 
-        if (preg_match($ogRegex, $content, $matches) > 0
+        if (
+            preg_match($ogRegex, $content, $matches) > 0
             || preg_match($ogRegexReverse, $content, $matches) > 0
         ) {
             return $matches[1];
@@ -169,32 +170,25 @@ class DefaultFinder extends FinderCommon
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isHotlinkAllowed()
+    /** @inheritdoc */
+    public function isHotlinkAllowed(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function checkRules($rules)
+    /** @inheritdoc */
+    public function checkRules(?array $rules): bool
+    {
+        return true;
+    }
+
+    /** @inheritdoc */
+    public function loadRules(?array $rules): void
     {
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function loadRules($rules)
-    {
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getName()
+    /** @inheritdoc */
+    public function getName(): string
     {
         return 'default';
     }

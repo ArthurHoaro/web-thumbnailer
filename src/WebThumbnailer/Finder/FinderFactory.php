@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Finder;
 
 use WebThumbnailer\Application\ConfigManager;
@@ -12,11 +14,7 @@ use WebThumbnailer\Utils\FinderUtils;
 use WebThumbnailer\Utils\UrlUtils;
 
 /**
- * Class FinderFactory
- *
  * Find the appropriate Finder for a given URL, instantiate it and load its rules.
- *
- * @package WebThumbnailer\Finder
  */
 class FinderFactory
 {
@@ -30,11 +28,11 @@ class FinderFactory
      * @throws BadRulesException
      * @throws IOException
      */
-    public static function getFinder($url)
+    public static function getFinder(string $url): Finder
     {
         $domain = UrlUtils::getDomain($url);
         try {
-            list($domain, $finder, $rules, $options) = self::getThumbnailMeta($domain, $url);
+            list($domain, $finder, $rules, $options) = static::getThumbnailMeta($domain, $url);
 
             $className = '\\WebThumbnailer\\Finder\\' . $finder . 'Finder';
             if (!class_exists($className)) {
@@ -55,13 +53,13 @@ class FinderFactory
      * @param string $inputDomain Domain to search.
      * @param string $url         Complete URL.
      *
-     * @return array [domains, finder name, rules, options].
+     * @return mixed[] [domains, finder name, rules, options].
      *
      * @throws UnsupportedDomainException No rules found for the domains.
      * @throws BadRulesException          Mandatory rules not found for the domains.
      * @throws IOException
      */
-    public static function getThumbnailMeta($inputDomain, $url)
+    public static function getThumbnailMeta(string $inputDomain, string $url): array
     {
         // Load JSON rule files.
         $jsonFiles = ConfigManager::get('settings.rules_filename', ['rules.json']);
@@ -73,7 +71,7 @@ class FinderFactory
         $domain = null;
 
         foreach ($allRules as $value) {
-            self::checkMetaFormat($value);
+            static::checkMetaFormat($value);
 
             $domainFound = false;
             foreach ($value['domains'] as $domain) {
@@ -112,11 +110,13 @@ class FinderFactory
     /**
      * Make sure that mandatory directives are present in the metadata.
      *
-     * @param array $rules JSON directives.
+     * @param mixed[] $rules JSON directives.
+     *
+     * @return bool True if the check is successful.
      *
      * @throws BadRulesException Mandatory rules not found for the domains.
      */
-    public static function checkMetaFormat($rules)
+    public static function checkMetaFormat(array $rules): bool
     {
         $mandatoryDirectives = ['domains', 'finder'];
         foreach ($mandatoryDirectives as $mandatoryDirective) {
@@ -124,5 +124,7 @@ class FinderFactory
                 throw new BadRulesException();
             }
         }
+
+        return true;
     }
 }

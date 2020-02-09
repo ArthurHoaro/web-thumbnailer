@@ -114,7 +114,7 @@ class QueryRegexFinder extends FinderCommon
          * @param resource $ch   cURL resource
          * @param string   $data chunk of data being downloaded
          *
-         * @return int|bool length of $data or false if we need to stop the download
+         * @return int|false length of $data or false if we need to stop the download
          */
         return function (&$ch, $data) use (&$content, &$thumbnail, &$isRedirected) {
             $content .= $data;

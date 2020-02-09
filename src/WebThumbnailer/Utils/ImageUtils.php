@@ -99,6 +99,10 @@ class ImageUtils
             ]);
         }
 
+        if (!is_resource($targetImg)) {
+            throw new ImageConvertException('Could not generate the thumbnail.');
+        }
+
         imagedestroy($sourceImg);
         imagejpeg($targetImg, $target);
         imagedestroy($targetImg);

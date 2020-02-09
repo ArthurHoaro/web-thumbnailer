@@ -67,6 +67,7 @@ class CacheManager
      * @param bool|null  $crop   Crop enabled or not.
      *
      * @return string Absolute file path.
+     *
      * @throws IOException
      * @throws CacheException
      * @throws BadRulesException
@@ -80,13 +81,24 @@ class CacheManager
         ?bool $crop = false
     ): string {
         $domainHash = static::getDomainHash($domain);
+
         static::createDomainThumbCacheFolder($domainHash, $type);
+
         $domainFolder = FileUtils::getPath(static::getCachePath($type), $domainHash);
+        if ($domainFolder === false) {
+            throw new CacheException(sprintf(
+                'Could not find cache path for type %s and domain hash %s',
+                $type,
+                $domainHash
+            ));
+        }
+
         if ($type === static::TYPE_THUMB) {
             $suffix = $width . $height . ($crop ? '1' : '0') . '.jpg';
         } else {
             $suffix = $width . $height;
         }
+
         return $domainFolder . static::getThumbFilename($url) . $suffix;
     }
 

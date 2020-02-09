@@ -100,7 +100,7 @@ class WebAccessCUrl implements WebAccess
         curl_setopt(
             $ch,
             CURLOPT_PROGRESSFUNCTION,
-            function ($arg0, $arg1, $arg2, $arg3, $arg4 = 0) use ($maxBytes) {
+            function ($arg0, $arg1, $arg2) use ($maxBytes) {
                 $downloaded = $arg2;
                 // Non-zero return stops downloading
                 return ($downloaded > $maxBytes) ? 1 : 0;
@@ -120,7 +120,7 @@ class WebAccessCUrl implements WebAccess
         $headSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         curl_close($ch);
 
-        if ($response === false || $response === null) {
+        if (!is_string($response)) {
             return [[0 => 'curl_exec() error #' . $errorNo . ': ' . $errorStr], false];
         }
 

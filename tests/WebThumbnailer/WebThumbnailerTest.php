@@ -94,7 +94,7 @@ class WebThumbnailerTest extends TestCase
      */
     public function testOpenGraphImage()
     {
-        $image = 'default/le-monde.png';
+        $image = 'default/le-monde.jpg';
         $this->regenerate($image);
         $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/le-monde.html';

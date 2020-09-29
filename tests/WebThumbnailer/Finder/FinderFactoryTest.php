@@ -2,8 +2,8 @@
 
 namespace WebThumbnailer\Finder;
 
-use PHPUnit\Framework\TestCase;
 use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\TestCase;
 
 /**
  * Class FinderFactoryTest

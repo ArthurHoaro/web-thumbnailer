@@ -2,8 +2,8 @@
 
 namespace WebThumbnailer\Utils;
 
-use PHPUnit\Framework\TestCase;
 use WebThumbnailer\Exception\NotAnImageException;
+use WebThumbnailer\TestCase;
 
 /**
  * Class ImageUtilsTest

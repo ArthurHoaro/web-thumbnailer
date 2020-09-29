@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
-        colors="true"
-        bootstrap="./tests/bootstrap.php">
-    <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src/WebThumbnailer/</directory>
-            <directory suffix=".php">tests/WebThumbnailer/</directory>
-        </whitelist>
-    </filter>
-    <testsuites>
-        <testsuite name="AllTests">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-    <logging>
-        <log type="coverage-html" target="coverage" lowUpperBound="30" highLowerBound="80"/>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
-        <log type="coverage-clover" target="coverage/logs/clover.xml"/>
-    </logging>
-    <php>
-        <const name="WEB_SERVER_HOST" value="localhost" />
-        <const name="WEB_SERVER_PORT" value="8081" />
-        <const name="WEB_SERVER_DOCROOT" value="./tests/public" />
-    </php>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" colors="true" bootstrap="./tests/bootstrap.php">
+  <coverage includeUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">src/WebThumbnailer/</directory>
+      <directory suffix=".php">tests/WebThumbnailer/</directory>
+    </include>
+    <report>
+      <clover outputFile="coverage/logs/clover.xml"/>
+      <html outputDirectory="coverage" lowUpperBound="30" highLowerBound="80"/>
+      <text outputFile="php://stdout" showUncoveredFiles="true"/>
+    </report>
+  </coverage>
+  <testsuites>
+    <testsuite name="AllTests">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+  <logging/>
+  <php>
+    <const name="WEB_SERVER_HOST" value="localhost"/>
+    <const name="WEB_SERVER_PORT" value="8081"/>
+    <const name="WEB_SERVER_DOCROOT" value="./tests/public"/>
+  </php>
 </phpunit>

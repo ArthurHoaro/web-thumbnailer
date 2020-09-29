@@ -2,7 +2,7 @@
 
 namespace WebThumbnailer\Application;
 
-use PHPUnit\Framework\TestCase;
+use WebThumbnailer\TestCase;
 use WebThumbnailer\Utils\FileUtils;
 
 /**

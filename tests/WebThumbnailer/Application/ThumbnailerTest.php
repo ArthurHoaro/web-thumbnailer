@@ -2,8 +2,8 @@
 
 namespace WebThumbnailer\Application;
 
-use PHPUnit\Framework\TestCase;
 use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\TestCase;
 use WebThumbnailer\Utils\FileUtils;
 use WebThumbnailer\Utils\SizeUtils;
 use WebThumbnailer\WebThumbnailer;

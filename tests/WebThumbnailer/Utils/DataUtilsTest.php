@@ -2,7 +2,7 @@
 
 namespace WebThumbnailer\Utils;
 
-use PHPUnit\Framework\TestCase;
+use WebThumbnailer\TestCase;
 
 /**
  * Class DataUtilsTest

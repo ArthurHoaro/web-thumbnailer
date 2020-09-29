@@ -2,7 +2,7 @@
 
 namespace WebThumbnailer\Finder;
 
-use PHPUnit\Framework\TestCase;
+use WebThumbnailer\TestCase;
 
 /**
  * Class DefaultFinderTest

@@ -2,8 +2,8 @@
 
 namespace WebThumbnailer\Finder;
 
-use PHPUnit\Framework\TestCase;
 use WebThumbnailer\Exception\BadRulesException;
+use WebThumbnailer\TestCase;
 use WebThumbnailer\Utils\DataUtils;
 use WebThumbnailer\Utils\FileUtils;
 use WebThumbnailer\WebThumbnailer;

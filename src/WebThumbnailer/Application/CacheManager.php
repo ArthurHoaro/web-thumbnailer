@@ -8,6 +8,7 @@ use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\Exception\CacheException;
 use WebThumbnailer\Exception\IOException;
 use WebThumbnailer\Utils\FileUtils;
+use WebThumbnailer\Utils\TemplatePolyfill;
 
 /**
  * Handles file caching using static methods.
@@ -176,7 +177,7 @@ class CacheManager
         $templateFile = file_exists(FileUtils::RESOURCES_PATH . 'htaccess' . $apacheVersion . '_template')
             ? FileUtils::RESOURCES_PATH . 'htaccess' . $apacheVersion . '_template'
             : FileUtils::RESOURCES_PATH . 'htaccess_template';
-        $template = new \Text_Template($templateFile);
+        $template = TemplatePolyfill::get($templateFile);
         $template->setVar([
             'new_all' => $allowed ? 'granted' : 'denied',
             'old_allow' => $allowed ? 'all' : 'none',

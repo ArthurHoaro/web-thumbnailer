@@ -43,6 +43,10 @@ class ImageUtils
             throw new ImageConvertException('Both width and height must be provided for cropping');
         }
 
+        if ($maxWidth < 0 || $maxHeight < 0) {
+            throw new ImageConvertException('Height and width must be zero or positive');
+        }
+
         $sourceImg = static::imageCreateFromString($imageStr);
         if ($sourceImg === false) {
             throw new NotAnImageException();
@@ -99,7 +103,7 @@ class ImageUtils
             ]);
         }
 
-        if (!is_resource($targetImg)) {
+        if (false === $targetImg) {
             throw new ImageConvertException('Could not generate the thumbnail.');
         }
 
@@ -186,7 +190,7 @@ class ImageUtils
     {
         try {
             return @imagecreatefromstring($content);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Avoid raising PHP exceptions here with custom error handler, we want to raise our own.
         }
 
@@ -206,7 +210,7 @@ class ImageUtils
     {
         try {
             return @imagedestroy($image);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Avoid raising PHP exceptions here with custom error handler, we want to raise our own.
         }
 

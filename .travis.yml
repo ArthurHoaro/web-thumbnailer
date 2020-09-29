@@ -1,13 +1,22 @@
-sudo: false
-language: php
+matrix:
+  include:
+    - language: php
+      php: nightly
+      install:
+        - composer self-update --2
+        - composer update --ignore-platform-req=php
+    - language: php
+      php: 7.4
+    - language: php
+      php: 7.3
+    - language: php
+      php: 7.2
+    - language: php
+      php: 7.1
+
 cache:
   directories:
     - $HOME/.composer/cache
-php:
-  - 7.4
-  - 7.3
-  - 7.2
-  - 7.1
 install:
   - composer self-update
   - composer install --prefer-dist

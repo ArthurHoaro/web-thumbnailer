@@ -2,6 +2,7 @@
 
 namespace WebThumbnailer\Utils;
 
+use WebThumbnailer\Exception\ImageConvertException;
 use WebThumbnailer\Exception\NotAnImageException;
 use WebThumbnailer\TestCase;
 
@@ -117,8 +118,8 @@ class ImageUtilsTest extends TestCase
      */
     public function testGenerateThumbnailBadSize()
     {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Could not generate the thumbnail from source image.');
+        $this->expectException(ImageConvertException::class);
+        $this->expectExceptionMessage('Height and width must be zero or positive');
 
         $path = self::$WORKDIR . 'file1.png';
         @ImageUtils::generateThumbnail(self::$imageSource, $path, -1, -1);

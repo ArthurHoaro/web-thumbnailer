@@ -99,7 +99,7 @@ class DefaultFinder extends FinderCommon
          *
          * @return int|false length of $data or false if we need to stop the download
          */
-        return function (&$ch, $data) use ($url, &$content, &$thumbnail, &$isRedirected) {
+        return function ($ch, $data) use ($url, &$content, &$thumbnail, &$isRedirected) {
             $content .= $data;
             $responseCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
             if (!empty($responseCode) && in_array($responseCode, [301, 302])) {

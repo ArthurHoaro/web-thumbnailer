@@ -4,6 +4,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v2.0.4 - 2021-02-22
+
+### Fixed 
+ 
+ * Instagram: include query parameters in thumbnail URL
+
+## v2.0.3 - 2020-09-29
+
+### Added
+
+ * Compatibility with PHP 8.0.
+
+## v2.0.2 - 2020-09-29
+
+### Added
+
+ * Compatibility with PHPUnit 9.x and phpunit/php-text-template v2.x
+
+## v2.0.1 - 2020-01-17
+
+### Fixed
+
+ * Remote UT uses new LeMonde website image CDN
+ * Catch exceptions even with custom handlers
+ * Support file_get_contents() PHP 7.1 change with WebAccess URL downloader
+
+## v2.0.0 - 2019-08-10
+
+### Removed
+
+ * Drop support for PHP 5.6 and PHP 7.0.
+
 ## v1.3.1 - 2018-08-11
 
 ### Removed

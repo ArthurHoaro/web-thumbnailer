@@ -194,7 +194,7 @@
       "hotlink_allowed": true
     },
     "rules": {
-      "image_regex": "<meta property=\"og:image\" content=\"(.*?)(?:\\?.*?)?\"",
+      "image_regex": "<meta property=\"og:image\" content=\"(.*?)\"",
       "thumbnail_url": "${1}"
     }
   },

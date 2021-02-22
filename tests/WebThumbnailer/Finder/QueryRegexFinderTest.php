@@ -280,8 +280,10 @@ class QueryRegexFinderTest extends TestCase
      */
     public function testQueryRegexInstagramPicture()
     {
-        $expected = 'https://scontent-cdg2-1.cdninstagram.com/t51.2885-15/sh0.08/e35/p750x750/'
-            . '14719286_1129421600429160_916728922148700160_n.jpg';
+        $expected = 'https://scontent-cdg2-1.cdninstagram.com/v/t51.2885-15/e35/'
+            . '14719286_1129421600429160_916728922148700160_n.jpg'
+            . '?_nc_ht=scontent-cdg2-1.cdninstagram.com'
+            . '&_nc_cat=100&_nc_ohc=xWaFFBqAj6wAX_gqYWt&tp=1&oh=dd77c7c72429d2db9ca3666f01c60e60&oe=605B2EDA';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
         $rules = $allRules['instagram']['rules'];
         $options = $allRules['instagram']['options'];
@@ -295,8 +297,10 @@ class QueryRegexFinderTest extends TestCase
      */
     public function testQueryRegexInstagramProfile()
     {
-        $expected = 'https://scontent-cdg2-1.cdninstagram.com/t51.2885-19/s150x150/'
-            . '11351823_506089142881765_717664936_a.jpg';
+        $expected = 'https://scontent-cdg2-1.cdninstagram.com/v/t51.2885-19/s150x150/'
+            . '11351823_506089142881765_717664936_a.jpg'
+            . '?_nc_ht=scontent-cdg2-1.cdninstagram.com'
+            . '&_nc_ohc=US3NCxc_VOcAX-WwNIl&tp=1&oh=2bb367a88e579c411c7c484fcc6b1e3e&oe=605C8165';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
         $rules = $allRules['instagram']['rules'];
         $options = $allRules['instagram']['options'];

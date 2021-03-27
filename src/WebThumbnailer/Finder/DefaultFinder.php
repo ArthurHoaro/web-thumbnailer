@@ -56,7 +56,7 @@ class DefaultFinder extends FinderCommon
             $content
         );
 
-        if (empty($thumbnail) && ImageUtils::isImageString($content)) {
+        if (empty($thumbnail) && !empty($content) && ImageUtils::isImageString($content)) {
             return $this->url;
         }
 

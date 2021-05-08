@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Application;
 
 use WebThumbnailer\Exception\BadRulesException;
@@ -9,11 +11,7 @@ use WebThumbnailer\Utils\SizeUtils;
 use WebThumbnailer\WebThumbnailer;
 
 /**
- * Class ThumbnailerTest
- *
  * Rely on UrlRegexFinder.
- *
- * @package WebThumbnailer\Application
  */
 class ThumbnailerTest extends TestCase
 {
@@ -29,14 +27,14 @@ class ThumbnailerTest extends TestCase
 
     public function setUp(): void
     {
-        FileUtils::rmdir(__DIR__ . '/../../../cache/finder');
-        FileUtils::rmdir(__DIR__ . '/../../../cache/thumb');
+        FileUtils::rmdir(__DIR__ . '/../../cache/finder');
+        FileUtils::rmdir(__DIR__ . '/../../cache/thumb');
     }
 
     /**
      * Test strictHotlinkThumbnail().
      */
-    public function testStrictHotlinkThumbnail()
+    public function testStrictHotlinkThumbnail(): void
     {
         $options = [WebThumbnailer::HOTLINK_STRICT];
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
@@ -50,7 +48,7 @@ class ThumbnailerTest extends TestCase
      * @expectedException \Exception
      * @expectedExceptionMessage Hotlink is not supported for this URL.
      */
-    public function testStrictHotlinkThumbnailInvalid()
+    public function testStrictHotlinkThumbnailInvalid(): void
     {
         // I don't know any website where hotlink is disabled.
         // FIXME! Use test rule.
@@ -64,7 +62,7 @@ class ThumbnailerTest extends TestCase
     /**
      * Test hotlinkThumbnail().
      */
-    public function testHotlinkThumbnail()
+    public function testHotlinkThumbnail(): void
     {
         $options = [WebThumbnailer::HOTLINK];
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
@@ -75,7 +73,7 @@ class ThumbnailerTest extends TestCase
     /**
      * Test hotlinkThumbnail() with a domains which doesn't allow hotlink => download mode.
      */
-    public function testHotlinkThumbnailDownload()
+    public function testHotlinkThumbnailDownload(): void
     {
         // I don't know any website where hotlink is disabled.
         // FIXME! Use test rule.
@@ -89,7 +87,7 @@ class ThumbnailerTest extends TestCase
     /**
      *Test downloadThumbnail().
      */
-    public function testDownloadThumbnailValid()
+    public function testDownloadThumbnailValid(): void
     {
         $options = [WebThumbnailer::DOWNLOAD];
         $thumbnailer = new Thumbnailer(self::$gravatarLink, $options, null);
@@ -102,7 +100,7 @@ class ThumbnailerTest extends TestCase
     /**
      *Test downloadThumbnail() with both width and height defined.
      */
-    public function testDownloadSizedThumbnailBoth()
+    public function testDownloadSizedThumbnailBoth(): void
     {
         $options = [
             WebThumbnailer::DOWNLOAD,
@@ -124,7 +122,7 @@ class ThumbnailerTest extends TestCase
     /**
      *Test downloadThumbnail() with both width and height defined with preset values.
      */
-    public function testDownloadSizedThumbnailBothPreset()
+    public function testDownloadSizedThumbnailBothPreset(): void
     {
         $options = [
             WebThumbnailer::DOWNLOAD,
@@ -145,7 +143,7 @@ class ThumbnailerTest extends TestCase
     /**
      *Test downloadThumbnail() with height defined.
      */
-    public function testDownloadSizedThumbnailHeight()
+    public function testDownloadSizedThumbnailHeight(): void
     {
         $options = [
             WebThumbnailer::DOWNLOAD,
@@ -166,7 +164,7 @@ class ThumbnailerTest extends TestCase
     /**
      *Test downloadThumbnail() with width defined.
      */
-    public function testDownloadSizedThumbnailWidth()
+    public function testDownloadSizedThumbnailWidth(): void
     {
         $options = [
             WebThumbnailer::DOWNLOAD,
@@ -187,7 +185,7 @@ class ThumbnailerTest extends TestCase
     /**
      * Try to create an instance of Thumbnailer with incompatible settings.
      */
-    public function testDownloadBadConfigurationDownload()
+    public function testDownloadBadConfigurationDownload(): void
     {
         $this->expectException(BadRulesException::class);
         $this->expectExceptionMessageRegExp(

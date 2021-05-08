@@ -1,22 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Utils;
 
 use WebThumbnailer\TestCase;
 
 /**
- * Class UrlUtilsTest
- *
  * Test utility class for URL.
- *
- * @package WebThumbnailer\Utils
  */
 class UrlUtilsTest extends TestCase
 {
     /**
      * Test getDomain() from various URL.
      */
-    public function testGetDomain()
+    public function testGetDomain(): void
     {
         $expectedDomain = 'domain.tld';
         $this->assertEquals($expectedDomain, UrlUtils::getDomain('domain.tld'));
@@ -31,7 +29,7 @@ class UrlUtilsTest extends TestCase
     /**
      * Test getUrlFileExtension from various URL/file type.
      */
-    public function testGetUrlFileExtension()
+    public function testGetUrlFileExtension(): void
     {
         $url = 'http://hostname.tld/path/index.php?arg=value#anchor';
         $this->assertEquals('php', UrlUtils::getUrlFileExtension($url));

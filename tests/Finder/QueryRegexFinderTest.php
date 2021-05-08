@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Finder;
 
 use WebThumbnailer\Exception\BadRulesException;
@@ -7,22 +9,17 @@ use WebThumbnailer\TestCase;
 use WebThumbnailer\Utils\DataUtils;
 use WebThumbnailer\Utils\FileUtils;
 
-/**
- * Class QueryRegexFinderTest
- *
- * @package WebThumbnailer\Finder
- */
 class QueryRegexFinderTest extends TestCase
 {
     /**
-     * @var array Finder rules.
+     * @var mixed[] Finder rules.
      */
     protected static $rules;
 
     /**
      * PHP builtin local server URL.
      */
-    const LOCAL_SERVER = 'http://localhost:8081/';
+    protected const LOCAL_SERVER = 'http://localhost:8081/';
 
     /**
      * Before every tests, reset rules and params.
@@ -38,7 +35,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test find() with a valid thumb found.
      */
-    public function testQueryRegexFinderValid()
+    public function testQueryRegexFinderValid(): void
     {
         $url = __DIR__ . '/../resources/queryregex/one-thumb.html';
         $expected = 'https://domain.tld/pics/thumb.png?name=text';
@@ -49,7 +46,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test find() with 2 valid thumbs matching the regex, we use the first one.
      */
-    public function testQueryRegexFinderTwoThumbs()
+    public function testQueryRegexFinderTwoThumbs(): void
     {
         $url = __DIR__ . '/../resources/queryregex/two-thumb.html';
         $expected = 'https://domain.tld/pics/thumb.png?name=text';
@@ -60,7 +57,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test find() with parameter.
      */
-    public function testQueryRegexFinderWithParameter()
+    public function testQueryRegexFinderWithParameter(): void
     {
         $url = __DIR__ . '/../resources/queryregex/one-thumb.html';
         $expected = 'https://domain.tld/pics/thumb.png?param=foobar-other';
@@ -86,7 +83,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test find() with a valid thumb found.
      */
-    public function testQueryRegexFinderCurlValid()
+    public function testQueryRegexFinderCurlValid(): void
     {
         $url = self::LOCAL_SERVER . 'queryregex/one-thumb.html';
         $expected = 'https://domain.tld/pics/thumb.png?name=text';
@@ -97,7 +94,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test find() with 2 valid thumbs matching the regex, we use the first one.
      */
-    public function testQueryRegexFinderCurlTwoThumbs()
+    public function testQueryRegexFinderCurlTwoThumbs(): void
     {
         $url = self::LOCAL_SERVER . 'queryregex/two-thumb.html';
         $expected = 'https://domain.tld/pics/thumb.png?name=text';
@@ -108,7 +105,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test find() with parameter.
      */
-    public function testQueryRegexFinderCurlWithParameter()
+    public function testQueryRegexFinderCurlWithParameter(): void
     {
         $url = self::LOCAL_SERVER . 'queryregex/one-thumb.html';
         $expected = 'https://domain.tld/pics/thumb.png?param=foobar-other';
@@ -134,7 +131,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test the default finder trying to find an image mime-type.
      */
-    public function testQueryRegexFinderImageMimetype()
+    public function testQueryRegexFinderImageMimetype(): void
     {
         $url = self::LOCAL_SERVER . 'default/image-mimetype.php';
         $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, null);
@@ -144,7 +141,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test the default finder finding a non 200 status code.
      */
-    public function testQueryRegexFinderStatusError()
+    public function testQueryRegexFinderStatusError(): void
     {
         $url = self::LOCAL_SERVER . 'default/status-ko.php';
         $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, null);
@@ -154,7 +151,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test getName().
      */
-    public function testGetName()
+    public function testGetName(): void
     {
         $rules = [
             'image_regex' => 'foo',
@@ -167,7 +164,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test loading the finder with bad rules (`thumbnail_url`).
      */
-    public function testQueryRegexFinderBadRulesThumbUrl()
+    public function testQueryRegexFinderBadRulesThumbUrl(): void
     {
         $this->expectException(BadRulesException::class);
 
@@ -178,7 +175,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test loading the finder with bad rules (`image_regex`).
      */
-    public function testQueryRegexFinderBadRulesImageRegex()
+    public function testQueryRegexFinderBadRulesImageRegex(): void
     {
         $this->expectException(BadRulesException::class);
 
@@ -189,7 +186,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test downloading an inaccessible remote content (empty content).
      */
-    public function testQueryRegexFinderResourceNotReachable()
+    public function testQueryRegexFinderResourceNotReachable(): void
     {
         $finder = new QueryRegexFinder('domain.tld', '', self::$rules, null);
         $this->assertFalse($finder->find());
@@ -198,7 +195,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * A page without thumbnails, return false.
      */
-    public function testQueryRegexFinderNoMatch()
+    public function testQueryRegexFinderNoMatch(): void
     {
         $url = __DIR__ . '/../resources/queryregex/no-thumb.html';
         $finder = new QueryRegexFinder('domain.tld', $url, self::$rules, null);
@@ -208,7 +205,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Not matching placeholder are ignored.
      */
-    public function testQueryRegexNoEnoughMatch()
+    public function testQueryRegexNoEnoughMatch(): void
     {
         $url = __DIR__ . '/../resources/queryregex/one-thumb.html';
         $expected = 'thumb.png text ${3}';
@@ -220,7 +217,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Use an unknown option in the URL.
      */
-    public function testQueryRegexUnknownOption()
+    public function testQueryRegexUnknownOption(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unknown option "option" for the finder "Query Regex"');
@@ -234,7 +231,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test Giphy.
      */
-    public function testQueryRegexGiphy()
+    public function testQueryRegexGiphy(): void
     {
         $expected = 'https://media.giphy.com/media/8JQqAqsxNDUXu/giphy-facebook_s.jpg';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -248,7 +245,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test Imgur Album: multiple images on a single page, we take the first (OpenGraph choice).
      */
-    public function testQueryRegexImgurAlbum()
+    public function testQueryRegexImgurAlbum(): void
     {
         $expected = 'https://i.imgur.com/iQxE4BHm.jpg';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -264,7 +261,7 @@ class QueryRegexFinderTest extends TestCase
      * The difference between albums (/a/) and galleries (/gallery/), is that
      * a gallery has been published to the community and includes votes and comments.
      */
-    public function testQueryRegexImgurGallery()
+    public function testQueryRegexImgurGallery(): void
     {
         $expected = 'https://i.imgur.com/iQxE4BHm.jpg';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -278,7 +275,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test Instagram thumb: one picture
      */
-    public function testQueryRegexInstagramPicture()
+    public function testQueryRegexInstagramPicture(): void
     {
         $expected = 'https://scontent-cdg2-1.cdninstagram.com/v/t51.2885-15/e35/'
             . '14719286_1129421600429160_916728922148700160_n.jpg'
@@ -295,7 +292,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test Instagram thumb: profile, get the avatar
      */
-    public function testQueryRegexInstagramProfile()
+    public function testQueryRegexInstagramProfile(): void
     {
         $expected = 'https://scontent-cdg2-1.cdninstagram.com/v/t51.2885-19/s150x150/'
             . '11351823_506089142881765_717664936_a.jpg'
@@ -312,7 +309,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test Pinterest thumb: single picture
      */
-    public function testQueryRegexPinterestPicture()
+    public function testQueryRegexPinterestPicture(): void
     {
         $expected = 'https://s-media-cache-ak0.pinimg.com/600x315/e0/7d/c0/e07dc09f93e12170fae7caa09329d815.jpg';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -326,7 +323,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test Pinterest thumb: profile picture
      */
-    public function testQueryRegexPinterestProfile()
+    public function testQueryRegexPinterestProfile(): void
     {
         $expected = 'https://s-media-cache-ak0.pinimg.com/avatars/sjoshua1_1367516806_140.jpg';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -340,7 +337,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test The Oatmeal comic.
      */
-    public function testQueryRegexTheOatmealComic()
+    public function testQueryRegexTheOatmealComic(): void
     {
         $expected = 'http://s3.amazonaws.com/theoatmeal-img/thumbnails/unhappy_big.png';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -354,7 +351,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test Twitter rules: no media, should use the avatar.
      */
-    public function testQueryRegexTwitterNoMedia()
+    public function testQueryRegexTwitterNoMedia(): void
     {
         $expected = 'https://pbs.twimg.com/profile_images/737009192758870016/I_p72JBK_400x400.jpg';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -368,7 +365,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test Twitter rules: one media, should use it.
      */
-    public function testQueryRegexTwitterOneMedia()
+    public function testQueryRegexTwitterOneMedia(): void
     {
         $expected = 'https://pbs.twimg.com/media/CvilUtwWgAAQ46n.jpg:large';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -382,7 +379,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test Twitter rules: multiple medias, should use the first one.
      */
-    public function testQueryRegexTwitterMultipleMedia()
+    public function testQueryRegexTwitterMultipleMedia(): void
     {
         $expected = 'https://pbs.twimg.com/media/CuKCNVBVUAU332-.jpg:large';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -396,7 +393,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test Youtube profile page: use the avatar.
      */
-    public function testQueryRegexYoutubeProfile()
+    public function testQueryRegexYoutubeProfile(): void
     {
         $expected = 'https://yt3.ggpht.com/-KLL2Lp8Zqso/AAAAAAAAAAI/AAAAAAAAAAA/Y0qd6h5C_jQ/'
             . 's900-c-k-no-mo-rj-c0xffffff/photo.jpg';
@@ -411,7 +408,7 @@ class QueryRegexFinderTest extends TestCase
     /**
      * Test XKCD comic.
      */
-    public function testQueryRegexXkcdComic()
+    public function testQueryRegexXkcdComic(): void
     {
         $expected = '//imgs.xkcd.com/comics/movie_folder.png';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');

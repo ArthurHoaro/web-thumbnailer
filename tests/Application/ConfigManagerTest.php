@@ -1,16 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Application;
 
 use PHPUnit\Framework\TestCase;
 use WebThumbnailer\Utils\FileUtils;
 
 /**
- * Class ConfigManagerTest
- *
  * Test the configuration manager.
- *
- * @package WebThumbnailer\Application
  */
 class ConfigManagerTest extends TestCase
 {
@@ -26,7 +24,7 @@ class ConfigManagerTest extends TestCase
     /**
      * Load simple config file and get nested values.
      */
-    public function testLoadConfig()
+    public function testLoadConfig(): void
     {
         ConfigManager::$configFiles = [FileUtils::getPath(__DIR__, '..', 'resources') . 'settingsok.json'];
 
@@ -40,7 +38,7 @@ class ConfigManagerTest extends TestCase
     /**
      * Load config file and read non existing keys.
      */
-    public function testLoadConfigNotFound()
+    public function testLoadConfigNotFound(): void
     {
         ConfigManager::$configFiles = [FileUtils::getPath(__DIR__, '..', 'resources') . 'empty.json'];
 
@@ -60,7 +58,7 @@ class ConfigManagerTest extends TestCase
     /**
      * Load multiple config files with overriding value.
      */
-    public function testLoadConfigMultiFiles()
+    public function testLoadConfigMultiFiles(): void
     {
         ConfigManager::$configFiles = [
             FileUtils::getPath(__DIR__, '..', 'resources') . 'settingsok.json',
@@ -77,7 +75,7 @@ class ConfigManagerTest extends TestCase
     /**
      * Add a second config file, with overriding setting.
      */
-    public function testLoadConfigMultiFilesReloaded()
+    public function testLoadConfigMultiFilesReloaded(): void
     {
         ConfigManager::$configFiles = [FileUtils::getPath(__DIR__, '..', 'resources') . 'settingsok.json'];
 
@@ -95,7 +93,7 @@ class ConfigManagerTest extends TestCase
     /**
      * Add a second config file, with overriding setting (using addFile()).
      */
-    public function testLoadConfigAddFile()
+    public function testLoadConfigAddFile(): void
     {
         ConfigManager::$configFiles = [FileUtils::getPath(__DIR__, '..', 'resources') . 'settingsok.json'];
 

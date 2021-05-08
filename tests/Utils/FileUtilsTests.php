@@ -1,29 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Utils;
 
 use WebThumbnailer\TestCase;
 
-/**
- * Class FileUtilsTests
- *
- * @package WebThumbnailer\Utils
- */
 class FileUtilsTests extends TestCase
 {
     /**
      * Test getPath() with a valid path.
      */
-    public function testGetPathValid()
+    public function testGetPathValid(): void
     {
         $path = FileUtils::getPath(__DIR__, '..', 'resources');
-        $this->assertRegExp('#^/.*?/tests/WebThumbnailer/resources/$#', $path);
+        $this->assertRegExp('#^/.*?/tests/resources/$#', $path);
     }
 
     /**
      * Test getPath() with a non existent path.
      */
-    public function testGetPathNonExistent()
+    public function testGetPathNonExistent(): void
     {
         $this->assertFalse(FileUtils::getPath(__DIR__, 'nope'));
     }
@@ -31,7 +28,7 @@ class FileUtilsTests extends TestCase
     /**
      * Test getPath() with a non existent path.
      */
-    public function testGetPathEmpty()
+    public function testGetPathEmpty(): void
     {
         $this->assertFalse(FileUtils::getPath());
     }
@@ -39,7 +36,7 @@ class FileUtilsTests extends TestCase
     /**
      * Test rmdir with a valid path.
      */
-    public function testRmdirValid()
+    public function testRmdirValid(): void
     {
         mkdir('tmp');
         mkdir('tmp/tmp');
@@ -54,7 +51,7 @@ class FileUtilsTests extends TestCase
     /**
      * Test rmdir with a invalid paths.
      */
-    public function testRmdirInvalid()
+    public function testRmdirInvalid(): void
     {
         $this->assertFalse(FileUtils::rmdir('nope/'));
         $this->assertFalse(FileUtils::rmdir('/'));

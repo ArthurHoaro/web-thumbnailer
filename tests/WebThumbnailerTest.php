@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer;
 
 use PHPUnit\Framework\TestCase;
@@ -7,45 +9,41 @@ use WebThumbnailer\Application\ConfigManager;
 use WebThumbnailer\Utils\FileUtils;
 
 /**
- * Class WebThumbnailerTest
- *
  * Test library front end using a local server launched by PHPUnit.
- *
- * @package WebThumbnailer
  */
 class WebThumbnailerTest extends TestCase
 {
     /**
      * PHP builtin local server URL.
      */
-    const LOCAL_SERVER = 'http://localhost:8081/';
+    protected const LOCAL_SERVER = 'http://localhost:8081/';
 
     /**
-     * @var string $cache relative path.
+     * @var string relative path.
      */
-    protected static $cache = 'tests/WebThumbnailer/workdir/cache/';
+    protected static $cache = 'tests/workdir/cache/';
 
     /**
-     * @var string $cache relative path.
+     * @var string relative path.
      */
-    protected static $tmp = 'tests/WebThumbnailer/workdir/tmp/';
+    protected static $tmp = 'tests/workdir/tmp/';
 
     /**
-     * @var string $cache relative path.
+     * @var string relative path.
      */
-    protected static $expected = 'tests/WebThumbnailer/resources/expected-thumbs/';
+    protected static $expected = 'tests/resources/expected-thumbs/';
 
     /**
-     * @var string $regenerated relative path were GD will regenerate expected image.
+     * @var string relative path were GD will regenerate expected image.
      */
-    protected static $regenerated = 'tests/WebThumbnailer/workdir/regnerated/';
+    protected static $regenerated = 'tests/workdir/regnerated/';
 
     /**
      * Load test config before running tests.
      */
     public function setUp(): void
     {
-        $resource = 'tests/WebThumbnailer/resources/';
+        $resource = 'tests/resources/';
         ConfigManager::clear();
         ConfigManager::addFile($resource . 'settings-useful.json');
     }
@@ -63,7 +61,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL.
      */
-    public function testDirectImage()
+    public function testDirectImage(): void
     {
         $image = 'default/image.png';
         $this->regenerate($image);
@@ -78,7 +76,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL without extension.
      */
-    public function testDirectImageWithoutExtension()
+    public function testDirectImageWithoutExtension(): void
     {
         $image = 'default/image';
         $this->regenerate($image);
@@ -92,7 +90,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * URL which contains an opengraph image.
      */
-    public function testOpenGraphImage()
+    public function testOpenGraphImage(): void
     {
         $image = 'default/le-monde.jpg';
         $this->regenerate($image);
@@ -106,7 +104,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * URL which contains an opengraph image with absolute path explicitly set.
      */
-    public function testOpenGraphImageAbsolute()
+    public function testOpenGraphImageAbsolute(): void
     {
         $image = 'default/le-monde.png';
         $this->regenerate($image);
@@ -134,7 +132,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Get a file URL which isn't an image.
      */
-    public function testNotAnImage()
+    public function testNotAnImage(): void
     {
         $oldlog = ini_get('error_log');
         ini_set('error_log', '/dev/null');
@@ -150,7 +148,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL in download mode, resizing with max width.
      */
-    public function testDownloadDirectImageResizeWidth()
+    public function testDownloadDirectImageResizeWidth(): void
     {
         $image = 'default/image-width-341.png';
         $this->regenerate($image);
@@ -165,7 +163,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL in download mode, resizing with max height.
      */
-    public function testDownloadDirectImageResizeHeight()
+    public function testDownloadDirectImageResizeHeight(): void
     {
         $image = 'default/image-height-341.png';
         $this->regenerate($image);
@@ -180,7 +178,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL in download mode, resizing with max width and max height.
      */
-    public function testDownloadDirectImageResizeBothWidth()
+    public function testDownloadDirectImageResizeBothWidth(): void
     {
         $image = 'default/image-width-341.png';
         $this->regenerate($image);
@@ -195,7 +193,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL in download mode, resizing with max height and max height, with vertical image.
      */
-    public function testDownloadDirectImageResizeBothHeight()
+    public function testDownloadDirectImageResizeBothHeight(): void
     {
         $image = 'default/image-vertical-height-341.png';
         $this->regenerate($image);
@@ -210,7 +208,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL in download mode, crop enabled without both dimensions.
      */
-    public function testDownloadDirectImageResizeWidthCrop()
+    public function testDownloadDirectImageResizeWidthCrop(): void
     {
         $oldlog = ini_get('error_log');
         ini_set('error_log', '/dev/null');
@@ -226,7 +224,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL in download mode, crop enabled without both dimensions.
      */
-    public function testDownloadDirectImageResizeHeightCrop()
+    public function testDownloadDirectImageResizeHeightCrop(): void
     {
         $oldlog = ini_get('error_log');
         ini_set('error_log', '/dev/null');
@@ -242,7 +240,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL in download mode, resizing with max height/width + crop.
      */
-    public function testDownloadDirectImageResizeWidthHeightCrop()
+    public function testDownloadDirectImageResizeWidthHeightCrop(): void
     {
         $image = 'default/image-crop-341-341.png';
         $this->regenerate($image, true);
@@ -259,7 +257,7 @@ class WebThumbnailerTest extends TestCase
      * Simple image URL in download mode, resizing with max height/width + crop.
      * Override max heigth/width using array settings.
      */
-    public function testDownloadDirectImageResizeWidthHeightCropOverride()
+    public function testDownloadDirectImageResizeWidthHeightCropOverride(): void
     {
         $image = 'default/image-crop-120-160.png';
         $this->regenerate($image, true);
@@ -281,7 +279,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL, in hotlink mode.
      */
-    public function testHotlinkSimpleImage()
+    public function testHotlinkSimpleImage(): void
     {
         $url = self::LOCAL_SERVER . 'default/image.png';
         $wt = new WebThumbnailer();
@@ -292,7 +290,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple image URL without extension, in hotlink mode.
      */
-    public function testHotlinkSimpleImageWithoutExtension()
+    public function testHotlinkSimpleImageWithoutExtension(): void
     {
         $url = self::LOCAL_SERVER . 'default/image';
         $wt = new WebThumbnailer();
@@ -303,7 +301,7 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple opengraph URL, in hotlink mode.
      */
-    public function testHotlinkOpenGraph()
+    public function testHotlinkOpenGraph(): void
     {
         $expected = 'https://img.lemde.fr/2016/10/21/107/0/1132/566/1440/720/60/0/fe3b107_3522-d2olbw.y93o25u3di.jpg';
         $url = self::LOCAL_SERVER . 'default/le-monde.html';
@@ -315,12 +313,12 @@ class WebThumbnailerTest extends TestCase
     /**
      * Simple opengraph URL, in hotlink mode set by config file.
      */
-    public function testHotlinkOpenGraphJsonConfig()
+    public function testHotlinkOpenGraphJsonConfig(): void
     {
         $expected = 'https://img.lemde.fr/2016/10/21/107/0/1132/566/1440/720/60/0/fe3b107_3522-d2olbw.y93o25u3di.jpg';
         $url = self::LOCAL_SERVER . 'default/le-monde.html';
         $wt = new WebThumbnailer();
-        ConfigManager::addFile('tests/WebThumbnailer/resources/settings-hotlink.json');
+        ConfigManager::addFile('tests/resources/settings-hotlink.json');
         $thumb = $wt->thumbnail($url);
         $this->assertEquals($expected, $thumb);
     }
@@ -338,7 +336,7 @@ class WebThumbnailerTest extends TestCase
      *
      * @throws \Exception couldn't create the image.
      */
-    public function regenerate($image, $crop = false, $cropParameters = [])
+    public function regenerate(string $image, bool $crop = false, array $cropParameters = []): void
     {
         $targetFolder = dirname(self::$regenerated . $image);
         if (! is_dir($targetFolder)) {

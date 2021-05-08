@@ -18,9 +18,9 @@ class FinderUtilsTest extends TestCase
         $formatted = '{regex*}';
         $res = FinderUtils::buildRegex($regex, $flags);
         $this->assertEquals($formatted . $flags, $res);
-        $res = FinderUtils::buildRegex($regex, false);
+        $res = FinderUtils::buildRegex($regex, '');
         $this->assertEquals($formatted, $res);
-        $res = FinderUtils::buildRegex(false, $flags);
+        $res = FinderUtils::buildRegex('', $flags);
         $this->assertEquals('{}' . $flags, $res);
     }
 

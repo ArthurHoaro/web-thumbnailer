@@ -6,7 +6,7 @@
   "authors": [
     {
       "name": "Arthur Hoaro",
-      "homepage": "http://hoa.ro"
+      "homepage": "https://hoa.ro"
     }
   ],
   "require": {
@@ -21,8 +21,13 @@
     "phpstan/phpstan": "^0.12.9"
   },
   "autoload": {
-    "psr-0": {
-      "WebThumbnailer\\": ["src/", "tests/"]
+    "psr-4": {
+      "WebThumbnailer\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WebThumbnailer\\": "tests/"
     }
   },
   "minimum-stability": "dev",

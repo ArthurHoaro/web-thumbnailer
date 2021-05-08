@@ -5,7 +5,7 @@
       "download_mode": "HOTLINK"
     },
     "path": {
-      "cache": "tests/WebThumbnailer/workdir/cache/"
+      "cache": "tests/workdir/cache/"
     }
   }
 }

@@ -1,25 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Finder;
 
 use WebThumbnailer\TestCase;
 
-/**
- * Class DefaultFinderTest
- *
- * @package WebThumbnailer\Finder
- */
 class DefaultFinderTest extends TestCase
 {
     /**
      * PHP builtin local server URL.
      */
-    const LOCAL_SERVER = 'http://localhost:8081/';
+    protected const LOCAL_SERVER = 'http://localhost:8081/';
 
     /**
      * Test the default finder with URL which match an image (.png).
      */
-    public function testDefaultFinderImage()
+    public function testDefaultFinderImage(): void
     {
         $url = 'http://domains.tld/image.png';
         $finder = new DefaultFinder('', $url, [], []);
@@ -37,7 +34,7 @@ class DefaultFinderTest extends TestCase
     /**
      * Test the default finder with URL which does NOT match an image.
      */
-    public function testDefaultFinderNotImage()
+    public function testDefaultFinderNotImage(): void
     {
         $file = __DIR__ . '/../workdir/nope';
         touch($file);
@@ -49,7 +46,7 @@ class DefaultFinderTest extends TestCase
     /**
      * Test the default finder downloading an image without extension.
      */
-    public function testDefautFinderRemoteImage()
+    public function testDefautFinderRemoteImage(): void
     {
         $file = __DIR__ . '/../workdir/image';
         // From http://php.net/imagecreatefromstring
@@ -66,7 +63,7 @@ class DefaultFinderTest extends TestCase
     /**
      * Test the default finder trying to find an open graph link.
      */
-    public function testDefaultFinderOpenGraph()
+    public function testDefaultFinderOpenGraph(): void
     {
         $url = __DIR__ . '/../resources/default/le-monde.html';
         $expected = 'https://img.lemde.fr/2016/10/21/107/0/1132/566/1440/720/60/0/fe3b107_3522-d2olbw.y93o25u3di.jpg';
@@ -77,7 +74,7 @@ class DefaultFinderTest extends TestCase
     /**
      * Test the default finder trying to find an open graph link.
      */
-    public function testDefaultFinderOpenGraphRemote()
+    public function testDefaultFinderOpenGraphRemote(): void
     {
         $url = self::LOCAL_SERVER . 'default/le-monde.html';
         $expected = 'https://img.lemde.fr/2016/10/21/107/0/1132/566/1440/720/60/0/fe3b107_3522-d2olbw.y93o25u3di.jpg';
@@ -88,7 +85,7 @@ class DefaultFinderTest extends TestCase
     /**
      * Test the default finder trying to find an image mime-type.
      */
-    public function testDefaultFinderImageMimetype()
+    public function testDefaultFinderImageMimetype(): void
     {
         $url = self::LOCAL_SERVER . 'default/image-mimetype.php';
         $expected = $url;
@@ -99,7 +96,7 @@ class DefaultFinderTest extends TestCase
     /**
      * Test the default finder finding a non 200 status code.
      */
-    public function testDefaultFinderStatusError()
+    public function testDefaultFinderStatusError(): void
     {
         $url = self::LOCAL_SERVER . 'default/status-ko.php';
         $finder = new DefaultFinder('', $url, null, null);
@@ -109,7 +106,7 @@ class DefaultFinderTest extends TestCase
     /**
      * Test getName().
      */
-    public function testGetName()
+    public function testGetName(): void
     {
         $finder = new DefaultFinder('', '', [], []);
         $this->assertEquals('default', $finder->getName());

@@ -1,21 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Finder;
 
 use WebThumbnailer\Exception\BadRulesException;
 use WebThumbnailer\TestCase;
 
-/**
- * Class FinderFactoryTest
- *
- * @package WebThumbnailer\Finder
- */
 class FinderFactoryTest extends TestCase
 {
     /**
      * Test getFinder() with a supported domain.
      */
-    public function testGetFinderExistent()
+    public function testGetFinderExistent(): void
     {
         $finder = FinderFactory::getFinder('youtube.com');
         $this->assertEquals(UrlRegexFinder::class, get_class($finder));
@@ -48,7 +45,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test getFinder() with an unsupported domain: it should return DefaultFinder.
      */
-    public function testGetFinderNotSupportedDomain()
+    public function testGetFinderNotSupportedDomain(): void
     {
         $finder = FinderFactory::getFinder('somewhere.io');
         $this->assertEquals(DefaultFinder::class, get_class($finder));
@@ -60,7 +57,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test getFinder() with support domains, but not valid URL: fallback to DefaultFinder.
      */
-    public function testGetFinderUrlRequirementInvalid()
+    public function testGetFinderUrlRequirementInvalid(): void
     {
         $finder = FinderFactory::getFinder('gravatar.com');
         $this->assertEquals(DefaultFinder::class, get_class($finder));
@@ -69,7 +66,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test getThumbnailMeta() for Youtube.
      */
-    public function testGetThumbnailMetaYoutube()
+    public function testGetThumbnailMetaYoutube(): void
     {
         // imgur single
         $data = FinderFactory::getThumbnailMeta('youtube.com', 'http://youtube.com/bla/bla');
@@ -86,7 +83,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test getThumbnailMeta() for Youtube short URL.
      */
-    public function testGetThumbnailMetaYoutubeShort()
+    public function testGetThumbnailMetaYoutubeShort(): void
     {
         // imgur single
         $data = FinderFactory::getThumbnailMeta('youtu.be', 'http://youtube.com/bla/bla');
@@ -104,7 +101,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test getThumbnailMeta() for Imgur single image.
      */
-    public function testGetThumbnailMetaImgur()
+    public function testGetThumbnailMetaImgur(): void
     {
         // imgur single
         $data = FinderFactory::getThumbnailMeta('i.imgur.com', 'http://imgur.com/bla/bla');
@@ -121,7 +118,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test getThumbnailMeta() for Imgur albums.
      */
-    public function testGetThumbnailMetaImgurAlbum()
+    public function testGetThumbnailMetaImgurAlbum(): void
     {
         // imgur single
         $data = FinderFactory::getThumbnailMeta('i.imgur.com', 'http://imgur.com/gallery/bla/bla');
@@ -136,7 +133,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test getThumbnailMeta() for Imgur albums.
      */
-    public function testGetThumbnailMetaInstagram()
+    public function testGetThumbnailMetaInstagram(): void
     {
         // imgur single
         $data = FinderFactory::getThumbnailMeta('instagram.com', 'http://instagram.com/p/bla/bla');
@@ -149,7 +146,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test getThumbnailMeta() for Twitter.
      */
-    public function testGetThumbnailMetaTwitter()
+    public function testGetThumbnailMetaTwitter(): void
     {
         // imgur single
         $data = FinderFactory::getThumbnailMeta('twitter.com', 'http://twitter.com/status/bla/bla');
@@ -162,7 +159,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test getThumbnailMeta() for Twitter.
      */
-    public function testGetThumbnailMetaGravatar()
+    public function testGetThumbnailMetaGravatar(): void
     {
         // imgur single
         $data = FinderFactory::getThumbnailMeta('gravatar.com', 'http://gravatar.com/avatar/bla/bla');
@@ -179,7 +176,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test checkMetaFormat() with valid info.
      */
-    public function testCheckMetaFormatValid()
+    public function testCheckMetaFormatValid(): void
     {
         $this->addToAssertionCount(1);
         $meta = [
@@ -194,7 +191,7 @@ class FinderFactoryTest extends TestCase
     /**
      * Test checkMetaFormat() with invalid info.
      */
-    public function testCheckMetaFormatBadRules()
+    public function testCheckMetaFormatBadRules(): void
     {
         $this->expectException(BadRulesException::class);
         $meta = array('finder' => 'test');

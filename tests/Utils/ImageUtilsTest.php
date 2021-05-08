@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Utils;
 
 use WebThumbnailer\Exception\ImageConvertException;
@@ -7,11 +9,7 @@ use WebThumbnailer\Exception\NotAnImageException;
 use WebThumbnailer\TestCase;
 
 /**
- * Class ImageUtilsTest
- *
  * Test image utils methods, especially thumbnail rendering.
- *
- * @package WebThumbnailer\utils
  */
 class ImageUtilsTest extends TestCase
 {
@@ -51,7 +49,7 @@ class ImageUtilsTest extends TestCase
     /**
      * Test generating valid thumbnails.
      */
-    public function testGenerateThumbnail()
+    public function testGenerateThumbnail(): void
     {
         $path = self::$WORKDIR . 'file1.png';
         // Original size.
@@ -93,7 +91,7 @@ class ImageUtilsTest extends TestCase
     /**
      * Generate a thumbnail into a non existent folder => Exception.
      */
-    public function testGenerateThumbnailUnwritable()
+    public function testGenerateThumbnailUnwritable(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Target file is not writable.');
@@ -105,7 +103,7 @@ class ImageUtilsTest extends TestCase
     /**
      * Generate a thumbnail from a string which is not an image => NotAnImageException.
      */
-    public function testGenerateThumbnailNotAnImage()
+    public function testGenerateThumbnailNotAnImage(): void
     {
         $this->expectException(NotAnImageException::class);
 
@@ -116,7 +114,7 @@ class ImageUtilsTest extends TestCase
     /**
      * Generate a thumbnail with bad sizes => Exception.
      */
-    public function testGenerateThumbnailBadSize()
+    public function testGenerateThumbnailBadSize(): void
     {
         $this->expectException(ImageConvertException::class);
         $this->expectExceptionMessage('Height and width must be zero or positive');
@@ -128,7 +126,7 @@ class ImageUtilsTest extends TestCase
     /**
      * Generate a thumbnail with bad sizes (Double 0) => Exception.
      */
-    public function testGenerateThumbnailBadSizeDoubleZero()
+    public function testGenerateThumbnailBadSizeDoubleZero(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('At least maxwidth or maxheight needs to be defined.');
@@ -140,7 +138,7 @@ class ImageUtilsTest extends TestCase
     /**
      * Check that a string is an image.
      */
-    public function testIsStringImageTrue()
+    public function testIsStringImageTrue(): void
     {
         $this->assertTrue(ImageUtils::isImageString(self::$imageSource));
     }
@@ -148,7 +146,7 @@ class ImageUtilsTest extends TestCase
     /**
      * Check that a string is not an image.
      */
-    public function testIsStringImageFalse()
+    public function testIsStringImageFalse(): void
     {
         $this->assertFalse(ImageUtils::isImageString('string'));
     }

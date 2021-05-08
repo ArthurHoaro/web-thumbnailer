@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Finder;
 
 use WebThumbnailer\Exception\BadRulesException;
@@ -8,17 +10,12 @@ use WebThumbnailer\Utils\DataUtils;
 use WebThumbnailer\Utils\FileUtils;
 use WebThumbnailer\WebThumbnailer;
 
-/**
- * Class UrlRegexFinderTest
- *
- * @package WebThumbnailer\Finder
- */
 class UrlRegexFinderTest extends TestCase
 {
     /**
      * Test checkRules() with valid data.
      */
-    public function testCheckRulesValid()
+    public function testCheckRulesValid(): void
     {
         $this->addToAssertionCount(1);
 
@@ -33,7 +30,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test checkRules() with invalid data.
      */
-    public function testCheckRulesMissingThumbUrl()
+    public function testCheckRulesMissingThumbUrl(): void
     {
         $this->expectException(BadRulesException::class);
 
@@ -47,7 +44,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test checkRules() with invalid data.
      */
-    public function testCheckRulesMissingUrlRegex()
+    public function testCheckRulesMissingUrlRegex(): void
     {
         $this->expectException(BadRulesException::class);
 
@@ -61,7 +58,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test find() with basic replacements.
      */
-    public function testFind()
+    public function testFind(): void
     {
         $url = 'http://test.io/q=id1&id2&notimportant';
         $thumburl = 'http://test.io/img/id1/id2.png';
@@ -76,7 +73,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test find() with basic replacements plus size replacement.
      */
-    public function testFindWithSizeOptions()
+    public function testFindWithSizeOptions(): void
     {
         $url = 'http://test.io/?123';
         $rules = array(
@@ -151,7 +148,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      *  Test find() with basic replacements, and default options.
      */
-    public function testFindWithDefaultOptions()
+    public function testFindWithDefaultOptions(): void
     {
         $url = 'http://test.io/?123';
         $rules = array(
@@ -198,7 +195,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test find() with basic replacements, and default options using bad values.
      */
-    public function testFindWithDefaultOptionsBadValues()
+    public function testFindWithDefaultOptionsBadValues(): void
     {
         $url = 'http://test.io/?123';
         $rules = array(
@@ -246,7 +243,7 @@ class UrlRegexFinderTest extends TestCase
      * Test find() with basic replacements, and default options
      * but without defining default values.
      */
-    public function testFindWithDefaultOptionsNoDefault()
+    public function testFindWithDefaultOptionsNoDefault(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageRegExp('/No default set for option/');
@@ -269,7 +266,7 @@ class UrlRegexFinderTest extends TestCase
      * Test find() with basic replacements, and default options
      * with an invalid default option.
      */
-    public function testFindWithDefaultOptionsNoDefaultParam()
+    public function testFindWithDefaultOptionsNoDefaultParam(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageRegExp('/No default parameter set for option/');
@@ -293,7 +290,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test find() with basic replacements, and options not matching anything.
      */
-    public function testFindWithDefaultOptionsUnknownOption()
+    public function testFindWithDefaultOptionsUnknownOption(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageRegExp('/Unknown option/');
@@ -315,7 +312,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test getName().
      */
-    public function testGetName()
+    public function testGetName(): void
     {
         $rules = [
             'url_regex' => 'foo',
@@ -328,7 +325,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test Gfycat permalink
      */
-    public function testQueryRegexGfycatPermalink()
+    public function testQueryRegexGfycatPermalink(): void
     {
         $url = 'https://gfycat.com/RigidJadedBirdofparadise';
         $expected = 'https://thumbs.gfycat.com/RigidJadedBirdofparadise-mobile.jpg';
@@ -342,7 +339,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test Gfycat in navigation mode (/detail)
      */
-    public function testQueryRegexGfycatNavigation()
+    public function testQueryRegexGfycatNavigation(): void
     {
         $url = 'https://gfycat.com/detail/HoarseJubilantHadrosaurus?tagname=battlefield_one&tvmode=1';
         $expected = 'https://thumbs.gfycat.com/HoarseJubilantHadrosaurus-mobile.jpg';
@@ -356,7 +353,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test Imgur single image
      */
-    public function testQueryRegexImgurSingle()
+    public function testQueryRegexImgurSingle(): void
     {
         $url = 'http://i.imgur.com/iQxE4BH';
         $expected = 'https://i.imgur.com/iQxE4BHm.jpg';
@@ -371,7 +368,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test Imgur Homepage (no thumb)
      */
-    public function testQueryRegexImgurHomepage()
+    public function testQueryRegexImgurHomepage(): void
     {
         $url = 'https://imgur.com/';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -384,7 +381,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test Youtube video link
      */
-    public function testQueryRegexYoutubeVideo()
+    public function testQueryRegexYoutubeVideo(): void
     {
         $url = 'https://youtube.com/watch?v=videoid';
         $expected = 'https://img.youtube.com/vi/videoid/mqdefault.jpg';
@@ -398,7 +395,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test Youtube: not a video link
      */
-    public function testQueryRegexYoutubeNotVideo()
+    public function testQueryRegexYoutubeNotVideo(): void
     {
         $url = 'https://youtube.com/about';
         $allRules = DataUtils::loadJson(FileUtils::RESOURCES_PATH . 'rules.json');
@@ -411,7 +408,7 @@ class UrlRegexFinderTest extends TestCase
     /**
      * Test Youtube video link
      */
-    public function testQueryRegexYoutubeShort()
+    public function testQueryRegexYoutubeShort(): void
     {
         $url = 'https://youtu.be/videoid&stuff';
         $expected = 'https://img.youtube.com/vi/videoid/mqdefault.jpg';

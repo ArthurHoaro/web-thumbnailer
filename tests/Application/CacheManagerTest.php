@@ -1,30 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Application;
 
 use WebThumbnailer\TestCase;
 use WebThumbnailer\Utils\FileUtils;
 
 /**
- * Class CacheManagerTest
- *
  * Test the cache manager.
- *
- * @package WebThumbnailer\Application
  */
 class CacheManagerTest extends TestCase
 {
     /**
-     * @var string $cache relative path.
+     * @var string relative path.
      */
-    protected static $cache = 'tests/WebThumbnailer/workdir/cache/';
+    protected static $cache = 'tests/workdir/cache/';
 
     /**
      * Load test config before running tests.
      */
     public function setUp(): void
     {
-        $resource = 'tests/WebThumbnailer/resources/';
+        $resource = 'tests/resources/';
         ConfigManager::$configFiles = [$resource . 'settings-useful.json'];
         ConfigManager::reload();
     }
@@ -40,7 +38,7 @@ class CacheManagerTest extends TestCase
     /**
      * Test getCachePath().
      */
-    public function testGetCachePathValid()
+    public function testGetCachePathValid(): void
     {
         $path = CacheManager::getCachePath(CacheManager::TYPE_THUMB);
         $this->assertTrue(is_dir($path));
@@ -53,7 +51,7 @@ class CacheManagerTest extends TestCase
     /**
      * Test getCachePath() with an invalid type.
      */
-    public function testGetCachePathInvalidType()
+    public function testGetCachePathInvalidType(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageRegExp('/Unknown cache type/');
@@ -63,7 +61,7 @@ class CacheManagerTest extends TestCase
     /**
      * Test getCachePath() without cache folder.
      */
-    public function testGetCachePathNoFolder()
+    public function testGetCachePathNoFolder(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessageRegExp('/Cache folders are not writable/');
@@ -73,7 +71,7 @@ class CacheManagerTest extends TestCase
     /**
      * Test getCacheFilePath
      */
-    public function testGetCacheFilePathValid()
+    public function testGetCacheFilePathValid(): void
     {
         $url = 'http://whatever.io';
         $domain = 'whatever.io';
@@ -91,7 +89,7 @@ class CacheManagerTest extends TestCase
     /**
      * Test isCacheValid() with an existing file.
      */
-    public function testIsCacheValidExisting()
+    public function testIsCacheValidExisting(): void
     {
         $domain = 'whatever.io';
         $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.jpg';
@@ -105,7 +103,7 @@ class CacheManagerTest extends TestCase
     /**
      * Test isCacheValid() with an outdated file.
      */
-    public function testIsCacheValidExpired()
+    public function testIsCacheValidExpired(): void
     {
         $domain = 'whatever.io';
         $filename = '0a35602901944a0c6d853da2a5364665c2bda0695120.jpg';
@@ -115,11 +113,11 @@ class CacheManagerTest extends TestCase
 
         $this->assertFalse(CacheManager::isCacheValid($cacheFile, $domain, CacheManager::TYPE_THUMB));
     }
-    
+
     /**
      * Test isCacheValid() without any file.
      */
-    public function testIsCacheValidNotExistent()
+    public function testIsCacheValidNotExistent(): void
     {
         $domain = 'whatever.io';
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
@@ -129,10 +127,10 @@ class CacheManagerTest extends TestCase
     /**
      * Test isCacheValid() without any file and infinite cache setting.
      */
-    public function testIsCacheValidInfiniteNotExistent()
+    public function testIsCacheValidInfiniteNotExistent(): void
     {
         $domain = 'whatever.io';
-        ConfigManager::addFile('tests/WebThumbnailer/resources/settings-infinite-cache.json');
+        ConfigManager::addFile('tests/resources/settings-infinite-cache.json');
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
         $this->assertTrue(is_dir(self::$cache . '/thumb/' . md5($domain)));
     }
@@ -140,7 +138,7 @@ class CacheManagerTest extends TestCase
     /**
      * Test isCacheValid() with an existing file and infinite cache setting.
      */
-    public function testIsCacheValidInfiniteExisting()
+    public function testIsCacheValidInfiniteExisting(): void
     {
         $domain = 'whatever.io';
         $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.jpg';
@@ -148,14 +146,14 @@ class CacheManagerTest extends TestCase
         $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
         touch($cacheFile);
 
-        ConfigManager::addFile('tests/WebThumbnailer/resources/settings-infinite-cache.json');
+        ConfigManager::addFile('tests/resources/settings-infinite-cache.json');
         $this->assertTrue(CacheManager::isCacheValid($cacheFile, $domain, CacheManager::TYPE_THUMB));
     }
 
     /**
      * Test isCacheValid() with an existing file and infinite cache setting.
      */
-    public function testIsCacheValidInfiniteExistingOneYear()
+    public function testIsCacheValidInfiniteExistingOneYear(): void
     {
         $domain = 'whatever.io';
         $filename = '0a35602901944a0c6d853da2a5364665c2bda06951200.jpg';
@@ -163,14 +161,14 @@ class CacheManagerTest extends TestCase
         $cacheFile = self::$cache . '/thumb/' . $domain . '/' . $filename;
         touch($cacheFile, time() - 3600 * 24 * 31 * 12);
 
-        ConfigManager::addFile('tests/WebThumbnailer/resources/settings-infinite-cache.json');
+        ConfigManager::addFile('tests/resources/settings-infinite-cache.json');
         $this->assertTrue(CacheManager::isCacheValid($cacheFile, $domain, CacheManager::TYPE_THUMB));
     }
 
     /**
      * Check that htaccess file is properly created (finder -> denied).
      */
-    public function testHtaccessCreationDenied()
+    public function testHtaccessCreationDenied(): void
     {
         $domain = 'whatever.io';
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_FINDER));
@@ -180,7 +178,7 @@ class CacheManagerTest extends TestCase
     /**
      * Check that htaccess file is properly created (thumb -> granted).
      */
-    public function testHtaccessCreationGranted()
+    public function testHtaccessCreationGranted(): void
     {
         $domain = 'whatever.io';
         $this->assertFalse(CacheManager::isCacheValid('nope', $domain, CacheManager::TYPE_THUMB));
@@ -190,7 +188,7 @@ class CacheManagerTest extends TestCase
     /**
      * Check that htaccess file is properly created with Apache 2.2 forced (finder -> granted).
      */
-    public function testHtaccess22CreationDenied()
+    public function testHtaccess22CreationDenied(): void
     {
         $domain = 'whatever.io';
         ConfigManager::addFile(__DIR__ . '/../resources/settings-apache22.json');
@@ -201,7 +199,7 @@ class CacheManagerTest extends TestCase
     /**
      * Check that htaccess file is properly created with Apache 2.2 forced (finder -> denied).
      */
-    public function testHtaccess22CreationGranted()
+    public function testHtaccess22CreationGranted(): void
     {
         $domain = 'whatever.io';
         ConfigManager::addFile(__DIR__ . '/../resources/settings-apache22.json');
@@ -212,7 +210,7 @@ class CacheManagerTest extends TestCase
     /**
      * Check that htaccess file is properly created with Apache 2.4 forced (finder -> granted).
      */
-    public function testHtaccess24CreationDenied()
+    public function testHtaccess24CreationDenied(): void
     {
         $domain = 'whatever.io';
         ConfigManager::addFile(__DIR__ . '/../resources/settings-apache24.json');
@@ -223,7 +221,7 @@ class CacheManagerTest extends TestCase
     /**
      * Check that htaccess file is properly created with Apache 2.4 forced (finder -> denied).
      */
-    public function testHtaccess24CreationGranted()
+    public function testHtaccess24CreationGranted(): void
     {
         $domain = 'whatever.io';
         ConfigManager::addFile(__DIR__ . '/../resources/settings-apache24.json');
@@ -234,7 +232,7 @@ class CacheManagerTest extends TestCase
     /**
      * Check that htaccess file is properly created with Apache invalid version forced (finder -> granted).
      */
-    public function testHtaccessInvalidCreationDenied()
+    public function testHtaccessInvalidCreationDenied(): void
     {
         $domain = 'whatever.io';
         ConfigManager::addFile(__DIR__ . '/../resources/settings-apache-ko.json');
@@ -245,7 +243,7 @@ class CacheManagerTest extends TestCase
     /**
      * Check that htaccess file is properly created with Apache invalid version forced (finder -> denied).
      */
-    public function testHtaccessInvalidCreationGranted()
+    public function testHtaccessInvalidCreationGranted(): void
     {
         $domain = 'whatever.io';
         ConfigManager::addFile(__DIR__ . '/../resources/settings-apache-ko.json');
@@ -256,7 +254,7 @@ class CacheManagerTest extends TestCase
     /**
      * Check that htaccess file is not overridden if it already exists
      */
-    public function testHtaccessDontOverride()
+    public function testHtaccessDontOverride(): void
     {
         $domain = 'whatever.io';
         $htaccessFile =  self::$cache . '/thumb/.htaccess';

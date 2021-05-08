@@ -1,36 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebThumbnailer\Utils;
 
 use WebThumbnailer\TestCase;
 
-/**
- * Class FinderUtilsTest
- *
- * @package WebThumbnailer\utils
- */
 class FinderUtilsTest extends TestCase
 {
     /**
      * Test buildRegex() function.
      */
-    public function testBuildRegex()
+    public function testBuildRegex(): void
     {
         $regex = 'regex*';
         $flags = 'im';
         $formatted = '{regex*}';
         $res = FinderUtils::buildRegex($regex, $flags);
         $this->assertEquals($formatted . $flags, $res);
-        $res = FinderUtils::buildRegex($regex, false);
+        $res = FinderUtils::buildRegex($regex, '');
         $this->assertEquals($formatted, $res);
-        $res = FinderUtils::buildRegex(false, $flags);
+        $res = FinderUtils::buildRegex('', $flags);
         $this->assertEquals('{}' . $flags, $res);
     }
 
     /**
      * Test checkMandatoryRules() with valid data.
      */
-    public function testCheckMandatoryRulesSimple()
+    public function testCheckMandatoryRulesSimple(): void
     {
         $this->assertTrue(FinderUtils::checkMandatoryRules([], []));
         $this->assertTrue(FinderUtils::checkMandatoryRules(['data'], []));
@@ -42,7 +39,7 @@ class FinderUtilsTest extends TestCase
     /**
      * Test checkMandatoryRules() with valid data and nested mandatory rules.
      */
-    public function testCheckMandatoryRulesNested()
+    public function testCheckMandatoryRulesNested(): void
     {
         $rules = [
             'foo' => 'bar',
@@ -60,7 +57,7 @@ class FinderUtilsTest extends TestCase
     /**
      * Test checkMandatoryRules() with invalid data.
      */
-    public function testCheckMandatoryRulesInvalidSimple()
+    public function testCheckMandatoryRulesInvalidSimple(): void
     {
         $this->assertFalse(FinderUtils::checkMandatoryRules([], ['rule']));
         $this->assertFalse(FinderUtils::checkMandatoryRules(['rule' => ''], ['rule', 'other']));
@@ -70,7 +67,7 @@ class FinderUtilsTest extends TestCase
     /**
      * Test checkMandatoryRules() with invalid data and nested mandatory rules.
      */
-    public function testCheckMandatoryRulesInvalidNested()
+    public function testCheckMandatoryRulesInvalidNested(): void
     {
         $rules = [
             'foo' => 'bar',

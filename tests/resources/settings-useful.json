@@ -2,7 +2,7 @@
   "settings": {
     "cache_duration": 3600,
     "path": {
-      "cache": "tests/WebThumbnailer/workdir/cache/"
+      "cache": "tests/workdir/cache/"
     }
   }
 }

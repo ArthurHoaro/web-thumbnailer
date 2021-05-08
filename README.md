@@ -39,6 +39,9 @@ Using WebThumbnailer is pretty straight forward:
 
 ```php
 require_once 'vendor/autoload.php';
+
+use WebThumbnailer\WebThumbnailer;
+
 $wt = new WebThumbnailer();
 
 // Very basic usage

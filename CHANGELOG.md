@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v2.2.0 - 2022-11-24
+
+### Added
+
+ * Add a new `RESIZE` setting to choose between `imagecopyresized` and `imagecopyresampled`
+
+### Changed
+
+ * By default, thumbnails are now resized using `imagecopyresampled`. This does not affect existing cache.
+
 ## v2.1.0 - 2021-05-08
 
 ### Changed

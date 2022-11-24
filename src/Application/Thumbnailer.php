@@ -55,7 +55,7 @@ class Thumbnailer
     public function __construct(string $url, array $options, ?array $server)
     {
         ApplicationUtils::checkExtensionRequirements(['gd']);
-        ApplicationUtils::checkPHPVersion('5.6', PHP_VERSION);
+        ApplicationUtils::checkPHPVersion('7.1', PHP_VERSION);
 
         $this->url = $url;
         $this->server = $server;
@@ -126,6 +126,13 @@ class Thumbnailer
             $this->options[WebThumbnailer::DEBUG] = $options[WebThumbnailer::DEBUG];
         } else {
             $this->options[WebThumbnailer::DEBUG] = false;
+        }
+
+        // Resize mode, defaults to resample
+        if (isset($options[WebThumbnailer::RESIZE_MODE])) {
+            $this->options[WebThumbnailer::RESIZE_MODE] = $options[WebThumbnailer::RESIZE_MODE];
+        } else {
+            $this->options[WebThumbnailer::RESIZE_MODE] = WebThumbnailer::RESAMPLE;
         }
 
         // Image size
@@ -354,7 +361,8 @@ class Thumbnailer
             $thumbPath,
             $this->options[WebThumbnailer::MAX_WIDTH],
             $this->options[WebThumbnailer::MAX_HEIGHT],
-            $this->options[WebThumbnailer::CROP]
+            $this->options[WebThumbnailer::CROP],
+            $this->options[WebThumbnailer::RESIZE_MODE]
         );
 
         if (!is_file($thumbPath)) {

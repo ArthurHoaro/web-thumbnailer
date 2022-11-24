@@ -52,6 +52,15 @@ class WebThumbnailer
     /** Debug mode. Throw exceptions. */
     public const DEBUG = 'DEBUG';
 
+    /** Setting to define resize mode */
+    public const RESIZE_MODE = 'RESIZE_MODE';
+
+    /** Resize mode: less CPU usage but could end up pixellized */
+    public const RESIZE = 'RESIZE';
+
+    /** Resample mode: more CPU usage but smoother rendering */
+    public const RESAMPLE = 'RESAMPLE';
+
     /** @var int|null */
     protected $maxWidth = null;
 
@@ -78,6 +87,9 @@ class WebThumbnailer
 
     /** @var string|null */
     protected $downloadMode = null;
+
+    /** @var string|null */
+    protected $resizeMode = null;
 
     /**
      * Get the thumbnail for the given URL>
@@ -106,6 +118,7 @@ class WebThumbnailer
                 static::DOWNLOAD_TIMEOUT => $this->downloadTimeout,
                 static::DOWNLOAD_MAX_SIZE => $this->downloadMaxSize,
                 static::CROP => $this->crop,
+                static::RESIZE_MODE => $this->resizeMode,
                 $this->downloadMode
             ],
             $options
@@ -259,6 +272,32 @@ class WebThumbnailer
     public function modeHotlinkStrict(): self
     {
         $this->downloadMode = static::HOTLINK_STRICT;
+
+        return $this;
+    }
+
+    /**
+     * Apply resize mode during resizing:
+     * lower CPU usage but sometimes rougher rendering.
+     *
+     * @return WebThumbnailer $this
+     */
+    public function resize(): self
+    {
+        $this->resizeMode = static::RESIZE;
+
+        return $this;
+    }
+
+    /**
+     * Apply resample mode during resizing:
+     * slightly more CPU usage but smoother rendering.
+     *
+     * @return WebThumbnailer $this
+     */
+    public function resample(): self
+    {
+        $this->resizeMode = static::RESAMPLE;
 
         return $this;
     }

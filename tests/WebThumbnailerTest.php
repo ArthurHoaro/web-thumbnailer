@@ -90,14 +90,28 @@ class WebThumbnailerTest extends TestCase
     /**
      * URL which contains an opengraph image.
      */
-    public function testOpenGraphImage(): void
+    public function testOpenGraphImageResample(): void
     {
-        $image = 'default/le-monde.jpg';
-        $this->regenerate($image);
+        $image = 'default/le-monde-full.jpg';
+        $this->regenerate($image, true, [0, 0, 160, 80]);
         $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/le-monde.html';
         $wt = new WebThumbnailer();
-        $thumb = $wt->thumbnail($url);
+        $thumb = $wt->resample()->thumbnail($url);
+        $this->assertFileEquals($expected, $thumb);
+    }
+
+    /**
+     * URL which contains an opengraph image.
+     */
+    public function testOpenGraphImageResize(): void
+    {
+        $image = 'default/le-monde.jpg';
+        $this->regenerate($image, false, [], 'imagecopyresized');
+        $expected = self::$regenerated . $image;
+        $url = self::LOCAL_SERVER . 'default/le-monde.html';
+        $wt = new WebThumbnailer();
+        $thumb = $wt->resize()->thumbnail($url);
         $this->assertFileEquals($expected, $thumb);
     }
 
@@ -243,11 +257,11 @@ class WebThumbnailerTest extends TestCase
     public function testDownloadDirectImageResizeWidthHeightCrop(): void
     {
         $image = 'default/image-crop-341-341.png';
-        $this->regenerate($image, true);
+        $this->regenerate($image, true, [], 'imagecopyresized');
         $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/image-crop.png';
         $wt = new WebThumbnailer();
-        $wt = $wt->maxHeight(341)->maxWidth(341)->crop(true);
+        $wt = $wt->maxHeight(341)->maxWidth(341)->resize()->crop(true);
         $thumb = $wt->thumbnail($url);
         $this->assertEquals(base64_encode(file_get_contents($expected)), base64_encode(file_get_contents($thumb)));
         $this->assertFileEquals($expected, $thumb);
@@ -260,11 +274,11 @@ class WebThumbnailerTest extends TestCase
     public function testDownloadDirectImageResizeWidthHeightCropOverride(): void
     {
         $image = 'default/image-crop-120-160.png';
-        $this->regenerate($image, true);
+        $this->regenerate($image, true, [], 'imagecopyresized');
         $expected = self::$regenerated . $image;
         $url = self::LOCAL_SERVER . 'default/image-crop.png';
         $wt = new WebThumbnailer();
-        $wt = $wt->maxHeight(341)->maxWidth(341)->crop(true);
+        $wt = $wt->maxHeight(341)->maxWidth(341)->crop(true)->resize();
         $thumb = $wt->thumbnail(
             $url,
             [
@@ -336,8 +350,12 @@ class WebThumbnailerTest extends TestCase
      *
      * @throws \Exception couldn't create the image.
      */
-    public function regenerate(string $image, bool $crop = false, array $cropParameters = []): void
-    {
+    public function regenerate(
+        string $image,
+        bool $crop = false,
+        array $cropParameters = [],
+        string $resizeFunc = 'imagecopyresampled'
+    ): void {
         $targetFolder = dirname(self::$regenerated . $image);
         if (! is_dir($targetFolder)) {
             mkdir($targetFolder, 0755, true);
@@ -350,15 +368,15 @@ class WebThumbnailerTest extends TestCase
 
         $targetImg = imagecreatetruecolor($width, $height);
         if (
-            !imagecopyresized(
+            !$resizeFunc(
                 $targetImg,
                 $sourceImg,
                 0,
                 0,
                 0,
                 0,
-                $width,
-                $height,
+                $cropParameters[2] ?? $width,
+                $cropParameters[3] ?? $height,
                 $width,
                 $height
             )

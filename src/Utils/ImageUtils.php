@@ -6,6 +6,7 @@ namespace WebThumbnailer\Utils;
 
 use WebThumbnailer\Exception\ImageConvertException;
 use WebThumbnailer\Exception\NotAnImageException;
+use WebThumbnailer\WebThumbnailer;
 
 /**
  * Util class to manipulate GD images.
@@ -33,7 +34,8 @@ class ImageUtils
         string $target,
         int $maxWidth,
         int $maxHeight,
-        bool $crop = false
+        bool $crop = false,
+        string $resizeMode = WebThumbnailer::RESAMPLE
     ): void {
         if (!touch($target)) {
             throw new ImageConvertException('Target file is not writable.');
@@ -74,8 +76,9 @@ class ImageUtils
             throw new ImageConvertException('Could not generate the thumbnail from source image.');
         }
 
+        $resizeFunction = $resizeMode === WebThumbnailer::RESIZE ? 'imagecopyresized' : 'imagecopyresampled';
         if (
-            !imagecopyresized(
+            !$resizeFunction(
                 $targetImg,
                 $sourceImg,
                 0,

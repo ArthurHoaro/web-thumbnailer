@@ -142,7 +142,35 @@ Usage:
 $wt = $wt->crop(true);
 $conf = [WebThumbnailer::CROP => true];
 ```
+
+### Resize Mode
+
+This setting choose whether to use `imagecopyresized` (RESIZE mode) or `imagecopyresampled` (RESAMPLE mode):
+
+  * `RESAMPLE`: higher CPI usage, with better resized image rendering.
+  * `RESIZE`: faster and lower CPU usage, but the resized image might not look as good.
   
+By default, this library uses `RESAMPLE` setting since the setting was introduced.
+
+Example:
+
+|---------------------RESIZE---------------------|---------------------RESAMPLE---------------------|
+
+![](https://user-images.githubusercontent.com/28786873/195634626-ec80e2ac-43f1-4f00-a507-8ba30dc5dda7.jpg)
+![](https://user-images.githubusercontent.com/28786873/195634635-87f84476-e923-461c-accf-d3e5988e33a5.jpg)
+
+Usage:
+
+```php
+// Resize
+$wt = $wt->resize();
+$conf = [WebThumbnailer::RESIZE_MODE => WebThumbnailer::RESIZE];
+
+// Resample
+$wt = $wt->resample();
+$conf = [WebThumbnailer::RESIZE_MODE => WebThumbnailer::RESAMPLE];
+```
+
 ### Miscellaneous
 
   * **NOCACHE**: Force the thumbnail to be resolved and downloaded instead of using cache files.
